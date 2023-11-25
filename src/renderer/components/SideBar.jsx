@@ -14,7 +14,7 @@ function SideBar() {
         <ul>
           <li>
             <NavLink
-              to="/"
+              to="/mails"
               className={({ isActive, isPending }) =>
                 isPending ? 'pending' : isActive ? 'active' : ''
               }
@@ -24,6 +24,7 @@ function SideBar() {
           </li>
           <li>
             <NavLink
+              to="files"
               className={({ isActive, isPending }) =>
                 isPending ? 'pending' : isActive ? 'active' : ''
               }
@@ -33,6 +34,7 @@ function SideBar() {
           </li>
           <li>
             <NavLink
+              to="settings"
               className={({ isActive, isPending }) =>
                 isPending ? 'pending' : isActive ? 'active' : ''
               }
@@ -42,6 +44,7 @@ function SideBar() {
           </li>
           <li>
             <NavLink
+              to="chats"
               className={({ isActive, isPending }) =>
                 isPending ? 'pending' : isActive ? 'active' : ''
               }
@@ -51,6 +54,7 @@ function SideBar() {
           </li>
           <li>
             <NavLink
+              to="agenda"
               className={({ isActive, isPending }) =>
                 isPending ? 'pending' : isActive ? 'active' : ''
               }

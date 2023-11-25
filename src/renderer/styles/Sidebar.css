@@ -1,10 +1,12 @@
 aside {
-    background-color: #557CC8;
+    background-color: #557bc8;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: 85px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
 }
 
 .navigate ul {
