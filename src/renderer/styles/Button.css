@@ -1,0 +1,27 @@
+.button {
+  background-color: #557CC8;
+  padding: 15px;
+  text-decoration: none;
+  color: white;
+  border-radius: 20px;
+}
+
+.button-link1{
+  background-color: #2569EF;
+  padding: 15px;
+  text-decoration: none;
+  color: white;
+  border-radius: 30px;
+}
+
+.button-link1:hover{
+  background-color: #325396;
+}
+
+.button-link2:hover{
+  background-color: #245bc9a0;
+}
+
+.start-button {
+  font-size: xx-large;
+}

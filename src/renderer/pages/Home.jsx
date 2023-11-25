@@ -1,12 +1,12 @@
 import React from 'react';
+import "../styles/Home.css";
+import MainSection from '../components/MainSection';
+// import {Link} from "react-router-dom";
 
 function Home() {
   return (
     <div>
-      <h1>
-        -Welcome ISInnovate team, <br></br>Let's build our TalkMail app
-        together!
-      </h1>
+    <MainSection/>
     </div>
   );
 }

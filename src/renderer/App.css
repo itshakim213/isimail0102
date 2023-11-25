@@ -1,8 +1,0 @@
-#root {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-.page {
-    width: calc(100% - 77px);
-}
