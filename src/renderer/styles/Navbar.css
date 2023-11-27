@@ -15,7 +15,7 @@ body{
   align-items: center;
 }
 
-ul{
+.list-btn{
   display: flex;
   margin-right:20px;
   margin-bottom: 40px;
