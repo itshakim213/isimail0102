@@ -1,24 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap');
-.main-section{
+.main-section {
   display: flex;
+  padding-top: 70px;
 }
-.text-btn{
-  margin:60px;
-  margin-top:150px;
-  line-height: 2;
+.text-btn {
+  margin: 60px;
+  margin-top: 150px;
+  line-height: 1.5;
 }
 
-.slogan{
-  color: #98cfff ;
+.slogan {
+  padding-top: 10px;
+  color: whitesmoke;
   font-family: 'Montserrat', sans-serif;
-  font-size: 27px;
+  font-size: 28px;
+  animation: fadeIn 2s ease-in-out forwards;
 }
-span{
-  color:rgba(255, 255, 255, 0.836);
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-.main-img img{
-  margin-right:10px;
+
+span {
+  color: rgb(255, 255, 255);
+}
+.main-img img {
+  padding-top: 50px;
+  margin-right: 10px;
 }
 .enlarge-image {
   transition: transform 1s;

@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
@@ -9,14 +14,12 @@ import Files from './pages/Files';
 import Agenda from './pages/Agenda';
 import Contact from './pages/Contact';
 import Settings from './pages/Settings';
-import Navbar from './components/Navbar';
-import "./styles/App.css";
+import './styles/App.css';
 
 function App() {
   return (
     <Router>
       <div>
-        <Navbar />
         <Routes>
           <Route path="/index.html" element={<Navigate to="/" />} />
           <Route path="/" element={<Home />} />

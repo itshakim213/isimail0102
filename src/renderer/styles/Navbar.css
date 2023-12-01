@@ -1,38 +1,34 @@
-body{
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.logo img{
+.logo img {
   max-width: 200px;
   height: auto;
 }
 
-.navbar{
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: rgb(254, 251, 246);
+  height: 15vh;
 }
 
-ul{
+ul {
   display: flex;
-  margin-right:20px;
-  margin-bottom: 40px;
+  margin-right: 20px;
+  margin-bottom: 15px;
 }
 
-.btn-link{
+.btn-link {
   display: flex;
   align-items: center;
 }
 
-.btn-link li{
+.btn-link li {
   margin-right: 20px;
 }
 /* Navbar.css */
 .button-link1 {
   /* Vos styles pour les boutons */
-  background-color: #2569EF; /* Couleur de fond */
+  background-color: #2569ef; /* Couleur de fond */
   color: white; /* Couleur du texte */
   padding: 15px 20px; /* Espacement intérieur */
   text-align: center; /* Alignement du texte */
@@ -47,7 +43,7 @@ ul{
 
 .button-link2 {
   /* Vos styles pour les boutons */
-  background-color: #557CC8; /* Couleur de fond */
+  background-color: #557cc8; /* Couleur de fond */
   color: white; /* Couleur du texte */
   padding: 15px 20px; /* Espacement intérieur */
   text-align: center; /* Alignement du texte */
@@ -59,5 +55,3 @@ ul{
   border-radius: 50px; /* Bord arrondi */
   border: none; /* Pas de bordure */
 }
-
-
