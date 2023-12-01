@@ -1,13 +1,14 @@
 .logo img {
   max-width: 200px;
   height: auto;
+  padding-top: 30px;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(254, 251, 246);
+  background-color: #f4f8ff;
   height: 15vh;
 }
 
@@ -19,7 +20,8 @@ ul {
 .list-btn {
   display: flex;
   margin-right: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
+  padding-top: 0px;
 }
 
 .btn-link {

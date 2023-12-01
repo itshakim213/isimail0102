@@ -13,7 +13,7 @@
   padding-top: 10px;
   color: whitesmoke;
   font-family: 'Montserrat', sans-serif;
-  font-size: 28px;
+  font-size: 24px;
   animation: fadeIn 2s ease-in-out forwards;
 }
 
@@ -30,7 +30,7 @@ span {
   color: rgb(255, 255, 255);
 }
 .main-img img {
-  padding-top: 50px;
+  padding-top: 0px;
   margin-right: 10px;
 }
 .enlarge-image {

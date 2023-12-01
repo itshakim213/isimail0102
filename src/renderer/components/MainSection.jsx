@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../components/Button';
-import SignupImage from '../assets/signup.png';
+import Main from '../assets/maingimg.png';
 import '../styles/MainSection.css';
 
 function MainSection() {
@@ -8,8 +8,8 @@ function MainSection() {
     <div className="main-section">
       <div className="text-btn">
         <h1 className="slogan">
-          Empower Your Conversations with the <br></br> Magic of{' '}
-          <span>TalkMail</span> !{' '}
+          Empower Your Conversations with <span>TalkMail !</span> <br></br>{' '}
+          Where the Chat and Email Unites <br></br>
         </h1>
         <br></br>
         <br></br>
@@ -21,7 +21,7 @@ function MainSection() {
       </div>
 
       <div className="main-img">
-        <img src={SignupImage} alt="main-pct"></img>
+        <img src={Main} alt="main-pct"></img>
       </div>
     </div>
   );

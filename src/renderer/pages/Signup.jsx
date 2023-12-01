@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../components/Button';
-import Img from '../assets/signupimg.png';
-import Logo from '../assets/Logo.png';
+import Img from '../assets/cc.png';
+import Logo from '../assets/Dark.png';
 import '../styles/signup.css';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ function Signup() {
     <div className="signup-container">
       <div className="left-section">
         <div className="logo-signup">
-          <Link to="/chats">
+          <Link to="/index.html">
             <img src={Logo} alt="logo" />
           </Link>
         </div>
@@ -41,12 +41,7 @@ function Signup() {
             <label>Date of birth: </label>
             <input type="date" placeholder="enter your date of birth"></input>
             <br></br>
-            <label>Country of birth</label>
-            <input
-              type="text"
-              placeholder="enter your country of birth"
-            ></input>
-            <br></br>
+
             <label>Email address: </label>
             <input type="email" placeholder="enter your email address"></input>
             <br></br>

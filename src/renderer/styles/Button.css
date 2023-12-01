@@ -34,7 +34,7 @@
 .signup-btn {
   width: 100%;
   padding: 10px;
-  background-color: #1a2e62;
+  background-color: #557cc8;
   color: white;
   border: none;
   border-radius: 5px;
@@ -43,7 +43,7 @@
 }
 
 .signup-btn:hover {
-  background-color: #1a2e62;
+  background-color: rgb(5, 100, 195);
 }
 
 .signin-btn {

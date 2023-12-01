@@ -9,7 +9,6 @@ import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Chats from './pages/Chats';
-import Mails from './pages/Mails';
 import Files from './pages/Files';
 import Agenda from './pages/Agenda';
 import Contact from './pages/Contact';
@@ -18,7 +17,7 @@ import Header from './components/Header';
 import SideBar from './components/SideBar';
 
 function App() {
-  let isAuthen = true;
+  let isAuthen = false;
 
   useEffect(() => {
     if (!isAuthen) {
