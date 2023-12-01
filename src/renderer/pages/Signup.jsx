@@ -10,7 +10,7 @@ function Signup() {
     <div className="signup-container">
       <div className="left-section">
         <div className="logo-signup">
-          <Link to="/index.html">
+          <Link to="/chats">
             <img src={Logo} alt="logo" />
           </Link>
         </div>

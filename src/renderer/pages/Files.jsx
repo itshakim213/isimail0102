@@ -1,9 +1,18 @@
 import React from 'react';
+import SideBarPage from '../components/SideBarPage';
 
 function Files() {
+  let elems = [
+    'Boite de reception',
+    "Boite d'envoie",
+    'Brouillons',
+    'Favoris',
+    'Spam',
+    'Courbeille',
+  ];
   return (
     <div>
-      <h1>Files Section</h1>
+      <SideBarPage elements={elems} />
     </div>
   );
 }

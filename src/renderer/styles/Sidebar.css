@@ -6,7 +6,7 @@ aside {
     bottom: 0;
     width: 85px;
     border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    
 }
 
 .navigate ul {
@@ -21,15 +21,16 @@ aside {
 .navigate ul li {
     padding: 10px 0;
     margin:  0 10px ;
+    display: inline-block;
 }
 
 .navigate  {
     background-color: none;
 }
 .navigate ul li a.active {
+    display: inline-block;
     background-color: #374957;
     border-radius: 50%;
-    display: inline-block;
-    height: 42px;
+    height: 45px;
     width: 42px;
 }

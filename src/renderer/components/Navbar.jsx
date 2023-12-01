@@ -16,7 +16,7 @@ function Navbar(props) {
         </Link>
       </div>
       <nav className="btn-link">
-        <ul>
+        <ul className="list-btn">
           <li>
             <Button
               btnLink="/signin"

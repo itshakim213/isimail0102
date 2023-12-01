@@ -3,7 +3,7 @@ import file from '../assets/file.png';
 import setting from '../assets/setting.png';
 import calendar from '../assets/calendar.png';
 import messages from '../assets/messages.png';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import '../styles/Sidebar.css';
 
 function SideBar() {
@@ -14,7 +14,7 @@ function SideBar() {
         <ul>
           <li>
             <NavLink
-              to="/mails"
+              to="/mails/:category"
               className={({ isActive, isPending }) =>
                 isPending ? 'pending' : isActive ? 'active' : ''
               }

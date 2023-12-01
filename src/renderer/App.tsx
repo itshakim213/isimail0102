@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,25 +14,45 @@ import Files from './pages/Files';
 import Agenda from './pages/Agenda';
 import Contact from './pages/Contact';
 import Settings from './pages/Settings';
-import './styles/App.css';
+import Header from './components/Header';
+import SideBar from './components/SideBar';
 
 function App() {
+  let isAuthen = true;
+
+  useEffect(() => {
+    if (!isAuthen) {
+      import('./styles/Visiter.css');
+    } else {
+      import('./styles/User.css');
+    }
+  }, [isAuthen]);
+
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/index.html" element={<Navigate to="/" />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/chats" element={<Chats />} />
-          <Route path="/mails" element={<Mails />} />
-          <Route path="/files" element={<Files />} />
-          <Route path="/agenda" element={<Agenda />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </div>
+      {!isAuthen ? (
+        <div>
+          <Routes>
+            <Route path="/index.html" element={<Navigate to="/" />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+          </Routes>
+        </div>
+      ) : (
+        <div>
+          <Header />
+          <SideBar />
+          <Routes>
+            <Route path="/mails/:category" element={<Mails />} />
+            <Route path="/chats" element={<Chats />} />
+            <Route path="/files" element={<Files />} />
+            <Route path="/agenda" element={<Agenda />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </div>
+      )}
     </Router>
   );
 }

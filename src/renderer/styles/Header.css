@@ -1,8 +1,9 @@
 header {
-    width: 100%;
-    float: right;
     background-color: none;
     border-bottom: 2px solid #AEEFEB;
+    width: calc(100% - 70px);
+    position: fixed;
+    margin-left: 69px;
 }
 .menu {
     float: right;
