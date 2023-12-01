@@ -1,7 +1,8 @@
 import React from 'react';
 import SideBarPage from '../components/SideBarPage';
-import MailsList from '../components/MailsList';
 import { useParams } from 'react-router-dom';
+import PageList from '../components/PageList';
+import PageSelectCont from '../components/PageSelectCont';
 
 function Mails() {
   let elems = [
@@ -13,9 +14,18 @@ function Mails() {
     'Courbeille',
   ];
   return (
-    <div>
-      <SideBarPage elements={elems} />
-      <MailsList />
+    <div
+      className="page"
+      style={{
+        marginTop: 68,
+        marginLeft: 85,
+        display: 'flex',
+        flexDirection: 'row',
+      }}
+    >
+      <SideBarPage elements={elems} path="mails" />
+      <PageList />
+      <PageSelectCont message="select mail to read" />
     </div>
   );
 }

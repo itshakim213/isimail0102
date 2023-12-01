@@ -1,0 +1,7 @@
+.page {
+    width: calc(100% - 85px);
+    margin-left: 85px;
+    margin-top: 66px;
+    display: flex;
+    flex-direction: row;
+}

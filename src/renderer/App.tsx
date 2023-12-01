@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -42,18 +42,18 @@ function App() {
           </Routes>
         </div>
       ) : (
-        <div>
+        <React.StrictMode>
           <Header />
           <SideBar />
           <Routes>
             <Route path="/mails/:category" element={<Mails />} />
             <Route path="/chats" element={<Chats />} />
-            <Route path="/files" element={<Files />} />
+            <Route path="/files/:category" element={<Files />} />
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
-        </div>
+        </React.StrictMode>
       )}
     </Router>
   );

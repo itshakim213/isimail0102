@@ -1,14 +1,24 @@
 import React from 'react';
-import Sidebar from '../components/SideBar';
+import SideBarPage from '../components/SideBarPage';
+import PageList from '../components/PageList';
+import PageSelectCont from '../components/PageSelectCont';
 
 function Chats() {
+  let elems = [];
   return (
-    <>
-      <Sidebar />
-      <div>
-        <h1>Chat Section</h1>
-      </div>
-    </>
+    <div
+      className="page"
+      style={{
+        marginTop: 68,
+        marginLeft: 85,
+        display: 'flex',
+        flexDirection: 'row',
+      }}
+    >
+      <SideBarPage elements={elems} path="chats" />
+      <PageList />
+      <PageSelectCont message="select contact" />
+    </div>
   );
 }
 

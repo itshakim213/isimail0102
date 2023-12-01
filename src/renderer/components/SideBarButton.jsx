@@ -1,9 +1,9 @@
-function SendButton() {
+function SideBarButton({ text }) {
   return (
     <button
       style={{
-        padding: 20,
-        margin: '50px 0 50px 20px',
+        padding: '10px 15px',
+        margin: '50px 0 0 20px',
         border: 'none',
         borderRadius: '25px',
         color: 'black',
@@ -11,8 +11,8 @@ function SendButton() {
         fontWeight: 'bold',
       }}
     >
-      Nouveau Message
+      {text}
     </button>
   );
 }
-export default SendButton;
+export default SideBarButton;

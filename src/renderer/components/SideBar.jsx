@@ -24,7 +24,7 @@ function SideBar() {
           </li>
           <li>
             <NavLink
-              to="files"
+              to="/files/:category"
               className={({ isActive, isPending }) =>
                 isPending ? 'pending' : isActive ? 'active' : ''
               }
