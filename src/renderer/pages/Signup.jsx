@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../components/Button';
-import Img from '../assets/cc.png';
+import Img from '../assets/c.jpg';
 import Logo from '../assets/Dark.png';
 import '../styles/signup.css';
 import { Link } from 'react-router-dom';

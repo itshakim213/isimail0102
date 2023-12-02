@@ -12,7 +12,7 @@
   height: 15vh;
 }
 
-ul {
+.list-btn {
   display: flex;
   margin-right: 20px;
   margin-bottom: 15px;
