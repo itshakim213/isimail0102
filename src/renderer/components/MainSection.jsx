@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../components/Button';
-import Main from '../assets/main.png';
+import Main from '../assets/home-img.png';
 import '../styles/MainSection.css';
 
 function MainSection() {
