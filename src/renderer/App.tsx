@@ -18,7 +18,7 @@ import Header from './components/Header';
 import SideBar from './components/SideBar';
 
 function App() {
-  let isAuthen = true;
+  let isAuthen = false;
 
   useEffect(() => {
     if (!isAuthen) {
