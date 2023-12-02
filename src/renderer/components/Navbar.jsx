@@ -1,12 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Logo from '../assets/Logo.png';
+import { Link, useLocation } from 'react-router-dom';
+import Logo from '../assets/Dark.png';
 import '../styles/Navbar.css';
 import Button from '../components/Button'; // Assurez-vous que votre composant Button est correctement défini
 
-function Navbar() {
+function Navbar(props) {
+  const location = useLocation();
+  const CustomClass = props.CustomClass || '';
+
   return (
-    <div className="navbar">
+    <div className={`navbar ${CustomClass}`}>
       <div className="logo">
         <Link to="/index.html">
           <img src={Logo} alt="light-mode" />

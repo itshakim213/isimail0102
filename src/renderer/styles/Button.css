@@ -1,27 +1,62 @@
 .button {
-  background-color: #557CC8;
+  background-color: #557cc8;
   padding: 15px;
   text-decoration: none;
   color: white;
   border-radius: 20px;
 }
 
-.button-link1{
-  background-color: #2569EF;
+.button-link1 {
+  background-color: #1a2e62;
   padding: 15px;
   text-decoration: none;
   color: white;
   border-radius: 30px;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.button-link1:hover{
+.button-link2 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.button-link1:hover {
   background-color: #325396;
 }
 
-.button-link2:hover{
-  background-color: #245bc9a0;
+.button-link2:hover {
+  background-color: rgb(5, 100, 195);
 }
 
 .start-button {
   font-size: xx-large;
+}
+
+.signup-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #557cc8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.signup-btn:hover {
+  background-color: rgb(5, 100, 195);
+}
+
+.signin-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #557cc8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.signin-btn:hover {
+  background-color: rgb(5, 100, 195);
 }

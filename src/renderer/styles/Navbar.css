@@ -1,38 +1,41 @@
-body{
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.logo img{
+.logo img {
   max-width: 200px;
   height: auto;
+  padding-top: 30px;
 }
 
-.navbar{
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f4f8ff;
+  height: 15vh;
 }
 
-.list-btn{
+ul {
   display: flex;
-  margin-right:20px;
-  margin-bottom: 40px;
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
+.list-btn {
+  display: flex;
+  margin-right: 20px;
+  margin-bottom: 0px;
+  padding-top: 0px;
 }
 
-.btn-link{
+.btn-link {
   display: flex;
   align-items: center;
 }
 
-.btn-link li{
+.btn-link li {
   margin-right: 20px;
 }
 /* Navbar.css */
 .button-link1 {
   /* Vos styles pour les boutons */
-  background-color: #2569EF; /* Couleur de fond */
+  background-color: #2569ef; /* Couleur de fond */
   color: white; /* Couleur du texte */
   padding: 15px 20px; /* Espacement intérieur */
   text-align: center; /* Alignement du texte */
@@ -47,7 +50,7 @@ body{
 
 .button-link2 {
   /* Vos styles pour les boutons */
-  background-color: #557CC8; /* Couleur de fond */
+  background-color: #557cc8; /* Couleur de fond */
   color: white; /* Couleur du texte */
   padding: 15px 20px; /* Espacement intérieur */
   text-align: center; /* Alignement du texte */
@@ -59,5 +62,3 @@ body{
   border-radius: 50px; /* Bord arrondi */
   border: none; /* Pas de bordure */
 }
-
-

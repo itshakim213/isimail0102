@@ -1,0 +1,111 @@
+/* Style pour les options */
+.signup-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.left-section {
+  padding-right: 50px;
+  width: 45%; /* afin de diviser la page  */
+  height: 100vh;
+  background-color: #e2ebfc;
+}
+
+.left-section .img-signup {
+  padding-top: 200px;
+}
+
+.logo-signup img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 200px;
+  height: 200px;
+}
+
+.right-section {
+  width: 60%;
+  margin-left: 30px;
+  height: 100vh;
+  background-color: #1a2e62 !important ;
+}
+
+.signup-container {
+  display: flex;
+}
+
+.img-signup img {
+  padding-top: 0px;
+}
+.sign-title {
+  padding-top: 50px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 60px;
+  animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sign-description {
+  padding-top: 10px;
+  color: #9bbcff;
+  font-size: 22px;
+  animation: fadeInRight 0.5s ease forwards;
+}
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sign-title,
+.sign-description,
+.selected-option-info {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.auth-form {
+  flex: 1;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(188, 112, 112, 0.2);
+  display: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-form form {
+  max-width: 300px; /* Définissez une largeur maximale pour le formulaire */
+  text-align: center;
+}
+
+.auth-form label {
+  margin-bottom: 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.auth-form input {
+  width: 85%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
