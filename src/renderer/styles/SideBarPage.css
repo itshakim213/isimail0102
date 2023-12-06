@@ -1,11 +1,12 @@
 .side-bar-page {
     width: 220px;
     background-color: #1A2E62;
+    height: 100vh;
 }
 
 .nav-item {
     padding: 15px 5px 15px 25px;
-    font-size: 15px;
+    font-size: 13px;
     display: block ;
     text-decoration: none;
     color: #ffff;

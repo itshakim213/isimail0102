@@ -18,7 +18,7 @@ import Header from './components/Header';
 import SideBar from './components/SideBar';
 
 function App() {
-  let isAuthen = false;
+  let isAuthen = true;
 
   useEffect(() => {
     if (!isAuthen) {
@@ -49,7 +49,7 @@ function App() {
             <Route path="/files/:category" element={<Files />} />
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/:category" element={<Settings />} />
           </Routes>
         </React.StrictMode>
       )}
