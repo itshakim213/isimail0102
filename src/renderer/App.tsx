@@ -58,7 +58,7 @@ function App() {
             <Route path="/files/:category" element={<Files />} />
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/:category" element={<Settings />} />
           </Routes>
         </React.StrictMode>
       )}
