@@ -3,7 +3,7 @@ import '../styles/EventForm.css';
 function EventForm() {
   return (
     <div className="form-box">
-      <form>
+      <form className="eventForm">
         <div className="inputs">
           <input type="text" placeholder="Titre" name="title" />
         </div>
