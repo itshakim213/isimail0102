@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,8 +18,14 @@ import Header from './components/Header';
 import SideBar from './components/SideBar';
 
 function App() {
-  let isAuthen = false;
+  const [isAuthen, setIsAuthen] = useState(false);
 
+  // Fonction pour mettre à jour l'état d'authentification après la connexion réussie
+  const handleLogin = () => {
+    // Après l'authentification réussie, mettre setIsAuthen à true
+    setIsAuthen(true);
+    // Peut-être rediriger l'utilisateur vers une page spécifique ici
+  };
   useEffect(() => {
     if (!isAuthen) {
       import('./styles/Visiter.css');
@@ -36,7 +42,10 @@ function App() {
             <Route path="/index.html" element={<Navigate to="/" />} />
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/signin" element={<Signin />} />
+            <Route
+              path="/signin"
+              element={<Signin handleLogin={handleLogin} />}
+            />
           </Routes>
         </div>
       ) : (

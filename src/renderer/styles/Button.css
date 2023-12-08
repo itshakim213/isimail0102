@@ -32,7 +32,7 @@
 }
 
 .signup-btn {
-  width: 100%;
+  width: 20%;
   padding: 10px;
   background-color: #557cc8;
   color: white;
@@ -47,7 +47,7 @@
 }
 
 .signin-btn {
-  width: 100%;
+  width: 20%;
   padding: 10px;
   background-color: #557cc8;
   color: white;
