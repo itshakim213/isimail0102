@@ -17,7 +17,7 @@ app.use(cors());
 //Connection to MongoDB cloud
 mongoose
   .connect(
-    'mongodb+srv://talkmail:oluQkfSeLRNiETDu@cluster0.ooeeazr.mongodb.net/?retryWrites=true&w=majority',
+    'mongodb+srv://ISInnovate:TalkMail2324@isinnovate.9mvjqgg.mongodb.net/',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
