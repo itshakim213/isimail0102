@@ -19,19 +19,12 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    validate: {
-      validator: function (value) {
-        // cette fonction est utilisée comme validateur
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
-        // [^\s@] tous les caracteres sauf les espaces et @
-      },
-      message: 'Veuillez entrer une adresse email valide.',
-    },
+    required: true,
   },
-  password: { 
+  password: {
     type: String,
-    required: true 
-  }
+    required: true,
+  },
 });
 
 const UserModel = mongoose.model('User', userSchema);
