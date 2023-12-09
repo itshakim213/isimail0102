@@ -16,13 +16,11 @@ app.use(cors());
 
 //Connection to MongoDB cloud
 mongoose
-  .connect(
-    'mongodb+srv://talkmail:oluQkfSeLRNiETDu@cluster0.ooeeazr.mongodb.net/?retryWrites=true&w=majority',
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
-  )
+  .connect(process.env.DATABASE_URL, 
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
