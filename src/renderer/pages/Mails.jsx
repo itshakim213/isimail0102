@@ -13,6 +13,13 @@ function Mails() {
     'Spam',
     'Courbeille',
   ];
+  async function fetchData() {
+    let reponse = await fetch(`http://localhost:8000/users`)
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  }
+  fetchData();
   return (
     <div
       className="page"
