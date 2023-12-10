@@ -3,34 +3,27 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   firstname: {
     type: String,
-    required: [true],
+    required: true,
   },
   lastname: {
     type: String,
-    required: [true],
+    required: true,
   },
   password: {
     type: String,
-    required: [true],
+    required: true,
   },
-  dateofbrith: {
+  dateofbirth: {
     type: Date,
-    required: [true],
+    required: true,
   },
   email: {
     type: String,
-    validate: {
-      validator: function (value) {
-        // cette fonction est utilisée comme validateur
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
-        // [^\s@] tous les caracteres sauf les espaces et @
-      },
-      message: 'Veuillez entrer une adresse email valide.',
-    },
+    required: true,
   },
-  password: { 
+  password: {
     type: String,
-    required: true 
+    required: true,
   }
 });
 
