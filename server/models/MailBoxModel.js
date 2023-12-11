@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const mailBoxSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserModel',
+    ref: 'User',
   },
   name: {
     type: String,
