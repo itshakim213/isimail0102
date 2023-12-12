@@ -26,7 +26,7 @@ function SideBarPage({ elements, path }) {
                 key={`${index}-${item}`}
                 className="nav-item"
               >
-                {item}
+                {item.replace(/_/g, ' ')}
               </NavLink>
             ))}
           </nav>
