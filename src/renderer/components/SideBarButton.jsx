@@ -1,4 +1,4 @@
-function SideBarButton({ text }) {
+function SideBarButton({ text, link }) {
   return (
     <button
       style={{
@@ -12,6 +12,7 @@ function SideBarButton({ text }) {
       }}
     >
       {text}
+      {link}
     </button>
   );
 }

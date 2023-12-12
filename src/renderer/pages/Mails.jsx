@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SideBarPage from '../components/SideBarPage';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import PageList from '../components/PageList';
 import PageSelectCont from '../components/PageSelectCont';
 
 function Mails() {
+  const [showNewMessage, setShowNewMessage] = useState(false);
+
+  // Fonction pour afficher le formulaire NewMessage
+  const showNewMessageForm = () => {
+    if (!showNewMessage) {
+      setShowNewMessage(true);
+    } else {
+      setShowNewMessage(false);
+    }
+  };
+
   let elems = [
     'Boite de reception',
     "Boite d'envoie",
@@ -30,9 +41,18 @@ function Mails() {
         flexDirection: 'row',
       }}
     >
-      <SideBarPage elements={elems} path="mails" />
+      <SideBarPage
+        elements={elems}
+        path="mails"
+        showNewMessage={showNewMessage}
+        showNewMessageForm={showNewMessageForm}
+      />
       <PageList />
-      <PageSelectCont message="select mail to read" />
+      <PageSelectCont
+        message="select mail to read"
+        showNewMessage={showNewMessage}
+        showNewMessageForm={showNewMessageForm}
+      />
     </div>
   );
 }

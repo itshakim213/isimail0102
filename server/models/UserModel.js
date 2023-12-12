@@ -10,10 +10,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
   dateofbirth: {
     type: Date,
     required: true,
@@ -24,8 +20,8 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const UserModel = mongoose.model('User', userSchema);

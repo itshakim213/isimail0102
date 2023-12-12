@@ -24,8 +24,10 @@ mongoose
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
 //Gestion de routes
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/UserRoutes');
+const mailRoutes = require('./routes/MailRoutes');
 app.use('/api', userRoutes);
+app.use('/api', mailRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

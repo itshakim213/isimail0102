@@ -1,16 +1,20 @@
-import { NavLink, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import '../styles/SideBarPage.css';
-import SideBarButton from './SideBarButton';
+import Button from '../components/Button';
 import SearchChat from './SearchChat';
 import noConver from '../assets/noConvers.png';
 import Empty from './Empty';
+import NewMessage from '../components/Newmessage';
 
-function SideBarPage({ elements, path }) {
+function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
   return (
     <div className="side-bar-page">
-      {path === 'mails' && <SideBarButton text="Nouveau Message" />}
+      {path === 'mails' && (
+        <Button btnText="Nouveau Message" onClick={showNewMessageForm} />
+      )}
       {path === 'chats' && <SearchChat />}
-      {path === 'chats' || elements.length === 0 ? (
+      {(path === 'chats' || elements.length === 0) && !showNewMessage ? (
         <Empty
           image={noConver}
           message="you have no contact"
@@ -33,8 +37,11 @@ function SideBarPage({ elements, path }) {
         </div>
       )}
 
-      {path === 'chats' && <SideBarButton text="Ajouter Conversation" />}
+      {path === 'chats' && !showNewMessage && (
+        <Button btnText="Ajouter Conversation" />
+      )}
     </div>
   );
 }
+
 export default SideBarPage;

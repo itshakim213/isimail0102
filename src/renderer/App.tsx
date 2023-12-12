@@ -16,6 +16,7 @@ import Contact from './pages/Contact';
 import Settings from './pages/Settings';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
+import Newmessage from './components/Newmessage';
 
 function App() {
   const [isAuthen, setIsAuthen] = useState(false);
@@ -59,6 +60,7 @@ function App() {
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/settings/:category" element={<Settings />} />
+            <Route path="/newmessage" element={<Newmessage />} />
           </Routes>
         </React.StrictMode>
       )}
