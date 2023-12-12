@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
 import '../styles/signin.css';
-import { Link, useNavigate } from 'react-router-dom';
+
 
 function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
@@ -16,10 +17,15 @@ function Signin({ handleLogin }) {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:4001/api/signin', {
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      };
+      await axios.post('http://localhost:4001/api/user/signin', {
         email,
         password,
-      });
+      }, config);
       setIsSubmitted(true);
       alert('Connexion réussie !');
       handleLogin();
