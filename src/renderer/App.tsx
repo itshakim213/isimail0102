@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import { UserProvider } from './context/userContext';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
@@ -19,7 +20,7 @@ import SideBar from './components/SideBar';
 import Newmessage from './components/Newmessage';
 
 function App() {
-  const [isAuthen, setIsAuthen] = useState(false);
+  const [isAuthen, setIsAuthen] = useState(true);
 
   // Fonction pour mettre à jour l'état d'authentification après la connexion réussie
   const handleLogin = () => {
@@ -53,15 +54,17 @@ function App() {
         <React.StrictMode>
           <Header />
           <SideBar />
-          <Routes>
-            <Route path="/mails/:category" element={<Mails />} />
-            <Route path="/chats" element={<Chats />} />
-            <Route path="/files/:category" element={<Files />} />
-            <Route path="/agenda" element={<Agenda />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/settings/:category" element={<Settings />} />
-            <Route path="/newmessage" element={<Newmessage />} />
-          </Routes>
+          <UserProvider>
+            <Routes>
+              <Route path="/mails/:category" element={<Mails />} />
+              <Route path="/chats" element={<Chats />} />
+              <Route path="/files/:category" element={<Files />} />
+              <Route path="/agenda" element={<Agenda />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/newmessage" element={<Newmessage />} />
+            </Routes>
+          </UserProvider>
         </React.StrictMode>
       )}
     </Router>

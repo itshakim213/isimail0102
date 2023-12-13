@@ -1,34 +1,31 @@
 const express = require('express');
-const app = express();
-//Importe le middleware CORS pour gérer les requêtes cross-origin.
-const cors = require('cors');
-// Importe le package dotenv pour charger les variables d'environnement depuis un fichier .env.
 const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const userRoutes = require('./routes/UserRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
+const messageRoutes = require('./routes/messageRoutes');
 
-//Chargement des variables d'environement
-dotenv.config({ path: './server/.env' });
-const PORT = process.env.PORT || 3000;
-
-//middlewares
-app.use(express.json());
+const app = express();
+dotenv.config();
+connectDB();
 app.use(cors());
 
-//Connection to MongoDB cloud
-mongoose
-  .connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('Error connecting to MongoDB:', err));
+const PORT = process.env.PORT || 4001;
 
-//Gestion de routes
-const userRoutes = require('./routes/UserRoutes');
-const mailRoutes = require('./routes/MailRoutes');
-app.use('/api', userRoutes);
-app.use('/api', mailRoutes);
+app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.get('/', (req, res) => {
+  res.send('API is runninggg');
 });
+
+app.use('/api/user', userRoutes);
+app.use('/api/chat', chatRoutes);
+// creer une api pour l'envoi des messages
+app.use('/api/message', messageRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
+
+app.listen(PORT, console.log(`Server started at ${PORT}`));

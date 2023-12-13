@@ -5,12 +5,12 @@ import PageSelectCont from '../components/PageSelectCont';
 
 function Files() {
   let elems = [
-    'Boite de reception',
-    "Boite d'envoie",
+    'Boite_de_reception',
+    "Boite_d'envoie",
     'Brouillons',
     'Favoris',
     'Spam',
-    'Courbeille',
+    'Corbeille',
   ];
   return (
     <div

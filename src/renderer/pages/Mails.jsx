@@ -17,8 +17,8 @@ function Mails() {
   };
 
   let elems = [
-    'Boite de reception',
-    "Boite d'envoie",
+    'Boite_de_reception',
+    "Boite_d'envoie",
     'Brouillons',
     'Favoris',
     'Spam',

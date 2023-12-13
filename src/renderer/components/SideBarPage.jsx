@@ -30,7 +30,7 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
                 key={`${index}-${item}`}
                 className="nav-item"
               >
-                {item}
+                {item.replace(/_/g, ' ')}
               </NavLink>
             ))}
           </nav>

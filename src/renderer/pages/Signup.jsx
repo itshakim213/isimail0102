@@ -18,13 +18,18 @@ function Signup() {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:4001/api/signup', {
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      };
+      await axios.post('http://localhost:4001/api/user', {
         firstname,
         lastname,
         dateofbirth,
         email,
         password,
-      });
+      }, config);
       setIsSubmitted(true);
     } catch (e) {
       console.log(e);
