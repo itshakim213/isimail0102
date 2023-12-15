@@ -3,6 +3,7 @@ import axios from 'axios';
 import Button from '../components/Button';
 import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
+import { useUser } from '../context/userContext';
 import '../styles/signin.css';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -10,18 +11,20 @@ function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const login = useUser();
   const navigate = useNavigate();
 
-  async function submit(e) {
+  const submit = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:4001/api/signin', {
+      const response = await axios.post('http://localhost:4001/api/signin', {
         email,
         password,
       });
       setIsSubmitted(true);
       alert('Connexion réussie !');
+      login(response.data);
       handleLogin();
       navigate('/'); // Redirection vers la page d'accueil après la connexion réussie
     } catch (e) {
@@ -29,7 +32,7 @@ function Signin({ handleLogin }) {
       setemail('');
       setpassword('');
     }
-  }
+  };
 
   useEffect(() => {
     if (isSubmitted) {
