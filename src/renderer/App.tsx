@@ -20,7 +20,7 @@ import SideBar from './components/SideBar';
 import Newmessage from './components/Newmessage';
 
 function App() {
-  const [isAuthen, setIsAuthen] = useState(true);
+  const [isAuthen, setIsAuthen] = useState(false);
 
   // Fonction pour mettre à jour l'état d'authentification après la connexion réussie
   const handleLogin = () => {
