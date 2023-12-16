@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/calendar.css';
-import '../styles/Agneda.css';
+import '../styles/Agenda.css';
 import noEvents from '../assets/noEvents.png';
 import moment from 'moment';
 import EventForm from '../components/EventForm';
@@ -21,6 +21,7 @@ function Agenda() {
         flexDirection: 'row',
         height: '100vh',
         width: '100vw',
+        color: 'white',
       }}
     >
       <div

@@ -10,7 +10,7 @@ function Files() {
     'Brouillons',
     'Favoris',
     'Spam',
-    'Courbeille',
+    'Corbeille',
   ];
   return (
     <div

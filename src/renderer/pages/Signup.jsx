@@ -4,32 +4,77 @@ import Button from '../components/Button';
 import Img from '../assets/signup-img.png';
 import Logo from '../assets/Dark.png';
 import '../styles/signup.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-function Signup() {
+function Signup({ handleLogin }) {
   const [firstname, setfirstname] = useState('');
   const [lastname, setlastname] = useState('');
   const [dateofbirth, setdateofbirth] = useState('');
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
-  async function submit(e) {
-    e.preventDefault();
-
+  async function addUser() {
     try {
-      await axios.post('http://localhost:4001/api/signup', {
-        firstname,
-        lastname,
-        dateofbirth,
-        email,
-        password,
-      });
-      setIsSubmitted(true);
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      };
+      const response = await axios.post(
+        'http://localhost:4001/api/user',
+        {
+          firstname,
+          lastname,
+          dateofbirth,
+          email,
+          password,
+        },
+        config,
+      );
+      return response.data;
     } catch (e) {
       console.log(e);
     }
   }
+
+  async function submit(e) {
+    e.preventDefault();
+    setError(false); // Reset error before submission
+    const userDataPromise = addUser();
+    userDataPromise
+      .then((userData) => {
+        sessionStorage.setItem('user', JSON.stringify(userData));
+        const userItem = JSON.parse(sessionStorage.getItem('user'));
+        setIsSubmitted(true);
+        alert('Connexion réussie !');
+        console.log(userItem);
+        handleLogin();
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(true); // Set error if API call fails
+        alert(
+          "Une erreur est survenue lors de l'inscription. Veuillez réessayer.",
+        );
+      });
+  }
+  // function submit(e) {
+  //   e.preventDefault();
+  //   const userData = addUser();
+  //   if (!error) {
+  //     sessionStorage.setItem('user', JSON.stringify(userData));
+  //     const userItem = JSON.parse(sessionStorage.getItem('user'));
+  //     setIsSubmitted(true);
+  //     alert('Connexion réussie !');
+  //     console.log(userItem);
+  //     handleLogin();
+  //     navigate('/');
+  //   }
+  // }
 
   useEffect(() => {
     if (isSubmitted) {

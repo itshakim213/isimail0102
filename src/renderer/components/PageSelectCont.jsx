@@ -1,8 +1,9 @@
 import Empty from './Empty';
 import noSelect from '../assets/noSelected.png';
+import Newmessage from './Newmessage';
 import '../styles/PageSelectCont.css';
 
-function PageSelectCont({ message }) {
+function PageSelectCont({ message, showNewMessage, showNewMessageForm }) {
   return (
     <div
       className="page-content"
@@ -12,7 +13,11 @@ function PageSelectCont({ message }) {
         padding: '34px 65px',
       }}
     >
-      <Empty image={noSelect} message={message} width={180} height={180} />
+      {showNewMessage ? (
+        <Newmessage />
+      ) : (
+        <Empty image={noSelect} message={message} width={180} height={180} />
+      )}
     </div>
   );
 }

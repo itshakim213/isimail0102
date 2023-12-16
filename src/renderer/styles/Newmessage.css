@@ -1,0 +1,19 @@
+.form-sendMsg {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-sendMsg,
+.textarea-sendMsg {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}

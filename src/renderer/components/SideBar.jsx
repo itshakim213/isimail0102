@@ -8,7 +8,6 @@ import '../styles/Sidebar.css';
 
 function SideBar() {
   const loc = useLocation();
-
   return (
     <aside>
       <div className="profile"></div>

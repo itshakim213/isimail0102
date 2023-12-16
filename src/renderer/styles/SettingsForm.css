@@ -1,31 +1,33 @@
 .settings-form {
-    margin-top: 10vh;
+  margin-top: 10vh;
+  color: aliceblue;
 }
+
 .setting-box {
-    padding: 2vh 2vw;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, .2);
-    width: 60vw;
-    margin: 5px 0 5px 5vw;
+  padding: 2vh 2vw;
+  overflow: hidden;
+  background-color: rgba(126, 123, 123, 0.2);
+  width: 60vw;
+  margin: 5px 0 5px 5vw;
 }
 .setting-checkbox {
-    padding: 2vh 2vw;
-    margin: 5px 0 5px 5vw;
-    background-color: rgba(0, 0, 0, .2);
-    display: flex;
-    flex-direction: column;
+  padding: 2vh 2vw;
+  margin: 5px 0 5px 5vw;
+  background-color: rgba(126, 123, 123, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 .setting-checkbox .option {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .option {
-    float: left;
+  float: left;
 }
 .setting-box .values {
-    padding: 10px;
-    float: right;
+  padding: 10px;
+  float: right;
 }
 .values input {
-    margin-right: 5px;
+  margin-right: 5px;
 }

@@ -1,38 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
-import { useUser } from '../context/userContext';
 import '../styles/signin.css';
-import { Link, useNavigate } from 'react-router-dom';
 
 function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const login = useUser();
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  const submit = async (e) => {
-    e.preventDefault();
-
+  async function LoadUser() {
     try {
-      const response = await axios.post('http://localhost:4001/api/signin', {
-        email,
-        password,
-      });
-      setIsSubmitted(true);
-      alert('Connexion réussie !');
-      login(response.data);
-      handleLogin();
-      navigate('/'); // Redirection vers la page d'accueil après la connexion réussie
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      };
+      const response = await axios.post(
+        'http://localhost:4001/api/user/signin',
+        {
+          email,
+          password,
+        },
+        config,
+      );
+      return response.data;
     } catch (e) {
       console.log(e);
+      setError(true);
       setemail('');
       setpassword('');
     }
-  };
+  }
+
+  async function submit(e) {
+    e.preventDefault();
+    setError(false);
+    const LoadUserPromise = LoadUser();
+    LoadUserPromise.then((userData) => {
+      sessionStorage.setItem('user', JSON.stringify(userData));
+      const userItem = JSON.parse(sessionStorage.getItem('user'));
+      console.log(userItem);
+      setIsSubmitted(true);
+      alert('Connexion réussie !');
+      handleLogin();
+      navigate('/');
+    }).catch((error) => {
+      console.log(error);
+      setError(true);
+      alert(
+        "Une erreur est survenue lors de l'authentification. Veuillez réessayer.",
+      );
+    });
+  }
 
   useEffect(() => {
     if (isSubmitted) {
@@ -57,7 +81,7 @@ function Signin({ handleLogin }) {
         <h1 className="sign-title-signin">Sign in</h1>
         <br></br>
         <p className="sign-description-signin">Welcome Back !</p>
-        <form onSubmit={submit}>
+        <form onSubmit={(e) => submit(e)}>
           <div className="auth-form-signin">
             <label>E-mail:</label>
             <br></br>
