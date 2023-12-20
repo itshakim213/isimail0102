@@ -4,7 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/UserRoutes');
 const chatRoutes = require('./routes/chatRoutes');
-// const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 const messageRoutes = require('./routes/messageRoutes');
 const mailRoutes = require('./routes/MailRoutes');
 
@@ -27,7 +27,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api', mailRoutes);
 
-// app.use(notFound);
-// app.use(errorHandler);
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, console.log(`Server started at ${PORT}`));

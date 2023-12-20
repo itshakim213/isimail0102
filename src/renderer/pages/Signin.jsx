@@ -44,7 +44,6 @@ function Signin({ handleLogin }) {
     LoadUserPromise.then((userData) => {
       sessionStorage.setItem('user', JSON.stringify(userData));
       const userItem = JSON.parse(sessionStorage.getItem('user'));
-      console.log(userItem);
       setIsSubmitted(true);
       alert('Connexion réussie !');
       handleLogin();
