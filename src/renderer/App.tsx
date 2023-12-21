@@ -28,10 +28,8 @@ function App() {
     // Peut-être rediriger l'utilisateur vers une page spécifique ici
   };
   useEffect(() => {
-    if (!isAuthen) {
-      import('./styles/Visiter.css');
-    } else {
-      import('./styles/User.css');
+    if (isAuthen) {
+      document.body.style.backgroundColor = '#fff';
     }
   }, [isAuthen]);
 
@@ -56,7 +54,6 @@ function App() {
         <React.StrictMode>
           <Header />
           <SideBar />
-
           <Routes>
             <Route path="/mails/:category" element={<Mails />} />
             <Route path="/chats" element={<Chats />} />

@@ -12,8 +12,8 @@ function Settings() {
     <div
       className="page"
       style={{
-        marginTop: 68,
         marginLeft: 85,
+        height: '100vh',
         display: 'flex',
         flexDirection: 'row',
       }}
