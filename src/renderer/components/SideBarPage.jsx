@@ -6,11 +6,8 @@ import SearchChat from './SearchChat';
 import noConver from '../assets/noConvers.png';
 import Empty from './Empty';
 import NewMessage from '../components/Newmessage';
-<<<<<<< HEAD
 import '../styles/mails.css';
-=======
 import SideBarButton from './SideBarButton';
->>>>>>> 64eaa440f70e5f8751c49f209ed0694d1b36cc31
 
 function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
   return (
@@ -27,7 +24,6 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
           height={85}
         />
       ) : (
-<<<<<<< HEAD
         <div className="side-bar-page">
           <nav style={{ marginTop: 65 }}>
             {elements.map((item, index) => (
@@ -41,19 +37,17 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
             ))}
           </nav>
         </div>
-=======
-        <nav style={{ marginTop: '.5rem' }}>
-          {elements.map((item, index) => (
-            <NavLink
-              to={`/${path}/${item}`}
-              key={`${index}-${item}`}
-              className="nav-item"
-            >
-              {item.replace(/_/g, ' ')}
-            </NavLink>
-          ))}
-        </nav>
->>>>>>> 64eaa440f70e5f8751c49f209ed0694d1b36cc31
+        // <nav style={{ marginTop: '.5rem' }}>
+        //   {elements.map((item, index) => (
+        //     <NavLink
+        //       to={`/${path}/${item}`}
+        //       key={`${index}-${item}`}
+        //       className="nav-item"
+        //     >
+        //       {item.replace(/_/g, ' ')}
+        //     </NavLink>
+        //   ))}
+        // </nav>
       )}
 
       {path === 'chats' && !showNewMessage && (
