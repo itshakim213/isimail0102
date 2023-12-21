@@ -6,6 +6,7 @@ import SearchChat from './SearchChat';
 import noConver from '../assets/noConvers.png';
 import Empty from './Empty';
 import NewMessage from '../components/Newmessage';
+import '../styles/mails.css';
 
 function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
   return (
@@ -30,7 +31,7 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
                 key={`${index}-${item}`}
                 className="nav-item"
               >
-                {item.replace(/_/g, ' ')}
+                {item}
               </NavLink>
             ))}
           </nav>
