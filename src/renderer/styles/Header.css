@@ -1,6 +1,7 @@
 header {
-    background-color: none;
+    background-color: #fff;
     border-bottom: 2px solid #AEEFEB;
+    height: 10vh;
     width: calc(100% - 70px);
     position: fixed;
     margin-left: 69px;

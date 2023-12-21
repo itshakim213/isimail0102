@@ -1,12 +1,15 @@
 .side-bar-page {
-  width: 320px;
+  width: 18vw;
   background-color: #1a2e62;
-  height: 100vh;
+  border-right: 2px solid #aeefeb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .nav-item {
-  padding: 15px 5px 15px 25px;
-  margin-right: 10px;
+  padding: 1rem 2rem 1rem 1rem;
+  margin-right: 2.5rem;
   font-size: 13px;
   display: block;
   text-decoration: none;

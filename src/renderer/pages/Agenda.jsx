@@ -15,7 +15,6 @@ function Agenda() {
     <div
       className="page"
       style={{
-        marginTop: 68,
         marginLeft: 85,
         display: 'flex',
         flexDirection: 'row',

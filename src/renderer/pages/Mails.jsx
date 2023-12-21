@@ -21,8 +21,9 @@ function Mails() {
     <div
       className="page"
       style={{
-        marginTop: 68,
         marginLeft: 85,
+        height: '100vh',
+        backgroundColor: '#fff',
         display: 'flex',
         flexDirection: 'row',
       }}
