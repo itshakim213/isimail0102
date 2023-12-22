@@ -27,6 +27,11 @@ function App() {
     setIsAuthen(true);
     // Peut-être rediriger l'utilisateur vers une page spécifique ici
   };
+
+  const handleLogout = () => {
+    setIsAuthen(false);
+  };
+
   useEffect(() => {
     if (isAuthen) {
       document.body.style.backgroundColor = '#fff';
@@ -52,7 +57,7 @@ function App() {
         </div>
       ) : (
         <React.StrictMode>
-          <Header />
+          <Header handleLogout={handleLogout} />
           <SideBar />
           <Routes>
             <Route path="/mails/:category" element={<Mails />} />
