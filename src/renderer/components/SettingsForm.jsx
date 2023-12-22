@@ -18,6 +18,7 @@ function SettingsForm() {
           <label for="dark">Sombre</label>
         </div>
       </div>
+
       <div className="setting-box">
         <label className="option">Action pour les notification</label>
         <div className="values">
@@ -29,7 +30,9 @@ function SettingsForm() {
           <label for="supprimer">Supprimer</label>
         </div>
       </div>
+
       <div className="setting-box">Gestion des notification</div>
+
       <div className="setting-box">
         <label className="option">Densite de la list des conversation</label>
         <div className="values">
@@ -45,6 +48,7 @@ function SettingsForm() {
           <label for="compact">compact</label>
         </div>
       </div>
+
       <div className="setting-box">
         <label className="option">Type de reponse au mails/chats</label>
         <div className="values">
@@ -59,18 +63,30 @@ function SettingsForm() {
       <div className="setting-checkbox">
         <label className="option">Confirmer les actions</label>
         <div className="values">
-          <input type="checkbox" id="suppression" name="suppression" />
-          <label for="suppression">Confirmer avant suppression</label>
+          <input type="radio" id="suppression" name="suppression" value="suppression" />
+          <label htmlFor="suppression">Confirmer avant suppression</label>
         </div>
         <div className="values">
-          <input type="checkbox" id="archivage" name="archivage" />
-          <label for="archivage">Confirmer avant archivage</label>
+          <input type="radio" id="archivage" name="archivage" value ="archivage" />
+          <label htmlFor="archivage">Confirmer avant archivage</label>
         </div>
         <div className="values">
-          <input type="checkbox" id="envoi" name="envoi" />
-          <label for="envoi">Confirmer avant l'envoie</label>
+          <input type="radio" id="envoi" name="envoi" value = "envoi"/>
+          <label htmlFor="envoi">Confirmer avant l'envoie</label>
         </div>
       </div>
+      <script>
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      checkboxes.forEach(cb => {
+        if (cb !== this) {
+          cb.checked = false;
+        }
+      });
+    });
+  });
+</script>
     </form>
   );
 }
