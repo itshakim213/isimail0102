@@ -23,7 +23,7 @@ function Header({ handleLogout }) {
           />
         </li>
         <li>
-          <Link>
+          <button style={{ background: 'none', border: 'none' }}>
             <img
               src={share}
               alt="share-icon"
@@ -31,7 +31,7 @@ function Header({ handleLogout }) {
               height={32}
               onClick={logout}
             />
-          </Link>
+          </button>
         </li>
       </ul>
     </header>

@@ -52,29 +52,17 @@ function Signup({ handleLogin }) {
         alert('Connexion réussie !');
         console.log(userItem);
         handleLogin();
-        navigate('/');
+        navigate('/mails/boite_de_reception');
       })
       .catch((error) => {
         console.error(error);
         setError(true); // Set error if API call fails
+        setIsSubmitted(false);
         alert(
           "Une erreur est survenue lors de l'inscription. Veuillez réessayer.",
         );
       });
   }
-  // function submit(e) {
-  //   e.preventDefault();
-  //   const userData = addUser();
-  //   if (!error) {
-  //     sessionStorage.setItem('user', JSON.stringify(userData));
-  //     const userItem = JSON.parse(sessionStorage.getItem('user'));
-  //     setIsSubmitted(true);
-  //     alert('Connexion réussie !');
-  //     console.log(userItem);
-  //     handleLogin();
-  //     navigate('/');
-  //   }
-  // }
 
   useEffect(() => {
     if (isSubmitted) {
