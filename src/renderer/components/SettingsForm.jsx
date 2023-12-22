@@ -38,7 +38,11 @@ function SettingsForm() {
         </div>
         <div className="values">
           <input type="radio" id="normal" name="densite" />
-          <label for="normal">Normal compact</label>
+          <label for="normal">Normal</label>
+        </div>
+        <div className="values">
+          <input type="radio" id="normal" name="densite" />
+          <label for="compact">compact</label>
         </div>
       </div>
       <div className="setting-box">
