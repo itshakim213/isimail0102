@@ -79,7 +79,6 @@ function SettingsForm() {
         </div>
       </div>
     </form>
-
   );
 }
 export default SettingsForm;
