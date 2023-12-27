@@ -17,8 +17,9 @@ const mailSchema = new mongoose.Schema({
   message: {
     type: String,
   },
-  date: {
-    type: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
   //   attachmentId: {
   //     type: mongoose.Schema.Types.ObjectId,
