@@ -21,6 +21,11 @@ import Newmessage from './components/Newmessage';
 function App() {
   const [isAuthen, setIsAuthen] = useState(false);
 
+  const handleLogout = () => {
+    console.log('Logging out...'); // Ajout d'un message de test
+    setIsAuthen(false);
+  };
+
   // Fonction pour mettre à jour l'état d'authentification après la connexion réussie
   const handleLogin = () => {
     // Après l'authentification réussie, mettre setIsAuthen à true
@@ -52,7 +57,7 @@ function App() {
         </div>
       ) : (
         <React.StrictMode>
-          <Header />
+          <Header handleLogout={handleLogout} />
           <SideBar />
           <Routes>
             <Route path="/mails/:category" element={<Mails />} />

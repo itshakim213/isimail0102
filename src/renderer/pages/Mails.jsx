@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SideBarPage from '../components/SideBarPage';
 import PageList from '../components/PageList';
 import PageSelectCont from '../components/PageSelectCont';
-import MailItem from '../components/MailItem'; // Importe MailItem
+import MailList from '../components/MailList'; // Importe MailItem
 
 function Mails() {
   const [showNewMessage, setShowNewMessage] = useState(false);

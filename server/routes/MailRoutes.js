@@ -6,19 +6,17 @@ const bcrypt = require('bcrypt');
 
 //Cette route gère l'inscription des utilisateurs. Lorsqu'un client envoie une requête POST
 router.post('/newmessage', async (req, res) => {
-  console.log('New message is added successfully !');
+  console.log('New mail was sent successfully !');
   try {
-    const { from, to, subject, message } = req.body;
+    const { to, subject, message } = req.body;
 
-    const userFrom = await userModel.findOne({ email: from });
     const userTo = await userModel.findOne({ email: to });
 
-    if (!userFrom || !userTo) {
+    if (!userTo) {
       return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
     //On cree un nouvel user, qu'on sauvegarde dans la bdd
     const newMail = new MailModel({
-      from: userFrom._id,
       to: userTo._id,
       subject,
       message,
@@ -35,12 +33,12 @@ router.post('/newmessage', async (req, res) => {
   }
 });
 
-//crud
 router.get('/newmessage', async (req, res) => {
   console.log('Mails are retrieved ');
   try {
+    // Trouver les e-mails où le champ 'to' correspond à l'ID de l'utilisateur
     const mails = await MailModel.find()
-      .populate('from', 'firstname lastname email')
+      .populate('from', 'firstname lastname')
       .select('from subject message');
     res.status(200).json(mails);
   } catch (err) {

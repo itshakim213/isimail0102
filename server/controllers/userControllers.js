@@ -57,11 +57,8 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const authUser = asyncHandler(async (req, res) => {
   // Extraction des données du corps de la requête
-  const { email, password } = req.body;
-
-  // Recherche de l'utilisateur dans la base de données
+  const { email, password } = req.body; // Recherche de l'utilisateur dans la base de données
   const user = await User.findOne({ email });
-
   // Vérification du mot de passe
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -81,4 +78,25 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser };
+const searchUsers = asyncHandler(async (req, res) => {
+  try {
+    const keyword = req.query.search
+      ? {
+          // 'or' pour chercher des docs dans lesquels au moins yiweth de ces conditions est vraie,
+          $or: [
+            { firstname: { $regex: req.query.search, $options: 'i' } },
+            { lastname: { $regex: req.query.search, $options: 'i' } },
+            { email: { $regex: req.query.search, $options: 'i' } },
+          ],
+        }
+      : {};
+    // Recherche des user en fct de la condition construite et exclut user actuellement connecté...
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } }); // $ne ma3nas sauf user qui est connecté celui qui a fait la requete c not n sql
+    // res avec les user trouvés
+    res.send(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while search user ' });
+  }
+});
+module.exports = { registerUser, authUser, searchUsers };

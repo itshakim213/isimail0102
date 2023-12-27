@@ -4,7 +4,6 @@ import '../styles/Newmessage.css';
 import axios from 'axios';
 
 function Newmessage() {
-  const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -14,7 +13,6 @@ function Newmessage() {
 
     try {
       await axios.post('http://localhost:4001/api/newmessage', {
-        from,
         to,
         subject,
         message,
@@ -22,7 +20,6 @@ function Newmessage() {
         // attachmentId,
       });
       // Réinitialisation des champs après l'envoi
-      setFrom('');
       setTo('');
       setSubject('');
       setMessage('');
@@ -36,14 +33,6 @@ function Newmessage() {
   return (
     <body>
       <form className="form-sendMsg" onSubmit={submitForm}>
-        <input
-          className="input-sendMsg"
-          type="email"
-          placeholder="from"
-          required
-          value={from}
-          onChange={(e) => setFrom(e.target.value)}
-        />
         <input
           className="input-sendMsg"
           type="email"
