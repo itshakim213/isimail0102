@@ -12,13 +12,23 @@ function Newmessage() {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:4001/api/newmessage', {
-        to,
-        subject,
-        message,
-        // Assurez-vous que attachmentId est défini ou retiré de la requête si non utilisé
-        // attachmentId,
-      });
+      const token = localStorage.getItem('token');
+
+      await axios.post(
+        'http://localhost:4001/api/newmessage',
+        {
+          to,
+          subject,
+          message,
+          // Assurez-vous que attachmentId est défini ou retiré de la requête si non utilisé
+          // attachmentId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       // Réinitialisation des champs après l'envoi
       setTo('');
       setSubject('');
@@ -33,6 +43,10 @@ function Newmessage() {
   return (
     <body>
       <form className="form-sendMsg" onSubmit={submitForm}>
+        <br></br>
+        <p className="mail-send">Let's send an email</p>
+        <br></br>
+
         <input
           className="input-sendMsg"
           type="email"

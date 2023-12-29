@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SideBarPage from '../components/SideBarPage';
 import PageList from '../components/PageList';
 import PageSelectCont from '../components/PageSelectCont';
-import MailList from '../components/MailList'; // Importe MailItem
+import MailList from '../components/MailList';
 
 function Mails() {
   const [showNewMessage, setShowNewMessage] = useState(false);
@@ -32,7 +32,12 @@ function Mails() {
         elements={[
           <Link to="#" onClick={showNewMailList} className="mail-link">
             Boite de receptions
-          </Link> /* Autres liens */,
+          </Link>,
+          'Boite d envoie',
+          'Brouillons',
+          'Favoris',
+          'Spam',
+          'Corbeille',
         ]}
         path="mails"
         showNewMessageForm={showNewMessageForm}

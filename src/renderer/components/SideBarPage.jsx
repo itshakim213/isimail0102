@@ -9,12 +9,7 @@ import NewMessage from '../components/Newmessage';
 import '../styles/mails.css';
 import SideBarButton from './SideBarButton';
 
-function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElementClick }) {
-  const handleElementClick = (element) => {
-    if (onElementClick) {
-      onElementClick(element);
-    }
-  }
+function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
   return (
     <div className="side-bar-page">
       {path === 'mails' && (
@@ -32,13 +27,16 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElem
         <div className="side-bar-page">
           <nav style={{ marginTop: 65 }}>
             {elements.map((item, index) => (
-              <div key={`${index}-${item}`} onClick={() => handleElementClick(item)} className="nav-item">
-              {item}
-            </div>
+              <NavLink
+                to={`/${path}/${item}`}
+                key={`${index}-${item}`}
+                className="nav-item"
+              >
+                {item}
+              </NavLink>
             ))}
           </nav>
         </div>
-
         // <nav style={{ marginTop: '.5rem' }}>
         //   {elements.map((item, index) => (
         //     <NavLink

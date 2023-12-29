@@ -32,7 +32,6 @@ function App() {
     setIsAuthen(true);
     // Peut-être rediriger l'utilisateur vers une page spécifique ici
   };
-
   useEffect(() => {
     if (isAuthen) {
       document.body.style.backgroundColor = '#fff';
