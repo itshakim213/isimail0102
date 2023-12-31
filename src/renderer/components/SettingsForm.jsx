@@ -63,19 +63,29 @@ function SettingsForm() {
       <div className="setting-checkbox">
         <label className="option">Confirmer les actions</label>
         <div className="values">
-          <input type="radio" id="suppression" name="suppression" value="suppression" />
+          <input
+            type="radio"
+            id="suppression"
+            name="suppression"
+            value="suppression"
+          />
           <label htmlFor="suppression">Confirmer avant suppression</label>
         </div>
         <div className="values">
-          <input type="radio" id="archivage" name="archivage" value ="archivage" />
+          <input
+            type="radio"
+            id="archivage"
+            name="archivage"
+            value="archivage"
+          />
           <label htmlFor="archivage">Confirmer avant archivage</label>
         </div>
         <div className="values">
-          <input type="radio" id="envoi" name="envoi" value = "envoi"/>
+          <input type="radio" id="envoi" name="envoi" value="envoi" />
           <label htmlFor="envoi">Confirmer avant l'envoie</label>
         </div>
       </div>
-      <script>
+      {/* <script>
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', function() {
@@ -86,7 +96,7 @@ function SettingsForm() {
       });
     });
   });
-</script>
+</script> */}
     </form>
   );
 }

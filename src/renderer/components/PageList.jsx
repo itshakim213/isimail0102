@@ -1,10 +1,12 @@
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Empty from './Empty';
 import noMails from '../assets/noMails.png';
 import noFiles from '../assets/noFiles.png';
 import noContact from '../assets/noContact.png';
 import '../styles/PageList.css';
 import MailItem from '../components//MailItem';
+import { useEffect, useState } from 'react';
 
 function PageList(showNewMail, showNewMailList) {
   let locat = useLocation().pathname;
