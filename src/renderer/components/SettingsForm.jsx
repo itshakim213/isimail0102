@@ -75,18 +75,6 @@ function SettingsForm() {
           <label htmlFor="envoi">Confirmer avant l'envoie</label>
         </div>
       </div>
-      <script>
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      checkboxes.forEach(cb => {
-        if (cb !== this) {
-          cb.checked = false;
-        }
-      });
-    });
-  });
-</script>
     </form>
   );
 }

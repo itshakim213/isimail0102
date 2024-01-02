@@ -7,6 +7,8 @@ const chatRoutes = require('./routes/chatRoutes');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 const messageRoutes = require('./routes/messageRoutes');
 const mailRoutes = require('./routes/MailRoutes');
+const mailRouteSI = require('./routes/mailRouteSI');
+const mailBoxRoutes = require('./routes/mailBoxRoutes');
 
 const app = express();
 dotenv.config();
@@ -26,6 +28,8 @@ app.use('/api/chat', chatRoutes);
 // creer une api pour l'envoi des messages
 app.use('/api/message', messageRoutes);
 app.use('/api', mailRoutes);
+app.use('/api/mail', mailRouteSI);
+app.use('/api/retrieve', mailBoxRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
