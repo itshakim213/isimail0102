@@ -20,17 +20,17 @@ import Newmessage from './components/Newmessage';
 function App() {
   const [isAuthen, setIsAuthen] = useState(false);
 
+  const handleLogout = () => {
+    console.log('Logging out...'); // Ajout d'un message de test
+    setIsAuthen(false);
+  };
+
   // Fonction pour mettre à jour l'état d'authentification après la connexion réussie
   const handleLogin = () => {
     // Après l'authentification réussie, mettre setIsAuthen à true
     setIsAuthen(true);
     // Peut-être rediriger l'utilisateur vers une page spécifique ici
   };
-
-  const handleLogout = () => {
-    setIsAuthen(false);
-  };
-
   useEffect(() => {
     if (isAuthen) {
       document.body.style.backgroundColor = '#fff';

@@ -5,8 +5,7 @@ import noMails from '../assets/noMails.png';
 import noFiles from '../assets/noFiles.png';
 import noContact from '../assets/noContact.png';
 import '../styles/PageList.css';
-import MailItem from '../components//MailItem';
-import { useEffect, useState } from 'react';
+import MailList from '../components/MailList';
 
 function PageList(showNewMail, showNewMailList) {
   let locat = useLocation().pathname;
@@ -22,7 +21,7 @@ function PageList(showNewMail, showNewMailList) {
         }}
       >
         {showNewMail ? (
-          <MailItem />
+          <MailList />
         ) : (
           <Empty
             image={noMails}

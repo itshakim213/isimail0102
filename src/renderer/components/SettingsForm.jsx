@@ -18,7 +18,6 @@ function SettingsForm() {
           <label for="dark">Sombre</label>
         </div>
       </div>
-
       <div className="setting-box">
         <label className="option">Action pour les notification</label>
         <div className="values">
@@ -30,9 +29,7 @@ function SettingsForm() {
           <label for="supprimer">Supprimer</label>
         </div>
       </div>
-
       <div className="setting-box">Gestion des notification</div>
-
       <div className="setting-box">
         <label className="option">Densite de la list des conversation</label>
         <div className="values">
@@ -41,14 +38,9 @@ function SettingsForm() {
         </div>
         <div className="values">
           <input type="radio" id="normal" name="densite" />
-          <label for="normal">Normal</label>
-        </div>
-        <div className="values">
-          <input type="radio" id="normal" name="densite" />
-          <label for="compact">compact</label>
+          <label for="normal">Normal compact</label>
         </div>
       </div>
-
       <div className="setting-box">
         <label className="option">Type de reponse au mails/chats</label>
         <div className="values">
@@ -63,25 +55,15 @@ function SettingsForm() {
       <div className="setting-checkbox">
         <label className="option">Confirmer les actions</label>
         <div className="values">
-          <input
-            type="radio"
-            id="suppression"
-            name="suppression"
-            value="suppression"
-          />
+          <input type="radio" id="suppression" name="suppression" value="suppression" />
           <label htmlFor="suppression">Confirmer avant suppression</label>
         </div>
         <div className="values">
-          <input
-            type="radio"
-            id="archivage"
-            name="archivage"
-            value="archivage"
-          />
+          <input type="radio" id="archivage" name="archivage" value ="archivage" />
           <label htmlFor="archivage">Confirmer avant archivage</label>
         </div>
         <div className="values">
-          <input type="radio" id="envoi" name="envoi" value="envoi" />
+          <input type="radio" id="envoi" name="envoi" value = "envoi"/>
           <label htmlFor="envoi">Confirmer avant l'envoie</label>
         </div>
       </div>

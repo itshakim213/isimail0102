@@ -4,7 +4,6 @@ import '../styles/Newmessage.css';
 import axios from 'axios';
 
 function Newmessage() {
-  const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -13,16 +12,24 @@ function Newmessage() {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:4001/api/newmessage', {
-        from,
-        to,
-        subject,
-        message,
-        // Assurez-vous que attachmentId est défini ou retiré de la requête si non utilisé
-        // attachmentId,
-      });
+      const token = localStorage.getItem('token');
+
+      await axios.post(
+        'http://localhost:4001/api/newmessage',
+        {
+          to,
+          subject,
+          message,
+          // Assurez-vous que attachmentId est défini ou retiré de la requête si non utilisé
+          // attachmentId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       // Réinitialisation des champs après l'envoi
-      setFrom('');
       setTo('');
       setSubject('');
       setMessage('');
@@ -36,14 +43,10 @@ function Newmessage() {
   return (
     <body>
       <form className="form-sendMsg" onSubmit={submitForm}>
-        <input
-          className="input-sendMsg"
-          type="email"
-          placeholder="from"
-          required
-          value={from}
-          onChange={(e) => setFrom(e.target.value)}
-        />
+        <br></br>
+        <p className="mail-send">Let's send an email</p>
+        <br></br>
+
         <input
           className="input-sendMsg"
           type="email"
