@@ -5,9 +5,8 @@ import SettingsForm from '../components/SettingsForm';
 function Settings() {
   let elems = [
     'Parametre Generals',
-    'samia.abbadja@fgei.ummto.dz',
-    'lbiochimi45@gmail.com',
-    'l2informatique02@yahoo.fr',
+    'mohanddjouadi@gmail.com',
+    'mohanddjouadi.@fgei.ummto.dz',
   ];
   return (
     <div

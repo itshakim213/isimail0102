@@ -4,44 +4,37 @@ import '../styles/Newmessage.css';
 import axios from 'axios';
 
 function Newmessage() {
-  const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
-  const [attachment, setAttachment] = useState(null);
+  //const [attachment, setAttachment] = useState(null);
 
   async function submitForm(e) {
     e.preventDefault();
 
     try {
-      const formData = new FormData(); // on utilise form Data pr envoyer des données et des fichiers
+      const token = localStorage.getItem('token');
 
-      formData.append('from', from);
-      formData.append('to', to);
-      formData.append('subject', subject);
-      formData.append('message', message);
-      if (attachment) {
-        formData.append('attachment', attachment);
-      }
-
-      await axios.post('http://localhost:4001/api/newmessage', formData);
-      //{
-      //  from,
-      //  to,
-      //  subject,
-      //  message,
-      //  attachment,
-
-      // Assurez-vous que attachmentId est défini ou retiré de la requête si non utilisé
-      // attachmentId,
-      //}
-      //);
+      await axios.post(
+        'http://localhost:4001/api/newmessage',
+        {
+          to,
+          subject,
+          message,
+          // Assurez-vous que attachmentId est défini ou retiré de la requête si non utilisé
+          //attachment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       // Réinitialisation des champs après l'envoi
-      setFrom('');
       setTo('');
       setSubject('');
       setMessage('');
-      setAttachment(null);
+      //setAttachment(null);
       // Réinitialiser attachmentId si utilisé
       // setAttachmentId('');
     } catch (error) {
@@ -70,14 +63,10 @@ function Newmessage() {
   return (
     <body>
       <form className="form-sendMsg" onSubmit={submitForm}>
-        <input
-          className="input-sendMsg"
-          type="email"
-          placeholder="from"
-          required
-          value={from}
-          onChange={(e) => setFrom(e.target.value)}
-        />
+        <br></br>
+        <p className="mail-send">Let's send an email</p>
+        <br></br>
+
         <input
           className="input-sendMsg"
           type="email"

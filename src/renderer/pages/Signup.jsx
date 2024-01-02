@@ -52,12 +52,11 @@ function Signup({ handleLogin }) {
         alert('Connexion réussie !');
         console.log(userItem);
         handleLogin();
-        navigate('/mails/boite_de_reception');
+        navigate('/');
       })
       .catch((error) => {
         console.error(error);
         setError(true); // Set error if API call fails
-        setIsSubmitted(false);
         alert(
           "Une erreur est survenue lors de l'inscription. Veuillez réessayer.",
         );
@@ -74,24 +73,6 @@ function Signup({ handleLogin }) {
     }
   }, [isSubmitted]);
 
-  const handleEmailChange = (e) => {
-    const inputValue = e.target.value;
-    // Vérifier si le '@' est présent dans la valeur saisie
-    const atIndex = inputValue.indexOf('@');
-    if (atIndex !== -1) {
-      // Séparer la partie avant et après '@'
-      const beforeAt = inputValue.substring(0, atIndex); // Partie avant '@'
-      const afterAt = inputValue.substring(atIndex); // Partie après '@'
-      // Si la partie avant '@' dépasse 0 caractère et la partie après '@' commence par '@talkmail'
-      if (beforeAt.length > 0 && afterAt.startsWith('@talkmail')) {
-        // Mettre à jour l'état email uniquement avec la partie avant '@' et '@talkmail'
-        setemail(`${beforeAt}@talkmail`);
-      }
-    } else {
-      // Si aucun '@' n'est saisi, mettre à jour l'état email normalement
-      setemail(inputValue);
-    }
-  };
   return (
     <div className="signup-container">
       <div className="left-section">

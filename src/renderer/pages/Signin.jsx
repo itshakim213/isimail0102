@@ -28,6 +28,8 @@ function Signin({ handleLogin }) {
         },
         config,
       );
+      // met en place le token
+      window.localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -47,7 +49,7 @@ function Signin({ handleLogin }) {
       setIsSubmitted(true);
       alert('Connexion réussie !');
       handleLogin();
-      navigate('/mails/Boite_de_reception');
+      navigate('/');
     }).catch((error) => {
       console.log(error);
       setError(true);
