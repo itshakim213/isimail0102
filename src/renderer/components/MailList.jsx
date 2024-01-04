@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import '../styles/mailist.css';
+// import { useQuery } from 'react-query';
 
 function MailList() {
   const [mails, setMails] = useState([]);
@@ -33,6 +34,33 @@ function MailList() {
   useEffect(() => {
     fetchMails();
   }, []);
+
+// function MailList ()  {
+//   async function fetchMails() {
+//     try {
+//       const token = localStorage.getItem('token');
+//       const config = {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       };
+//       const response = await axios.get(
+//         'http://localhost:4001/api/newmessage',
+//         config,
+//       );
+//       return response.data;
+//     } catch (error) {
+//       throw new Error('Failed to fetch mails');
+//     }
+//   }
+//   const { data: mails, isLoading, isError } = useQuery('mails', fetchMails);
+//   if (isLoading) {
+//     return <p>Chargement en cours</p>;
+//   }
+//   if (isError) {
+//     return <p>Erreur lors du chargement des mails</p>;
+//   }
+
 
   return (
     <div className="mail-item" style={{ overflowY: 'auto', height: '100%' }}>

@@ -48,6 +48,8 @@ const userSchema = new mongoose.Schema({
     },
   },
   isAdmin: { type: Boolean, default: false },
+  securityAnswer: { type: String },
+  isResettingPassword: { type: Boolean, default: false },
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {

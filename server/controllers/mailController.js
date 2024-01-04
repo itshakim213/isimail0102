@@ -7,6 +7,8 @@ const BSON = require('bson');
 const AttachmentModel = require('../models/AttachmentModel');
 const multer = require('multer');
 
+const mongoose = require('mongoose');
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/'); // dossier anda on stock les fichiers
@@ -118,8 +120,6 @@ const receiveEmail = asyncHandler(async (req, res) => {
   }
 });
 
-
-
 // Toggle starred email en relation avec le bttn etoile dont je vous ai parlé
 // en faite c une basculation c pour ça ilaq ansekhdhem put machi post
 // di route vous allez trv que j'ai utiliser put et pas post
@@ -128,40 +128,50 @@ const receiveEmail = asyncHandler(async (req, res) => {
 // et quand tu le retire s put ad yekhdhem une MàJ
 const toggleStarredEmail = asyncHandler(async (req, res) => {
   try {
-    // mail id et la valuer de l'etoile nni
-    const { emailId, value } = req.body;
-    // chrche si yella le mail dans mail model qvel
-    const mail = await MailModel.findById(emailId);
+    const { mailId, value } = req.body;
+    const mail = await MailModel.findById(mailId);
+    console.log('Found Mail:', mail);
     if (!mail) {
-      return res.status(404).json({ error: 'Mail not found' }); // sinon 404
+      return res.status(404).json({ error: 'Mail not found' });
     }
 
-    mail.starred = value; // changé la valuer de leoille
-    await mail.save(); // et l' enregistrer
+    console.log('Mail ID:', mailId);
+    console.log('Mail Object:', mail);
 
-    const starredMailbox = await MailBoxModel.findOne({ name: 'Starred' }); // ca c comme d hab
+    let starredMailbox = await MailBoxModel.findOne({ name: 'Starred' });
+    console.log('Starred Mailbox:', starredMailbox);
     if (!starredMailbox) {
       return res.status(404).json({ error: 'Starred mailbox not found' });
     }
-    // si la valuer chenge genre cliqué negh activé anyway donc on ajooute ce mail er dossir favoris
-    if (value) {
-      // genre si yech3el etoile nni donc on lajout ar favoris
-      starredMailbox.mails.push(mail._id);
-    } else {
-      // ma thekhsi on le retire si favoris
-      //on recupere index de mail en qst
-      const index = starredMailbox.mails.indexOf(mail._id);
-      // avec l index genre le vecteur nni n mails [] ad ksedh sges yiwen
-      if (index > -1) {
-        starredMailbox.mails.splice(index, 1);
+
+    // if (value) {
+    //   starredMailbox.mails.addToSet(new mongoose.Types.ObjectId(mailId));
+    // } else {
+    //   starredMailbox.mails.pull(new mongoose.Types.ObjectId(mailId));
+    // }
+
+    if (mongoose.Types.ObjectId.isValid(mailId)) {
+      const objectId = new mongoose.Types.ObjectId(mailId);
+
+      if (value) {
+        if (!starredMailbox.mails.some((id) => id.equals(objectId))) {
+          starredMailbox.mails.push(objectId);
+        }
+      } else {
+        starredMailbox.mails = starredMailbox.mails.filter(
+          (id) => !id.equals(objectId),
+        );
       }
+
+      
+      await starredMailbox.save();
+    } else {
+      res.status(400).json({ error: 'Invalid mail ID' });
     }
 
-    await starredMailbox.save(); // saving it ;p
-
-    res.status(201).json('Value is updated'); // MàJ
+    res.status(201).json('Value is updated');
   } catch (error) {
-    res.status(500).json({ error: error.message }); // bjnr
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -195,14 +205,14 @@ const moveToBin = asyncHandler(async (req, res) => {
 //supprimer  un mail carrément
 const deleteMail = asyncHandler(async (req, res) => {
   try {
-    const { mailId, userId } = req.body;
+    const { mailId } = req.body;
 
-    const mail = await MailModel.findOne({ _id: mailId, to: userId });
+    const mail = await MailModel.findOne({ _id: mailId });
     if (!mail) {
       return res.status(404).json({ error: 'Mail not found' });
     }
 
-    await MailModel.findByIdAndDelete(mailId); // ca c delete pr de beau
+    await MailModel.findByIdAndDelete(mail); // ca c delete pr de beau
 
     res.status(200).json('Mail deleted');
   } catch (error) {
