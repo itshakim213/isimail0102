@@ -1,0 +1,80 @@
+.account-settings-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #000000;
+}
+
+.setting-box {
+  padding: 0.5vh 1vw;
+  overflow: hidden;
+  background-color: rgba(126, 123, 123, 0.2);
+  width: 60vw;
+  margin: 7px 0 6px 3vw;
+  position: relative;
+}
+
+.option {
+  float: left;
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type='text'],
+input[type='email'] {
+  width: calc(100% - 5px);
+  padding: 1px;
+  margin: 1px 0;
+  border: 0.5px solid #ccc;
+  border-radius: 3px;
+}
+
+input[type='password'] {
+  width: calc(100% - 10px);
+  padding: 2px;
+  margin: 2px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+button[type='submit'] {
+  padding: 8px 10px;
+  background-color: #3850bbe8;
+  color: #ffffff;
+  border: 1;
+  cursor: pointer;
+  margin-top: 4px;
+  border-radius: 10px;
+}
+
+button[type='submit']:hover {
+  background-color: #608bbd;
+}
+
+.logout-button {
+  padding: 8px 20px;
+  background-color: #3850bbe8;
+  color: #ffffff;
+  border: 1;
+  cursor: pointer;
+  margin-top: 10px;
+  float: right;
+  border-radius: 10px;
+}
+
+.logout-button:hover {
+  background-color: #608bbd;
+}
+.delete-account-button {
+  padding: 8px 10px;
+  background-color: #3850bbe8;
+  color: #ffffff;
+  border: 1;
+  cursor: pointer;
+  float: right;
+  border-radius: 10px;
+}
+
+.delete-account-button:hover {
+  background-color: #608bbd;
+}

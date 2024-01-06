@@ -9,7 +9,7 @@ import NewMessage from '../components/Newmessage';
 import '../styles/mails.css';
 import SideBarButton from './SideBarButton';
 
-function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElementClick }) {
+function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElementClick}) {
   const handleElementClick = (element) => {
     if (onElementClick) {
       onElementClick(element);
@@ -39,18 +39,7 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElem
           </nav>
         </div>
 
-        // <nav style={{ marginTop: '.5rem' }}>
-        //   {elements.map((item, index) => (
-        //     <NavLink
-        //       to={`/${path}/${item}`}
-        //       key={`${index}-${item}`}
-        //       className="nav-item"
-        //     >
-        //       {item.replace(/_/g, ' ')}
-        //     </NavLink>
-        //   ))}
-        // </nav>
-      )}
+        )}
 
       {path === 'chats' && !showNewMessage && (
         <SideBarButton text="Ajouter Conversation" />
