@@ -28,6 +28,8 @@ function Signin({ handleLogin }) {
         },
         config,
       );
+      // met en place le token
+      window.localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -37,24 +39,44 @@ function Signin({ handleLogin }) {
     }
   }
 
+  // async function submit(e) {
+  //   e.preventDefault();
+  //   setError(false);
+  //   const LoadUserPromise = LoadUser();
+  //   LoadUserPromise.then((userData) => {
+  //     sessionStorage.setItem('user', JSON.stringify(userData));
+  //     const userItem = JSON.parse(sessionStorage.getItem('user'));
+  //     setIsSubmitted(true);
+  //     alert('Connexion réussie !');
+  //     handleLogin();
+  //     navigate('/mails/boite_de_reception');
+  //   }).catch((error) => {
+  //     console.log(error);
+  //     setError(true);
+  //     alert(
+  //       "Une erreur est survenue lors de l'authentification. Veuillez réessayer.",
+  //     );
+  //   });
+  // }
+
   async function submit(e) {
     e.preventDefault();
     setError(false);
-    const LoadUserPromise = LoadUser();
-    LoadUserPromise.then((userData) => {
+
+    try {
+      const userData = await LoadUser();
       sessionStorage.setItem('user', JSON.stringify(userData));
-      const userItem = JSON.parse(sessionStorage.getItem('user'));
       setIsSubmitted(true);
       alert('Connexion réussie !');
       handleLogin();
-      navigate('/mails/Boite_de_reception');
-    }).catch((error) => {
+      navigate('/mails/boite_de_reception');
+    } catch (error) {
       console.log(error);
       setError(true);
       alert(
         "Une erreur est survenue lors de l'authentification. Veuillez réessayer.",
       );
-    });
+    }
   }
 
   useEffect(() => {

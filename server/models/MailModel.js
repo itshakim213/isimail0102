@@ -20,12 +20,12 @@ const mailSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-  }
-  //   attachmentId: {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'AttachmentModel',
-  //   },
+  },
+  attachments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AttachmentModel',
+  }],
 });
 // modele pour la collection Mail
-const MailModel = mongoose.model('Mail', mailSchema);
+const MailModel = mongoose.model('MailModel', mailSchema);
 module.exports = MailModel;

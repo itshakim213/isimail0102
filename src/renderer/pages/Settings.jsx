@@ -1,19 +1,21 @@
+<<<<<<< HEAD
 
 import React, { useState, useEffect } from 'react';
+=======
+import React from 'react';
+>>>>>>> 22729ff27e709bd503b144d9878c537fc132efc2
 import SideBarPage from '../components/SideBarPage';
 import SettingsForm from '../components/SettingsForm';
 import AccountSettingsForm from '../components/AccountSettingsForm';
 
 
 function Settings() {
-  const [selectedElement, setSelectedElement] = useState('Parametre Generals');
-
   let elems = [
     'Parametre Generals',
-    'samia.abbadja@fgei.ummto.dz',
-    'lbiochimi45@gmail.com',
-    'l2informatique02@yahoo.fr',
+    'mohanddjouadi@gmail.com',
+    'mohanddjouadi.@fgei.ummto.dz',
   ];
+<<<<<<< HEAD
 
 
   useEffect(() => {
@@ -39,6 +41,8 @@ function Settings() {
     return <SettingsForm />;
   };
 
+=======
+>>>>>>> 22729ff27e709bd503b144d9878c537fc132efc2
   return (
     <div
       className="page"
@@ -49,12 +53,17 @@ function Settings() {
         flexDirection: 'row',
       }}
     >
+<<<<<<< HEAD
       <SideBarPage
        elements={elems} path="settings" onElementClick={handleElementClick} />
 
       {renderForm()}
 
 
+=======
+      <SideBarPage elements={elems} path="settings" />
+      <SettingsForm />
+>>>>>>> 22729ff27e709bd503b144d9878c537fc132efc2
     </div>
 
   );
