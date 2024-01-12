@@ -66,10 +66,8 @@
 .eye-icon-inner {
   font-size: 1.2em;
   color: gray;
-  /* Changer la couleur en gris */
 }
 
 .eye-icon.show .eye-icon-inner {
   color: black;
-  /* Changer la couleur en noir quand l'œil est ouvert */
 }

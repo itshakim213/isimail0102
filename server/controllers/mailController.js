@@ -188,6 +188,7 @@ const moveToBin = asyncHandler(async (req, res) => {
     }
     console.log('Found Mail:', mail); // l'afficher
 
+    // comme d'hab :-/
     const binMailbox = await MailBoxModel.findOne({
       userId: currentuser._id,
       name: 'Bin',
@@ -199,17 +200,17 @@ const moveToBin = asyncHandler(async (req, res) => {
     const BinValue = mail.bin;
 
     if (BinValue === false) {
-      // Set 'bin' to true and move the mail to the bin mailbox
+      // bin attoughal true et on l'ajoute ar bin mail box
       mail.bin = true;
       binMailbox.mails.push(mail._id);
     } else {
-      // Set 'bin' to false and restore the mail to its original mailbox
+      // bin attoughal false et attoughal ansii dussa
       mail.bin = false;
       binMailbox.mails.pull(mail._id);
     }
 
-    await mail.save();
-    await binMailbox.save();
+    await mail.save();// sauvegarder les changements
+    await binMailbox.save();// Màj de dossier bin
 
     console.log('Bin Mailbox:', binMailbox);
 
