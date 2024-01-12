@@ -12,9 +12,10 @@ const mailBoxSchema = new mongoose.Schema({
   mails: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'MailModel'
-    }
+      ref: 'MailModel',
+    },
   ],
+  // starredEmails: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MailModel' }],
 });
 const MailBoxModel = mongoose.model('MailBoxModel', mailBoxSchema);
 module.exports = MailBoxModel;

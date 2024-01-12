@@ -1,6 +1,5 @@
 const express = require('express');
 const User = require('../models/UserModel');
-// const MailModel = require ('../models/MailModel');
 const MailBoxModel = require('../models/MailBoxModel');
 const asyncHandler = require('express-async-handler');
 const MailModel = require ('../models/MailModel');
@@ -27,7 +26,7 @@ const retrieveMails = asyncHandler(async (req, res) => {
     // i used let machi const
     //let box = 'inbox'; nezmer daghen aka :p mais non
     //je cree une var ismis oubox
-    // si elle existe hamdullah on populate its datas
+    // si elle existe hamdullah on populate its datas sinon on la cree tt simplement
     let outbox = await MailBoxModel.findOne({
       userId: user._id,
       name: 'Outbox',
@@ -85,6 +84,25 @@ const retrieveMails = asyncHandler(async (req, res) => {
       });
     }
 
+    let important = await MailBoxModel.findOne({
+      userId: user._id,
+      name: 'Important',
+    }).populate({
+      path: 'mails',
+      populate: {
+        path: 'from',
+        select: 'firstname lastname email',
+      },
+    });
+
+    if (!important) {
+      important = await MailBoxModel.create({
+        userId: user._id,
+        name: 'Important',
+        mails: [],
+      });
+    }
+
     let bin = await MailBoxModel.findOne({
       userId: user._id,
       name: 'Bin',
@@ -109,9 +127,10 @@ const retrieveMails = asyncHandler(async (req, res) => {
       inbox: sortMailsByCreatedAt(inbox.mails),
       starred: sortMailsByCreatedAt(starred.mails),
       bin: sortMailsByCreatedAt(bin.mails),
+      important: sortMailsByCreatedAt(important.mails),
     });
   } catch (error) {
-    res.status(500).json({ error: error.message }); // yellis teqjunt thaki x)
+    res.status(500).json({ error: error.message }); // yellis tfamilt thaki x)
   }
 });
 
