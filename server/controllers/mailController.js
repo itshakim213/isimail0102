@@ -86,12 +86,20 @@ const sendEmail = asyncHandler(async (req, res) => {
         { upsert: true }, // Si la Outbox n'existe pas, on va la créer grace à upsert aki
       );
 
-      // update la Inbox (Boîte de réception) du destinataire
-      await MailBoxModel.findOneAndUpdate(
-        { userId: usersTo._id, name: 'Inbox' },
-        { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
-        { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
-      );
+      for (const userTo of usersTo) {
+        await MailBoxModel.findOneAndUpdate(
+          { userId: userTo._id, name: 'Inbox' },
+          { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
+          { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
+        );
+      }
+
+      // // update la Inbox (Boîte de réception) du destinataire
+      // await MailBoxModel.findOneAndUpdate(
+      //   { userId: usersTo._id, name: 'Inbox' },
+      //   { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
+      //   { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
+      // );
 
       // response msg
       res.status(200).json('mail sent successfully');

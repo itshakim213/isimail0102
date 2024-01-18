@@ -15,7 +15,11 @@ function MailList({ currentMailBox }) {
   console.log('Current Mailbox:', currentMailBox);
 
   // loading et error state de query react hoook
-  const { data: mails, isLoading, isError } = useQuery('mails', fetchMails);
+  const {
+    data: mails,
+    isLoading,
+    isError,
+  } = useQuery(['mails', mailboxFetch], fetchMails);
   async function fetchMails() {
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
@@ -39,7 +43,9 @@ function MailList({ currentMailBox }) {
       console.log(response.data);
 
       // assurer que data est array
-      return Array.isArray(response.data) ? response.data : [];
+      return Array.isArray(response.data[mailboxFetch])
+        ? response.data[mailboxFetch]
+        : [];
     } catch (error) {
       console.error('Error fetching mails:', error);
       throw error; // error React Query

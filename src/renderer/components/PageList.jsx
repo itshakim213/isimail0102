@@ -7,9 +7,7 @@ import '../styles/PageList.css';
 import MailList from '../components/MailList';
 
 function PageList(showNewMail, showNewMailList, currentMailBox) {
-  console.log(showNewMail);
-  console.log(showNewMailList);
-  console.log(currentMailBox);
+  console.log('test', { showNewMail, showNewMailList, currentMailBox });
   let locat = useLocation().pathname;
   let part = locat.split('/');
   if (part[1] === 'mails') {
@@ -23,7 +21,7 @@ function PageList(showNewMail, showNewMailList, currentMailBox) {
         }}
       >
         {showNewMail ? (
-          <MailList currentMailBox={currentMailBox} />
+          <MailList currentMailBox={showNewMail.currentMailBox} />
         ) : (
           <Empty
             image={noMails}

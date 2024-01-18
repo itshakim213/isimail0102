@@ -61,6 +61,7 @@ const retrieveMails = asyncHandler(async (req, res) => {
         select: 'firstname lastname email',
       },
     });
+    console.log('Inbox:', inbox);
 
     if (!inbox) {
       inbox = await MailBoxModel.create({
@@ -150,23 +151,16 @@ const retrieveMails = asyncHandler(async (req, res) => {
           .json({ error: 'Mailbox non spécifié ou invalide' });
     }
 
-    // console.log('selectedMailbox:', selectedMailbox);
-    // const responseMailbox = Array.isArray(selectedMailbox) ? selectedMailbox : [];
-
-    // res.status(200).json({ [mailbox]: responseMailbox });
     res.status(200).json({ [mailbox]: selectedMailbox });
-
-    // reopnse avec tt les mails associées aux differents mailbox
-    // res.status(200).json({
-    //   outbox: sortMailsByCreatedAt(outbox.mails),
-    //   inbox: sortMailsByCreatedAt(inbox.mails),
-    //   starred: sortMailsByCreatedAt(starred.mails),
-    //   bin: sortMailsByCreatedAt(bin.mails),
-    //   important: sortMailsByCreatedAt(important.mails),
-    // });
   } catch (error) {
     res.status(500).json({ error: error.message }); // yellis tfamilt thaki x)
   }
 });
 
 module.exports = { retrieveMails };
+
+// mohand
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODU4ZDUwZTgyMDNhNTM0NmZmN2ZmMSIsImlhdCI6MTcwNTU3MjA3NCwiZXhwIjoxNzA4MTY0MDc0fQ.6Uq7rJ9i3Cz2Yzh0O6k8Tt1e724zSDWpNlC49HjVme4
+
+// 65858d50e8203a5346ff7ff1
