@@ -49,7 +49,7 @@ function Signin({ handleLogin }) {
       setIsSubmitted(true);
       alert('Connexion réussie !');
       handleLogin();
-      navigate('/');
+      navigate('/mails/boite_de_reception');
     }).catch((error) => {
       console.log(error);
       setError(true);

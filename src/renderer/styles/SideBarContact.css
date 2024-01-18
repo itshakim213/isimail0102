@@ -1,0 +1,8 @@
+.side-bar-page {
+    width: 18vw;
+    background-color: #1a2e62;
+    border-right: 2px solid #aeefeb;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}

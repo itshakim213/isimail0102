@@ -1,12 +1,34 @@
+import axios from 'axios'
 import addUser from '../assets/addUser.png'
+import '../styles/ContactInv.css'
 
-function ContactInv({fullname, email}) {
-    <div className="inv-box">
-        <h3>{fullname}</h3>
-        <p>{email}</p>
-        <div>
-            <img src={addUser} alt="ajouter conversation" height={20} width={20} />
+function ContactInv({userId, fullname, email}) {
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    const userInvId = userId
+    const createConv = async () => {
+        try {
+            const conv = await axios.post('http://localhost:4001/api/chat', userInvId, {
+                headers : {
+                    'Authorization' : `Bearer ${user.token}`,
+                    'Content-Type': 'application/json'
+                },
+            })
+            console.log('conversation creer')
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
+    return (
+        <div className="inv-box">
+            <div className='user-desc'>
+                <h3>{fullname}</h3>
+                <p>{email}</p>
+            </div>
+            <div className='add-user-btn'>
+                <img src={addUser} alt="ajouter conversation" height={25} width={25} onClick={createConv} />
+            </div>
         </div>
-    </div>
+    )
 }
 export default ContactInv
