@@ -9,7 +9,6 @@ import '../styles/signin.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-
 function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
@@ -113,12 +112,12 @@ function Signin({ handleLogin }) {
             <br></br>
             <input
               type="text"
-              placeholder="enter you email address"
+              placeholder="Saisissez votre adresse TalkMail"
               onChange={(e) => setemail(e.target.value)}
               required
             ></input>
             <br></br>
-            <label>Password:</label>
+            <label>Mot de passe :</label>
             <br></br>
             <div className="password-input-container">
               <div
@@ -133,7 +132,7 @@ function Signin({ handleLogin }) {
               </div>
               <input
                 type={showPassword ? 'text' : 'password'}
-                placeholder="enter your password"
+                placeholder="Saisissez votre mot de passe"
                 onChange={(e) => setpassword(e.target.value)}
                 required
               />
@@ -156,7 +155,7 @@ function Signin({ handleLogin }) {
             <br></br>
             <br></br>
             <Button
-              btnText="Submit"
+              btnText="Se connecter"
               onClick={submit}
               CustomClass="signin-btn"
             />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import SideBarPage from '../components/SideBarPage';
 import PageList from '../components/PageList';
 import PageSelectCont from '../components/PageSelectCont';
@@ -30,14 +30,20 @@ function Mails() {
     >
       <SideBarPage
         elements={[
-          <Link to="#" onClick={showNewMailList} className="mail-link">
-            Boite de receptions
+          <Link
+            to="#"
+            // onClick={showNewMailList}
+            className="mail-link"
+          >
+            Bôite de réception
           </Link>,
-          'Boite d envoie',
-          'Brouillons',
+          'Envoyés',
+          'Important',
           'Favoris',
-          'Spam',
           'Corbeille',
+          // <Link to="agenda" onClick={showNewMailList} className="mail-link">
+          //   Bôite de réception test
+          // </Link>,
         ]}
         path="mails"
         showNewMessageForm={showNewMessageForm}

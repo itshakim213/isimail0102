@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
@@ -17,6 +18,8 @@ import Settings from './pages/Settings';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
 import Newmessage from './components/Newmessage';
+
+const queryClient = new QueryClient();
 
 function App() {
   const [isAuthen, setIsAuthen] = useState(false);
@@ -39,38 +42,46 @@ function App() {
   }, [isAuthen]);
 
   return (
-    <Router>
-      {!isAuthen ? (
-        <div>
-          <Routes>
-            <Route path="/index.html" element={<Navigate to="/" />} />
-            <Route path="/" element={<Home />} />
-            <Route
-              path="/signup"
-              element={<Signup handleLogin={handleLogin} />}
-            />
-            <Route
-              path="/signin"
-              element={<Signin handleLogin={handleLogin} />}
-            />
-          </Routes>
-        </div>
-      ) : (
-        <React.StrictMode>
-          <Header handleLogout={handleLogout} />
-          <SideBar />
-          <Routes>
-            <Route path="/mails/:category" element={<Mails />} />
-            <Route path="/chats" element={<Chats />} />
-            <Route path="/files/:category" element={<Files />} />
-            <Route path="/agenda" element={<Agenda />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/newmessage" element={<Newmessage />} />
-          </Routes>
-        </React.StrictMode>
-      )}
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        {!isAuthen ? (
+          <div>
+            <Routes>
+              <Route path="/index.html" element={<Navigate to="/" />} />
+              <Route path="/" element={<Home />} />
+              <Route
+                path="/signup"
+                element={<Signup handleLogin={handleLogin} />}
+              />
+              <Route
+                path="/signin"
+                element={<Signin handleLogin={handleLogin} />}
+              />
+            </Routes>
+          </div>
+        ) : (
+          <React.StrictMode>
+            <Header handleLogout={handleLogout} />
+            <SideBar />
+            <Routes>
+              <Route path="/mails/:category" element={<Mails />} />
+              {/* <Route path="Inbox" element={<Mails type={'inbox'} />} />
+                <Route path="Outbox" element={<Mails type={'outbox'} />} />
+                <Route path="Importants" element={<Mails />} />
+                <Route path="Favoris" element={<Mails />} />
+                <Route path="Corbeille" element={<Mails />} />
+              </Route> */}
+              <Route path="/chats" element={<Chats />} />
+              <Route path="/files/:category" element={<Files />} />
+              <Route path="/agenda" element={<Agenda />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/newmessage" element={<Newmessage />} />
+            </Routes>
+          </React.StrictMode>
+        )}
+      </Router>
+    </QueryClientProvider>
   );
 }
 

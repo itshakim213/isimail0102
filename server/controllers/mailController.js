@@ -103,6 +103,30 @@ const sendEmail = asyncHandler(async (req, res) => {
 
 // Rec mail
 const receiveEmail = asyncHandler(async (req, res) => {
+
+  // const currentuser = req.user; //recupere les infos de l'user authentifier et les contenir dans req.user
+  // console.log('Informations sur le current user', currentuser);
+
+  // const mails = await MailModel.aggregate([
+  //   //Methode aggregate effectue une operation d'agreg sur la collection MailModel
+  //   {
+  //     $lookup: {
+  //       //operation de jointure qui recupere les donnees a partir d'une autre collection, il cherche des infos dans la collection users en utilisant les champs from et _id
+  //       from: 'users',
+  //       localField: 'from',
+  //       foreignField: '_id',
+  //       as: 'user',
+  //     },
+  //   },
+  //   {
+  //     //filtre les mails ou le champ to correspond à l'ID de l'utilisateur actuel (currentuser._id)
+  //     $match: {
+  //       to: new mongoose.Types.ObjectId(currentuser._id),
+  //     },
+  //   },
+  // ]);
+
+  // res.send(mails);
   try {
     //const { to, userId } = req.params;
     //const mails = await MailModel.find({ to: to, 'from._id': userId });
@@ -166,6 +190,7 @@ const toggleStarredEmail = asyncHandler(async (req, res) => {
     console.log('Saving starred mailbox...');
     await starredMailbox.save(); // saving it ;p
 
+    console.log('Here is the added/removed mail, look at its starred value : ', mail);
     console.log('Starred mailbox saved!');
     console.log('Here it is the Starred Mailbox:', starredMailbox); // booooom ;)
     res.status(201).json('starred updated');
@@ -370,6 +395,7 @@ const importantMails = asyncHandler(async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 module.exports = {
   sendEmail,

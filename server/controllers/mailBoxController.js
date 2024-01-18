@@ -2,7 +2,6 @@ const express = require('express');
 const User = require('../models/UserModel');
 const MailBoxModel = require('../models/MailBoxModel');
 const asyncHandler = require('express-async-handler');
-const MailModel = require ('../models/MailModel');
 
 // les retrouvailles des mails et les classer chaque yiwen ds sa mailbox
 // ainsi creer une comme convenu et expliquer la derniere fois
@@ -11,6 +10,8 @@ const retrieveMails = asyncHandler(async (req, res) => {
   try {
     // recuper user id des param d req
     const { userId } = req.params;
+    // et ca c pour specefier le mailbox que je veux afficher son contenu 
+    const { mailbox } = req.query;
     // does he exist ??
     const user = await User.findById(userId);
     if (!user) {
@@ -121,14 +122,46 @@ const retrieveMails = asyncHandler(async (req, res) => {
         mails: [],
       });
     }
-    // reopnse avec tt les mails associées aux differents mailbox
-    res.status(200).json({
-      outbox: sortMailsByCreatedAt(outbox.mails),
-      inbox: sortMailsByCreatedAt(inbox.mails),
-      starred: sortMailsByCreatedAt(starred.mails),
-      bin: sortMailsByCreatedAt(bin.mails),
-      important: sortMailsByCreatedAt(important.mails),
-    });
+
+
+
+    let selectedMailbox;
+    switch (mailbox) {
+      case 'outbox':
+        selectedMailbox = sortMailsByCreatedAt(outbox.mails);
+        break;
+      case 'inbox':
+        selectedMailbox = sortMailsByCreatedAt(inbox.mails);
+        break;
+      case 'starred':
+        selectedMailbox = sortMailsByCreatedAt(starred.mails);
+        break;
+      case 'important':
+        selectedMailbox = sortMailsByCreatedAt(important.mails);
+        break;
+      case 'bin':
+        selectedMailbox = sortMailsByCreatedAt(bin.mails);
+        break;
+      default:
+        return res
+          .status(400)
+          .json({ error: 'Mailbox non spécifié ou invalide' });
+    }
+
+    // console.log('selectedMailbox:', selectedMailbox);
+    // const responseMailbox = Array.isArray(selectedMailbox) ? selectedMailbox : [];
+
+    // res.status(200).json({ [mailbox]: responseMailbox });
+    res.status(200).json({ [mailbox]: selectedMailbox });
+
+    // // reopnse avec tt les mails associées aux differents mailbox
+    // res.status(200).json({
+    //   outbox: sortMailsByCreatedAt(outbox.mails),
+    //   inbox: sortMailsByCreatedAt(inbox.mails),
+    //   starred: sortMailsByCreatedAt(starred.mails),
+    //   bin: sortMailsByCreatedAt(bin.mails),
+    //   important: sortMailsByCreatedAt(important.mails),
+    // });
   } catch (error) {
     res.status(500).json({ error: error.message }); // yellis tfamilt thaki x)
   }
