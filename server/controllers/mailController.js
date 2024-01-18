@@ -43,7 +43,7 @@ const sendEmail = asyncHandler(async (req, res) => {
     // la variable qui va contenir le mail aki et avec elle en va entregistrer di mail db
     const newMail = new MailModel({
       from: currentuser._id,
-      to: usersTo.map((user) => user._id),// pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
+      to: usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
       subject,
       message,
       attachments: [],
@@ -103,7 +103,6 @@ const sendEmail = asyncHandler(async (req, res) => {
 
 // Rec mail
 const receiveEmail = asyncHandler(async (req, res) => {
-
   // const currentuser = req.user; //recupere les infos de l'user authentifier et les contenir dans req.user
   // console.log('Informations sur le current user', currentuser);
 
@@ -190,7 +189,10 @@ const toggleStarredEmail = asyncHandler(async (req, res) => {
     console.log('Saving starred mailbox...');
     await starredMailbox.save(); // saving it ;p
 
-    console.log('Here is the added/removed mail, look at its starred value : ', mail);
+    console.log(
+      'Here is the added/removed mail, look at its starred value : ',
+      mail,
+    );
     console.log('Starred mailbox saved!');
     console.log('Here it is the Starred Mailbox:', starredMailbox); // booooom ;)
     res.status(201).json('starred updated');
@@ -234,8 +236,8 @@ const moveToBin = asyncHandler(async (req, res) => {
       binMailbox.mails.pull(mail._id);
     }
 
-    await mail.save();// sauvegarder les changements
-    await binMailbox.save();// Màj de dossier bin
+    await mail.save(); // sauvegarder les changements
+    await binMailbox.save(); // Màj de dossier bin
 
     console.log('Bin Mailbox:', binMailbox);
 
@@ -395,7 +397,6 @@ const importantMails = asyncHandler(async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
 
 module.exports = {
   sendEmail,

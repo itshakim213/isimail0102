@@ -9,7 +9,13 @@ import NewMessage from '../components/Newmessage';
 import '../styles/mails.css';
 import SideBarButton from './SideBarButton';
 
-function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
+function SideBarPage({
+  elements,
+  path,
+  showNewMessage,
+  showNewMessageForm,
+  setCurrentMailBox,
+}) {
   return (
     <div className="side-bar-page">
       {path === 'mails' && (
@@ -31,6 +37,7 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm }) {
                 to={`/${path}/${item}`}
                 key={`${index}-${item}`}
                 className="nav-item"
+                onClick={() => setCurrentMailBox(item)}
               >
                 {item}
               </NavLink>
