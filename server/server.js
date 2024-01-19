@@ -9,6 +9,7 @@ const messageRoutes = require('./routes/messageRoutes');
 const mailRoutes = require('./routes/MailRoutes');
 const mailRouteSI = require('./routes/mailRouteSI');
 const mailBoxRoutes = require('./routes/mailBoxRoutes');
+const EventsRoute = require('./routes/EventsRoute');
 
 const app = express();
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/message', messageRoutes);
 app.use('/api', mailRoutes);
 app.use('/api/mail', mailRouteSI);
 app.use('/api/retrieve', mailBoxRoutes);
+app.use('/api/agenda', EventsRoute);
 
 app.use(notFound);
 app.use(errorHandler);

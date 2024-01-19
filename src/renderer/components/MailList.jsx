@@ -14,6 +14,10 @@ function MailList({ currentMailBox }) {
   const mailboxFetch = currentMailBox || 'inbox';
   console.log('Current Mailbox:', currentMailBox);
 
+  const handleMailSelection = (selectedMail) => {
+    onSelectMail(selectedMail);
+  };
+
   // loading et error state de query react hoook
   const {
     data: mails,
@@ -39,8 +43,8 @@ function MailList({ currentMailBox }) {
         },
       );
 
-      console.log('Current Mailbox:', mailboxFetch);
-      console.log(response.data);
+      // console.log('Current Mailbox:', mailboxFetch);
+      // console.log(response.data);
 
       // assurer que data est array
       return Array.isArray(response.data[mailboxFetch])

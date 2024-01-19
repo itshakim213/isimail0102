@@ -61,7 +61,6 @@ const retrieveMails = asyncHandler(async (req, res) => {
         select: 'firstname lastname email',
       },
     });
-    console.log('Inbox:', inbox);
 
     if (!inbox) {
       inbox = await MailBoxModel.create({

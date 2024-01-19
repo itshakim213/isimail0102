@@ -18,14 +18,6 @@ function Mails() {
     setShowNewMail(!showNewMail);
   };
 
-  // const setCurrentMailBox = (mailbox) => {
-  //   setCurrentMailBoxState(mailbox);
-  // };
-
-  // const merdeIzan = (mailbox) => {
-  //   setCurrentMailBoxState(mailbox);
-  // };
-
   return (
     <div
       className="page"
@@ -43,7 +35,6 @@ function Mails() {
         showNewMessageForm={showNewMessageForm}
         showNewMailList={showNewMailList}
         setCurrentMailBox={setCurrentMailBox}
-        // setCurrentMailBox={merdeIzan}
       />
       <PageList
         showNewMail={showNewMail}
