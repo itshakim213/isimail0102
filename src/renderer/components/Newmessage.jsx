@@ -16,7 +16,7 @@ function Newmessage() {
       const token = localStorage.getItem('token');
 
       await axios.post(
-        'http://localhost:4001/api/newmessage',
+        'http://localhost:4001/api/mail/sendemail',
         {
           to,
           subject,
@@ -30,6 +30,9 @@ function Newmessage() {
           },
         },
       );
+      console.log(to);
+      console.log(subject);
+      console.log(message);
       // Réinitialisation des champs après l'envoi
       setTo('');
       setSubject('');

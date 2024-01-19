@@ -7,15 +7,19 @@ const asyncHandler = require('express-async-handler');
 // ainsi creer une comme convenu et expliquer la derniere fois
 // ihqa sync handler c pour controller et localiser anda thella l erreur
 const retrieveMails = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
+  console.log(
+    `ces mailbox appartient ---> ${currentuser.firstname} ${currentuser.lastname}`,
+  );
   try {
     // recuper user id des param d req
     const { userId } = req.params;
-    // et ca c pour specefier le mailbox que je veux afficher son contenu 
+    // et ca c pour specefier le mailbox que je veux afficher son contenu
     const { mailbox } = req.query;
     // does he exist ??
     const user = await User.findById(userId);
     if (!user) {
-        // no he doesn't ;p 
+      // no he doesn't ;p
       return res.status(404).json({ error: 'Utilisateur introuvable' });
     }
 
@@ -123,8 +127,6 @@ const retrieveMails = asyncHandler(async (req, res) => {
       });
     }
 
-
-
     let selectedMailbox;
     switch (mailbox) {
       case 'outbox':
@@ -148,25 +150,16 @@ const retrieveMails = asyncHandler(async (req, res) => {
           .json({ error: 'Mailbox non spécifié ou invalide' });
     }
 
-    // console.log('selectedMailbox:', selectedMailbox);
-    // const responseMailbox = Array.isArray(selectedMailbox) ? selectedMailbox : [];
-
-    // res.status(200).json({ [mailbox]: responseMailbox });
     res.status(200).json({ [mailbox]: selectedMailbox });
-
-    // // reopnse avec tt les mails associées aux differents mailbox
-    // res.status(200).json({
-    //   outbox: sortMailsByCreatedAt(outbox.mails),
-    //   inbox: sortMailsByCreatedAt(inbox.mails),
-    //   starred: sortMailsByCreatedAt(starred.mails),
-    //   bin: sortMailsByCreatedAt(bin.mails),
-    //   important: sortMailsByCreatedAt(important.mails),
-    // });
   } catch (error) {
     res.status(500).json({ error: error.message }); // yellis tfamilt thaki x)
   }
 });
 
-
-
 module.exports = { retrieveMails };
+
+// mohand
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODU4ZDUwZTgyMDNhNTM0NmZmN2ZmMSIsImlhdCI6MTcwNTU3MjA3NCwiZXhwIjoxNzA4MTY0MDc0fQ.6Uq7rJ9i3Cz2Yzh0O6k8Tt1e724zSDWpNlC49HjVme4
+
+// 65858d50e8203a5346ff7ff1

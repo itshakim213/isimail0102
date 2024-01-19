@@ -51,19 +51,31 @@ const userSchema = new mongoose.Schema({
   // securityQuestion:
   securityAnswer: { type: String },
   isResettingPassword: { type: Boolean, default: false },
-  secureMail: { 
-    type: String,
-    // required: true,
-    validate: {
-      validator: function (value) {
-        // cette fonction est utilisée comme validateur
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
-        // [^\s@] tous les caracteres sauf les espaces et @
-      },
-      message: 'Veuillez entrer une adresse email valide.',
-    },},
-  twoFactorsAuthentication: { type: Boolean, default: false },
+  // secureMail: {
+  //   type: String,
+  //   // required: true,
+  //   validate: {
+  //     validator: function (value) {
+  //       // cette fonction est utilisée comme validateur
+  //       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
+  //       // [^\s@] tous les caracteres sauf les espaces et @
+  //     },
+  //     message: 'Veuillez entrer une adresse email valide.',
+  //   },
+  // },
+  // twoFactorsAuthentication: { type: Boolean, default: false },
+  // otp: {
+  //   type: String,
+  //   default: null,
+  // },
 });
+
+// userSchema.methods.generateOTP = async function () {
+//   // generer un code aleatoire de 6 chiffres
+//   const otp = Math.floor(100000 + Math.random() * 900000).toString();
+//   this.otp = await bcrypt.hash(otp, 10);
+//   return otp;
+// };
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);

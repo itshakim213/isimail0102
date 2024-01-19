@@ -8,6 +8,7 @@ import MailList from '../components/MailList';
 function Mails() {
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [showNewMail, setShowNewMail] = useState(false);
+  const [currentMailBox, setCurrentMailBox] = useState('inbox');
 
   const showNewMessageForm = () => {
     setShowNewMessage(!showNewMessage);
@@ -31,27 +32,17 @@ function Mails() {
       }}
     >
       <SideBarPage
-        elements={[
-          <Link
-            to="#"
-            // onClick={showNewMailList}
-            className="mail-link"
-          >
-            Bôite de réception
-          </Link>,
-          'Envoyés',
-          'Important',
-          'Favoris',
-          'Corbeille',
-          // <Link to="agenda" onClick={showNewMailList} className="mail-link">
-          //   Bôite de réception test
-          // </Link>,
-        ]}
+        elements={['inbox', 'outbox', 'important', 'starred', 'bin']}
         path="mails"
         showNewMessageForm={showNewMessageForm}
         showNewMailList={showNewMailList}
+        setCurrentMailBox={setCurrentMailBox}
       />
-      <PageList showNewMail={showNewMail} showNewMailList={showNewMailList} />
+      <PageList
+        showNewMail={showNewMail}
+        showNewMailList={showNewMailList}
+        currentMailBox={currentMailBox}
+      />
       <PageSelectCont
         message="select mail to read"
         showNewMessage={showNewMessage}

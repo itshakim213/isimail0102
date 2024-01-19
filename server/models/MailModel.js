@@ -6,12 +6,14 @@ const mailSchema = new mongoose.Schema({
     //le soucis qui se pose on Cast ObjectID (645473783) en string (sia@gmail.com)
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
   to: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-    }
+      required: true,
+    },
   ],
   subject: {
     type: String,

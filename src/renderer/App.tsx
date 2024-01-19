@@ -65,12 +65,6 @@ function App() {
             <SideBar />
             <Routes>
               <Route path="/mails/:category" element={<Mails />} />
-              {/* <Route path="Inbox" element={<Mails type={'inbox'} />} />
-                <Route path="Outbox" element={<Mails type={'outbox'} />} />
-                <Route path="Importants" element={<Mails />} />
-                <Route path="Favoris" element={<Mails />} />
-                <Route path="Corbeille" element={<Mails />} />
-              </Route> */}
               <Route path="/chats" element={<Chats />} />
               <Route path="/files/:category" element={<Files />} />
               <Route path="/agenda" element={<Agenda />} />
