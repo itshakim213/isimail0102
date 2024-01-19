@@ -1,6 +1,8 @@
 import React from 'react';
 import SideBarPage from '../components/SideBarPage';
 import SettingsForm from '../components/SettingsForm';
+import AccountSettingsForm from '../components/AccountSettingsForm';
+
 
 function Settings() {
   let elems = [
@@ -21,6 +23,7 @@ function Settings() {
       <SideBarPage elements={elems} path="settings" />
       <SettingsForm />
     </div>
+
   );
 }
 

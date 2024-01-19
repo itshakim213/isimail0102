@@ -3,14 +3,13 @@ import addUser from '../assets/addUser.png'
 import '../styles/ContactInv.css'
 
 function ContactInv({userId, fullname, email}) {
-    const user = JSON.parse(sessionStorage.getItem('user'))
     const userInvId = userId
     const createConv = async () => {
         try {
             const conv = await axios.post('http://localhost:4001/api/chat', userInvId, {
                 headers : {
                     'Authorization' : `Bearer ${user.token}`,
-                    'Content-Type': 'application/json'
+                    'Content-type' : 'application/json'
                 },
             })
             console.log('conversation creer')

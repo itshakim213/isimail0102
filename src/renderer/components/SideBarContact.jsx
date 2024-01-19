@@ -45,9 +45,9 @@ function SideBarContact() {
       loadConvs()
       
     }, [user.token])
-    console.log(users)
+    console.log(convs)
     return (
-      <div className="side-bar-page">
+      <div className="side-bar-contact">
         <SearchChat />
         { (users.length === 0 ) ? (
           <Empty
@@ -57,7 +57,7 @@ function SideBarContact() {
           height={85}
           />
         ) : (
-        <nav style={{ marginTop: 65 }}>
+        <nav className="contact-nav">
         {
           users.map((user) => (
             <ContactInv key={user._id} userId={user._id} fullname={`${user.firstname} ${user.lastname}`} email={`${user.email}`} />

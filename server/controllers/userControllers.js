@@ -9,7 +9,7 @@ const generateToken = require('../config/generateToken');
 
 const registerUser = asyncHandler(async (req, res) => {
   // Extraction des données du corps de la requête
-  const { firstname, lastname, dateofbirth, email, password } = req.body;
+  const { firstname, lastname, dateofbirth, email, password, securityAnswer } = req.body;
 
   // Vérification de la présence de toutes les données nécessaires
   if (!firstname || !lastname || !dateofbirth || !email || !password) {
@@ -32,6 +32,8 @@ const registerUser = asyncHandler(async (req, res) => {
     dateofbirth,
     email,
     password,
+    securityAnswer,
+    isResettingPassword: false,
   });
 
   // Envoi d'une réponse avec les détails de l'utilisateur et un token d'authentification
@@ -43,6 +45,8 @@ const registerUser = asyncHandler(async (req, res) => {
       lastname: user.lastname,
       dateofbirth: user.dateofbirth,
       email: user.email,
+      securityAnswer: user.securityAnswer,
+      isResettingPassword: user.isResettingPassword,
       token: generateToken(user._id),
     });
   } else {
@@ -69,6 +73,8 @@ const authUser = asyncHandler(async (req, res) => {
       lastname: user.lastname,
       dateofbirth: user.dateofbirth,
       email: user.email,
+      securityAnswer: user.securityAnswer,
+      isResettingPassword: user.isResettingPassword,
       token: generateToken(user._id),
     });
   } else {
@@ -79,6 +85,7 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 const searchUsers = asyncHandler(async (req, res) => {
+  // c tileli HSD ittikhedhmen wlh ma d nek saqsimtt nettath hahah nek machi aka niqal ittkhedhmegh
   try {
     const keyword = req.query.search
       ? {
@@ -99,4 +106,83 @@ const searchUsers = asyncHandler(async (req, res) => {
     res.status(500).json({ error: 'An error occurred while search user ' });
   }
 });
-module.exports = { registerUser, authUser, searchUsers };
+
+const deleteUsers = asyncHandler(async (req, res) => {
+
+  // ça c la version optimisé
+  // je recupere direct l id apres supprimi et result nni ad yafficher les info n winna que j'ai supprimé
+  // const result = await User.findByIdAndDelete(req.params.id);
+  // res.json({ result });
+  
+  // je récupere l id daki
+  const userId = req.params.id;
+  console.log('Deleting user with id:', userId); // j affich l id
+  // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella ;)
+
+  try {
+    const user = await User.findOne({ _id: userId }); // anwalli ma yella ;)
+    if (!user) {
+      return res.status(404).json({ error: 'Utilisateur introuvable' });// khati ulachith x)
+    }
+
+    // await user.remove(); thaki n'est pas prédifinite anabrrri de l'utiliser sinon faut creer une fonction s yisem aki remove pour find one and delete ok !!
+    await User.deleteOne({ _id: userId }); // delete aken thezram 
+
+    res.status(200).json({ message: 'Acccount deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'err serveur' });
+  }
+});
+
+const forgotPassword = asyncHandler(async (req, res) => {
+  // on saisi email et la reponse a la qst de sécurité
+  const { email, securityAnswer } = req.body;
+  const user = await User.findOne({ email });// yella ?
+
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });// nn ulachith ughaled azka ;))
+  }
+
+  // but does the answer match akked wayen dennidh deja ?
+  if (user.securityAnswer !== securityAnswer) {
+    return res.status(401).json({ error: 'Incorrect security answer' });
+  }
+
+  user.isResettingPassword = true; // daki thoura nezmer anvedel le mdp s reset akki qui suit 
+
+  await user.save(); // enregistrigh les changement aki
+
+  res.json({ message: 'Security answer verified successfully' });
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+  // daki blama nenad
+  const { email, newPassword } = req.body;
+  console.log('reset password pour :', email);
+
+  const user = await User.findOne({ email, isResettingPassword: true }); //on verifi mayella user s lemail nni akked is resettttbfuvbe aki true
+
+  if (!user) {
+    console.log('404 pour l email:', email);
+    return res.status(401).json({ error: 'Invalid req or user not found' });
+  }
+
+  user.password = newPassword;// daki anvedel mdp
+
+  user.isResettingPassword = false; // apres athner ar false aken yella zik par defaul
+
+  await user.save();// save les changement
+
+  res.json({ message: 'Password reset successful' });
+});
+
+
+module.exports = {
+  registerUser,
+  authUser,
+  searchUsers,
+  deleteUsers,
+  forgotPassword,
+  resetPassword,
+};

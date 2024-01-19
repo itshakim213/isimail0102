@@ -6,47 +6,63 @@ const userSchema = new mongoose.Schema({
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
   dateofbirth: { type: Date },
-  email: { type: String, required: true,
+  email: {
+    type: String,
+    required: true,
     validate: {
-      validator: function(value) {// cette fonction est utilisée comme validateur 
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email 
+      validator: function (value) {
+        // cette fonction est utilisée comme validateur
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
         // [^\s@] tous les caracteres sauf les espaces et @
-
       },
-      message: 'Veuillez entrer une adresse email valide.'
-  
-}
+      message: 'Veuillez entrer une adresse email valide.',
+    },
   },
   password: {
     type: String,
     required: true,
     validate: {
-      validator: function(value) {
+      validator: function (value) {
         // Cette fonction est utilisée comme validateur
         return /^.{8,}$/.test(value);
         // Vérifie que le mot de passe a au moins 8 caractères
         if (!/^.{8,}$/.test(value)) {
           return false;
         }
-         // Vérifie qu'au moins un caractère est une majuscule
-        const majuscules = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // Vérifie qu'au moins un caractère est une majuscule
+        const majuscules = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         if (!/[A-Z]/.test(value)) {
           return false;
         }
-  
+
         // Vérifie qu'au moins un caractère est un chiffre
-        const chiffres = "0123456789";
+        const chiffres = '0123456789';
         if (!/[0-9]/.test(value)) {
           return false;
         }
-  
+
         return true;
       },
-      message: 'Veuillez entrer un mot de passe contenant au moins 8caractéres incluant une majuscule au moins et un chiffre au minimum.'
-    }
-  }
-  ,
+      message:
+        'Veuillez entrer un mot de passe contenant au moins 8caractéres incluant une majuscule au moins et un chiffre au minimum.',
+    },
+  },
   isAdmin: { type: Boolean, default: false },
+  // securityQuestion:
+  securityAnswer: { type: String },
+  isResettingPassword: { type: Boolean, default: false },
+  secureMail: { 
+    type: String,
+    // required: true,
+    validate: {
+      validator: function (value) {
+        // cette fonction est utilisée comme validateur
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
+        // [^\s@] tous les caracteres sauf les espaces et @
+      },
+      message: 'Veuillez entrer une adresse email valide.',
+    },},
+  twoFactorsAuthentication: { type: Boolean, default: false },
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {

@@ -7,6 +7,7 @@ function Newmessage() {
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  //const [attachment, setAttachment] = useState(null);
 
   async function submitForm(e) {
     e.preventDefault();
@@ -21,7 +22,7 @@ function Newmessage() {
           subject,
           message,
           // Assurez-vous que attachmentId est défini ou retiré de la requête si non utilisé
-          // attachmentId,
+          //attachment,
         },
         {
           headers: {
@@ -33,10 +34,29 @@ function Newmessage() {
       setTo('');
       setSubject('');
       setMessage('');
+      //setAttachment(null);
       // Réinitialiser attachmentId si utilisé
       // setAttachmentId('');
     } catch (error) {
       console.error("Erreur lors de l'envoi du message :", error);
+    }
+  }
+  async function saveDraft() {
+    try {
+      await axios.put('http://localhost:4001/api/draft', {
+        //from,
+        //to,
+        //subject,
+        //message,
+        send: false, // Indique que c'est un brouillon
+      });
+      // Réinitialisation des champs après l'enregistrement du brouillon
+      setFrom('');
+      setTo('');
+      setSubject('');
+      setMessage('');
+    } catch (error) {
+      console.error("Erreur lors de l'enregistrement du brouillon ", error);
     }
   }
 
@@ -70,7 +90,9 @@ function Newmessage() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
+        <input type="file" onChange={(e) => setAttachment(e.target.files[0])} />
         <Button btnText="Submit" />
+        <Button btnText="Draft" onClick={saveDraft} />
       </form>
     </body>
   );

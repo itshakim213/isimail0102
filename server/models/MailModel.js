@@ -7,24 +7,41 @@ const mailSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  to: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
+  to: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    }
+  ],
   subject: {
     type: String,
   },
   message: {
     type: String,
   },
-  date: {
-    type: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
-  //   attachmentId: {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'AttachmentModel',
-  //   },
+  attachments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'AttachmentModel',
+    },
+  ],
+  starred: {
+    type: Boolean,
+    default: false,
+  },
+  bin: {
+    type: Boolean,
+    default: false,
+  },
+  important: {
+    type: Boolean,
+    default: false,
+  },
 });
 // modele pour la collection Mail
-const MailModel = mongoose.model('Mail', mailSchema);
+const MailModel = mongoose.model('MailModel', mailSchema);
 module.exports = MailModel;

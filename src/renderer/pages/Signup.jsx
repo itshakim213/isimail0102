@@ -15,6 +15,8 @@ function Signup({ handleLogin }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const [securityQuestion, setSecurityQuestion] = useState('');
+  const [securityAnswer, setSecurityAnswer] = useState('');
 
   async function addUser() {
     try {
@@ -31,6 +33,7 @@ function Signup({ handleLogin }) {
           dateofbirth,
           email,
           password,
+          securityAnswer,
         },
         config,
       );
@@ -70,6 +73,7 @@ function Signup({ handleLogin }) {
       setdateofbirth('');
       setemail('');
       setpassword('');
+      setSecurityAnswer('');
     }
   }, [isSubmitted]);
 
@@ -86,7 +90,7 @@ function Signup({ handleLogin }) {
         </div>
       </div>
       <div className="right-section">
-        <h1 className="sign-title">Sign up</h1>
+        <h1 className="sign-title">Inscription</h1>
         <br></br>
         <p className="sign-description">
           Let's begin your journey with TalkMail
@@ -94,25 +98,25 @@ function Signup({ handleLogin }) {
         <br></br>
         <form>
           <div className="auth-form">
-            <label>Firstname :</label>
+            <label>Prénom : </label>
             <input
               type="text"
-              placeholder="enter your firstname"
+              placeholder="Entrez votre prénom"
               required
               value={firstname}
               onChange={(e) => setfirstname(e.target.value)}
             ></input>
             <br></br>
-            <label>Lastname : </label>
+            <label>Nom : </label>
 
             <input
               type="text"
-              placeholder="enter your lastname"
+              placeholder="Entrez votre nom"
               value={lastname}
               onChange={(e) => setlastname(e.target.value)}
             ></input>
             <br></br>
-            <label>Date of birth: </label>
+            <label>Date de naissance : </label>
             <input
               type="date"
               placeholder="enter your date of birth"
@@ -121,27 +125,64 @@ function Signup({ handleLogin }) {
             ></input>
             <br></br>
 
-            <label>Email address: </label>
+            <label>Email : </label>
             <input
               type="email"
-              placeholder="enter your email address"
+              placeholder="Entrez votre talkmail email "
               value={email}
               onChange={(e) => setemail(e.target.value)}
             ></input>
             <br></br>
-            <label>Password :</label>
+            <label>Mot de passe :</label>
             <input
               type="password"
-              placeholder="enter your password"
+              placeholder="Entrez votre mot de passe"
               value={password}
               onChange={(e) => setpassword(e.target.value)}
+            ></input>
+            <input
+              type="password"
+              placeholder="Confirmez votre mot de passe"
+            ></input>
+            <br></br>
+            <label>Email de sécurité : </label>
+            <input
+              type="email"
+              placeholder="Entrez votre email de sécurité"
+            />
+            <br></br>
+            <label>Question de sécurité : </label>
+            <select
+              required
+              value={securityQuestion}
+              onChange={(e) => setSecurityQuestion(e.target.value)}
+            >
+              <option value="">Choisissez une question</option>
+              <option value="Quel est le nom de votre premier animal de compagnie ?">
+                Quel est le nom de votre premier animal de compagnie ?
+              </option>
+              <option value="Quel est le nom de votre ensegniant préferé ?">
+                Quel est le nom de votre ensegniant préferé ?
+              </option>
+              <option value="Quel est l'adresse de votre maison d'enfance ?">
+                Quel est l'adresse de votre maison d'enfance ?
+              </option>
+            </select>
+            <br></br>
+            <label>Answer :</label>
+            <input
+              type="text"
+              placeholder="enter your security question answer"
+              required
+              value={securityAnswer}
+              onChange={(e) => setSecurityAnswer(e.target.value)}
             ></input>
             <br></br>
             <br></br>
             <br></br>
             <Button
               CustomClass="signup-btn"
-              btnText="Submit"
+              btnText="S'inscrire"
               onClick={submit}
             />
           </div>

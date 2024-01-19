@@ -1,8 +1,13 @@
-.side-bar-page {
+.side-bar-contact {
     width: 18vw;
     background-color: #1a2e62;
     border-right: 2px solid #aeefeb;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.contact-nav {
+    margin: 5rem 0 2rem 0;
+    overflow-y: scroll;
 }

@@ -8,7 +8,6 @@ const mailBoxSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true,
   },
   mails: [
     {
@@ -16,6 +15,7 @@ const mailBoxSchema = new mongoose.Schema({
       ref: 'MailModel',
     },
   ],
+  // starredEmails: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MailModel' }],
 });
 const MailBoxModel = mongoose.model('MailBoxModel', mailBoxSchema);
 module.exports = MailBoxModel;

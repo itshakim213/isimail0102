@@ -6,12 +6,16 @@ import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
 import '../styles/signin.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   async function LoadUser() {
     try {
@@ -39,24 +43,44 @@ function Signin({ handleLogin }) {
     }
   }
 
+  // async function submit(e) {
+  //   e.preventDefault();
+  //   setError(false);
+  //   const LoadUserPromise = LoadUser();
+  //   LoadUserPromise.then((userData) => {
+  //     sessionStorage.setItem('user', JSON.stringify(userData));
+  //     const userItem = JSON.parse(sessionStorage.getItem('user'));
+  //     setIsSubmitted(true);
+  //     alert('Connexion réussie !');
+  //     handleLogin();
+  //     navigate('/mails/boite_de_reception');
+  //   }).catch((error) => {
+  //     console.log(error);
+  //     setError(true);
+  //     alert(
+  //       "Une erreur est survenue lors de l'authentification. Veuillez réessayer.",
+  //     );
+  //   });
+  // }
+
   async function submit(e) {
     e.preventDefault();
     setError(false);
-    const LoadUserPromise = LoadUser();
-    LoadUserPromise.then((userData) => {
+
+    try {
+      const userData = await LoadUser();
       sessionStorage.setItem('user', JSON.stringify(userData));
-      const userItem = JSON.parse(sessionStorage.getItem('user'));
       setIsSubmitted(true);
       alert('Connexion réussie !');
       handleLogin();
       navigate('/mails/boite_de_reception');
-    }).catch((error) => {
+    } catch (error) {
       console.log(error);
       setError(true);
       alert(
         "Une erreur est survenue lors de l'authentification. Veuillez réessayer.",
       );
-    });
+    }
   }
 
   useEffect(() => {
@@ -88,23 +112,50 @@ function Signin({ handleLogin }) {
             <br></br>
             <input
               type="text"
-              placeholder="enter you email address"
+              placeholder="Saisissez votre adresse TalkMail"
               onChange={(e) => setemail(e.target.value)}
               required
             ></input>
             <br></br>
-            <label>Password:</label>
+            <label>Mot de passe :</label>
             <br></br>
-            <input
-              type="password"
+            <div className="password-input-container">
+              <div
+                className="eye-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {/* Utilisez FontAwesomeIcon pour afficher l'icône */}
+                <FontAwesomeIcon
+                  icon={showPassword ? faEye : faEyeSlash}
+                  className="eye-icon-inner"
+                />
+              </div>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Saisissez votre mot de passe"
+                onChange={(e) => setpassword(e.target.value)}
+                required
+              />
+            </div>
+            {/* <input
+              // type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="enter your passeword"
               onChange={(e) => setpassword(e.target.value)}
               required
             ></input>
+            <label>
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              showPassword
+            </label> */}
             <br></br>
             <br></br>
             <Button
-              btnText="Submit"
+              btnText="Se connecter"
               onClick={submit}
               CustomClass="signin-btn"
             />
