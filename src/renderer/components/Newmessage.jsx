@@ -20,7 +20,6 @@ function Newmessage() {
 
       const response = await axios.post(
         'http://localhost:4001/api/mail/sendemail',
-        // 'http://localhost:4001/api/newmessage',
         {
           to,
           subject,
@@ -33,7 +32,7 @@ function Newmessage() {
         },
       );
 
-      console.log('Server Response:', response.data);
+      console.log('Server response:', response.data);
       console.log(to);
       console.log(subject);
       console.log(message);
@@ -46,7 +45,7 @@ function Newmessage() {
 
       // Log the specific response data from the server (if available)
       if (error.response) {
-        console.error('Server Response Data:', error.response.data);
+        console.error('Server respons Data:', error.response.data);
       }
     }
   }
@@ -55,7 +54,9 @@ function Newmessage() {
     <body>
       <form className="form-sendMsg" onSubmit={submitForm}>
         <br></br>
-        <p className="mail-send">{ (subject === '') ? 'new mail' : `${subject}` }</p>
+        <p className="mail-send">
+          {subject === '' ? 'new mail' : `${subject}`}
+        </p>
         <br></br>
 
         <input

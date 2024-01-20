@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Chat = require('../models/chatModel');
-const Message = require('../models/MessageModel')
+const Message = require('../models/MessageModel');
 const User = require('../models/UserModel');
 
 // Cette fonction gère l'accès à une conversation individuelle
@@ -35,6 +35,7 @@ const accessChat = asyncHandler(async (req, res) => {
       isGroupChat: false,
       users: [req.user._id, userId],
     };
+    console.log('created chat : ', chatData);
 
     try {
       const createdChat = await Chat.create(chatData);
@@ -44,6 +45,7 @@ const accessChat = asyncHandler(async (req, res) => {
         'users',
         '-password',
       );
+      console.log('New conversation created:', FullChat);
       res.status(200).send(FullChat); // Retourne la nouvelle conversation
     } catch (error) {
       res.status(400);
