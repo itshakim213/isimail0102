@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Empty from './Empty';
 import noMails from '../assets/noMails.png';
 import noFiles from '../assets/noFiles.png';

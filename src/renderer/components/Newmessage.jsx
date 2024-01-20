@@ -55,7 +55,7 @@ function Newmessage() {
     <body>
       <form className="form-sendMsg" onSubmit={submitForm}>
         <br></br>
-        <p className="mail-send">Let's send an email</p>
+        <p className="mail-send">{ (subject === '') ? 'new mail' : `${subject}` }</p>
         <br></br>
 
         <input

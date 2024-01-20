@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Chat = require('../models/chatModel');
+const Message = require('../models/MessageModel')
 const User = require('../models/UserModel');
 
 // Cette fonction gère l'accès à une conversation individuelle
@@ -22,7 +23,7 @@ const accessChat = asyncHandler(async (req, res) => {
 
   isChat = await User.populate(isChat, {
     path: 'latestMessage.sender',
-    select: 'firstname lastname email',
+    select: 'firstname lastname',
   });
 
   if (isChat.length > 0) {

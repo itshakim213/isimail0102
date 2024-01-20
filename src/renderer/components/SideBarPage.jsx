@@ -30,7 +30,6 @@ function SideBarPage({
           height={85}
         />
       ) : (
-        <div className="side-bar-page">
           <nav style={{ marginTop: 65 }}>
             {elements.map((item, index) => (
               <NavLink
@@ -43,7 +42,6 @@ function SideBarPage({
               </NavLink>
             ))}
           </nav>
-        </div>
         // <nav style={{ marginTop: '.5rem' }}>
         //   {elements.map((item, index) => (
         //     <NavLink
