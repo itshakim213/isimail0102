@@ -31,19 +31,25 @@ const sendEmail = asyncHandler(async (req, res) => {
     const { to, subject, message, attachments } = req.body;
     // verifikaychon de user dans user db
 
-    const dest = Array.isArray(to) ? to : [to];
+    // const dest = Array.isArray(to) ? to : [to];
 
-    // ça c pour cc ou cci
-    const usersTo = await User.find({ _id: { $in: dest } });
+    // // ça c pour cc ou cci
+    // const usersTo = await User.find({ _id: { $in: dest } });
 
-    if (usersTo.length !== dest.length) {
-      return res.status(404).json({ error: 'Utilisateur introuvable' });
+    // if (usersTo.length !== dest.length) {
+    //   return res.status(404).json({ error: 'Utilisateur introuvable' });
+    // }
+    const userTo = await User.findOne({ email: to });
+
+    if (!userTo) {
+      return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
 
     // la variable qui va contenir le mail aki et avec elle en va entregistrer di mail db
     const newMail = new MailModel({
       from: currentuser._id,
-      to: usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
+      to: userTo._id,
+      // usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
       subject,
       message,
       attachments: [],
@@ -86,20 +92,16 @@ const sendEmail = asyncHandler(async (req, res) => {
         { upsert: true }, // Si la Outbox n'existe pas, on va la créer grace à upsert aki
       );
 
-      for (const userTo of usersTo) {
-        await MailBoxModel.findOneAndUpdate(
-          { userId: userTo._id, name: 'Inbox' },
-          { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
-          { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
-        );
-      }
+      // update la Inbox (Boîte de réception) du destinataire
+      // for (const userTo of usersTo) {
+      await MailBoxModel.findOneAndUpdate(
+        { userId: userTo._id, name: 'Inbox' },
+        { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
+        { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
+      );
+      // }
 
-      // // update la Inbox (Boîte de réception) du destinataire
-      // await MailBoxModel.findOneAndUpdate(
-      //   { userId: usersTo._id, name: 'Inbox' },
-      //   { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
-      //   { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
-      // );
+      console.log('sent mail is : ', newMail);
 
       // response msg
       res.status(200).json('mail sent successfully');
@@ -111,29 +113,6 @@ const sendEmail = asyncHandler(async (req, res) => {
 
 // Rec mail
 const receiveEmail = asyncHandler(async (req, res) => {
-  // const currentuser = req.user; //recupere les infos de l'user authentifier et les contenir dans req.user
-  // console.log('Informations sur le current user', currentuser);
-
-  // const mails = await MailModel.aggregate([
-  //   //Methode aggregate effectue une operation d'agreg sur la collection MailModel
-  //   {
-  //     $lookup: {
-  //       //operation de jointure qui recupere les donnees a partir d'une autre collection, il cherche des infos dans la collection users en utilisant les champs from et _id
-  //       from: 'users',
-  //       localField: 'from',
-  //       foreignField: '_id',
-  //       as: 'user',
-  //     },
-  //   },
-  //   {
-  //     //filtre les mails ou le champ to correspond à l'ID de l'utilisateur actuel (currentuser._id)
-  //     $match: {
-  //       to: new mongoose.Types.ObjectId(currentuser._id),
-  //     },
-  //   },
-  // ]);
-
-  // res.send(mails);
   try {
     //const { to, userId } = req.params;
     //const mails = await MailModel.find({ to: to, 'from._id': userId });
@@ -406,6 +385,31 @@ const importantMails = asyncHandler(async (req, res) => {
   }
 });
 
+const saveDraft = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
+  const { to, subject, message } = req.body;
+
+  const newMail = new MailModel({
+    from: currentuser._id,
+    to: Array.isArray(to) ? to : [to],
+    subject,
+    message,
+    starred: false,
+    bin: false,
+    draft: true,
+  });
+
+  await newMail.save();
+
+  await MailBoxModel.findOneAndUpdate(
+    { userId: currentuser._id, name: 'Drafts' },
+    { $addToSet: { mails: newMail._id } },
+    { upsert: true },
+  );
+
+  res.status(200).json('draft saved successfully');
+});
+
 module.exports = {
   sendEmail,
   receiveEmail,
@@ -415,4 +419,5 @@ module.exports = {
   forwardEmail,
   replyToEmail,
   importantMails,
+  saveDraft,
 };

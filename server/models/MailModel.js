@@ -43,6 +43,10 @@ const mailSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  draft: {
+    type: Boolean,
+    default: false,
+  },
 });
 // modele pour la collection Mail
 const MailModel = mongoose.model('MailModel', mailSchema);

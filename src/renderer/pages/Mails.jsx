@@ -30,7 +30,7 @@ function Mails() {
       }}
     >
       <SideBarPage
-        elements={['inbox', 'outbox', 'important', 'starred', 'bin']}
+        elements={['inbox', 'outbox', 'important', 'starred', 'drafts', 'bin']}
         path="mails"
         showNewMessageForm={showNewMessageForm}
         showNewMailList={showNewMailList}

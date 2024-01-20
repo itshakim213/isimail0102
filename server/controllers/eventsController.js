@@ -110,7 +110,6 @@ const deleteEvent = asyncHandler(async (req, res) => {
     }
 
     // supprim l'événement
-    // await Event.deleteOne({ _id: eventId });
     const deletedEvent = await Event.findByIdAndDelete(eventId);
     console.log('Deleted Event:', deletedEvent);
 

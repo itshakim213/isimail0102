@@ -127,6 +127,25 @@ const retrieveMails = asyncHandler(async (req, res) => {
       });
     }
 
+    let drafts = await MailBoxModel.findOne({
+      userId: user._id,
+      name: 'Drafts',
+    }).populate({
+      path: 'mails',
+      populate: {
+        path: 'from',
+        select: 'firstname lastname email',
+      },
+    });
+
+    if (!drafts) {
+      drafts = await MailBoxModel.create({
+        userId: user._id,
+        name: 'Drafts',
+        mails: [],
+      });
+    }
+
     let selectedMailbox;
     switch (mailbox) {
       case 'outbox':
@@ -143,6 +162,9 @@ const retrieveMails = asyncHandler(async (req, res) => {
         break;
       case 'bin':
         selectedMailbox = sortMailsByCreatedAt(bin.mails);
+        break;
+      case 'drafts':
+        selectedMailbox = sortMailsByCreatedAt(drafts.mails);
         break;
       default:
         return res
