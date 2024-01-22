@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/AccountSettingsForm.css';
 
-
 function AccountSettingsForm({ email }) {
-
-
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -23,11 +20,10 @@ function AccountSettingsForm({ email }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
   };
 
   const handleDeleteAccount = () => {
-    console.log("Compte supprimé !");
+    console.log('Compte supprimé !');
   };
 
   return (
@@ -72,14 +68,12 @@ function AccountSettingsForm({ email }) {
       <div className="setting-box">
         <label className="option">Numéro de téléphone de récupération</label>
         <input type="text" placeholder="Numéro de téléphone de récupération" />
-
       </div>
 
-
       <div className="setting-box">
-       <button className="delete-account-button" onClick={handleDeleteAccount}>
-                    Supprimer le compte
-       </button>
+        <button className="delete-account-button" onClick={handleDeleteAccount}>
+          Supprimer le compte
+        </button>
       </div>
 
       <div className="setting-box">

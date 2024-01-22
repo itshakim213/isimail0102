@@ -9,11 +9,28 @@ const generateToken = require('../config/generateToken');
 
 const registerUser = asyncHandler(async (req, res) => {
   // Extraction des données du corps de la requête
-  const { firstname, lastname, dateofbirth, email, password, securityAnswer } =
-    req.body;
+  const {
+    firstname,
+    lastname,
+    dateofbirth,
+    email,
+    password,
+    securityAnswer,
+    securityQuestion,
+    secureMail,
+  } = req.body;
 
   // Vérification de la présence de toutes les données nécessaires
-  if (!firstname || !lastname || !dateofbirth || !email || !password) {
+  if (
+    !firstname ||
+    !lastname ||
+    !dateofbirth ||
+    !email ||
+    !password ||
+    !securityQuestion ||
+    !securityAnswer ||
+    !secureMail
+  ) {
     res.status(400);
     throw new Error('Please enter all the fields');
   }
@@ -34,6 +51,8 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     securityAnswer,
+    securityQuestion,
+    secureMail,
     isResettingPassword: false,
   });
 
@@ -52,6 +71,8 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       securityAnswer: user.securityAnswer,
       isResettingPassword: user.isResettingPassword,
+      securityQuestion: user.securityQuestion,
+      secureMail: user.secureMail,
       // otp: generatedOTP, // j'ai rajouté otp ici pour le sauvegarder lors d'inscription
       token: generateToken(user._id),
     });

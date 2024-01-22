@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SideBarPage from '../components/SideBarPage';
-import SettingsForm from '../components/SettingsForm';
+// import SettingsForm from '../components/SettingsForm';
 import AccountSettingsForm from '../components/AccountSettingsForm';
 
-
 function Settings() {
-  let elems = [
-    'Parametre Generals',
-    'mohanddjouadi@gmail.com',
-    'mohanddjouadi.@fgei.ummto.dz',
-  ];
+  // const [currentSettings, setCurrentSettings] = useState('Parametre de compte');
+
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  console.log(user);
+
   return (
     <div
       className="page"
@@ -20,10 +19,16 @@ function Settings() {
         flexDirection: 'row',
       }}
     >
-      <SideBarPage elements={elems} path="settings" />
-      <SettingsForm />
+      <SideBarPage
+        elements={['Parametre de compte', 'Parametre general']}
+        path="settings"
+        setCurrentSettings={setCurrentSettings}
+      />
+      <AccountSettingsForm
+      // currentSettings={currentSettings}
+      />
+      {/* <SettingsForm currentSettings={currentSettings} /> */}
     </div>
-
   );
 }
 

@@ -7,6 +7,32 @@ function Newmessage() {
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  //   const [attachments, setAttachments] = useState([]);
+
+  //   const handleFileChange = (e) => {
+  //     setAttachments(e.target.files);
+  //   };
+
+  //   const formData = new FormData();
+  // formData.append('to', to);
+  // formData.append('subject', subject);
+  // formData.append('message', message);
+
+  // // Append each file to the FormData
+  // for (let i = 0; i < attachments.length; i++) {
+  //   formData.append('attachments', attachments[i]);
+  // }
+
+  // const response = await axios.post(
+  //   'http://localhost:4001/api/mail/sendemail',
+  //   formData,
+  //   {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //       Authorization: `Bearer ${user.token}`,
+  //     },
+  //   }
+  // );
 
   async function submitForm(e) {
     e.preventDefault();
@@ -82,6 +108,11 @@ function Newmessage() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
+        {/* <input
+          type="file"
+          onChange={(e) => handleFileChange(e)}
+          multiple
+        /> */}
         {/* <input type="file" onChange={(e) => setAttachment(e.target.files[0])} /> */}
         <Button btnText="Submit" />
         {/* <Button btnText="Draft" onClick={saveDraft} /> */}

@@ -17,6 +17,8 @@ function Signup({ handleLogin }) {
   const navigate = useNavigate();
   const [securityQuestion, setSecurityQuestion] = useState('');
   const [securityAnswer, setSecurityAnswer] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [secureMail, setSecureMail] = useState('');
 
   async function addUser() {
     try {
@@ -33,6 +35,8 @@ function Signup({ handleLogin }) {
           dateofbirth,
           email,
           password,
+          secureMail,
+          securityQuestion,
           securityAnswer,
         },
         config,
@@ -46,7 +50,14 @@ function Signup({ handleLogin }) {
   async function submit(e) {
     e.preventDefault();
     setError(false); // Reset error before submission
+
+    if (password !== confirmPassword) {
+      alert('Les mots de passe ne correspondent pas.');
+      return;
+    }
+
     const userDataPromise = addUser();
+
     userDataPromise
       .then((userData) => {
         sessionStorage.setItem('user', JSON.stringify(userData));
@@ -55,7 +66,7 @@ function Signup({ handleLogin }) {
         alert('Connexion réussie !');
         console.log(userItem);
         handleLogin();
-        navigate('/');
+        navigate('/mails/inbox');
       })
       .catch((error) => {
         console.error(error);
@@ -140,16 +151,21 @@ function Signup({ handleLogin }) {
               value={password}
               onChange={(e) => setpassword(e.target.value)}
             ></input>
+            <label>Confirmez votre mot de passe :</label>
             <input
               type="password"
               placeholder="Confirmez votre mot de passe"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             ></input>
             <br></br>
             <label>Email de sécurité : </label>
             <input
               type="email"
               placeholder="Entrez votre email de sécurité"
-            />
+              value={secureMail}
+              onChange={(e) => setSecureMail(e.target.value)}
+            ></input>
             <br></br>
             <label>Question de sécurité : </label>
             <select

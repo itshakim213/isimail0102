@@ -15,23 +15,11 @@ function SideBar() {
         <ul>
           <li>
             <NavLink
-              to="/mails/boite_de_reception"
+              to="/mails/inbox"
               className={loc.pathname.startsWith('/mails') ? 'active' : ''}
             >
               <img src={mail} alt="mail-icon" width={25} height={25} />
             </NavLink>
-            {/* const MailboxLink = ({(to, label)}) => (
-            <NavLink to={to} className="mail-link">
-              {label}
-            </NavLink>
-            );
-            <div>
-              <MailboxLink to="/mails/Inbox" label="Boîte de réception" />
-              <MailboxLink to="/mails/Outbox" label="Envoyés" />
-              <MailboxLink to="/mails/Important" label="Important" />
-              <MailboxLink to="/mails/Starred" label="Favoris" />
-              <MailboxLink to="/mails/Bin" label="Corbeille" />
-            </div> */}
           </li>
           <li>
             <NavLink
