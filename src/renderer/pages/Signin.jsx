@@ -43,26 +43,6 @@ function Signin({ handleLogin }) {
     }
   }
 
-  // async function submit(e) {
-  //   e.preventDefault();
-  //   setError(false);
-  //   const LoadUserPromise = LoadUser();
-  //   LoadUserPromise.then((userData) => {
-  //     sessionStorage.setItem('user', JSON.stringify(userData));
-  //     const userItem = JSON.parse(sessionStorage.getItem('user'));
-  //     setIsSubmitted(true);
-  //     alert('Connexion réussie !');
-  //     handleLogin();
-  //     navigate('/mails/boite_de_reception');
-  //   }).catch((error) => {
-  //     console.log(error);
-  //     setError(true);
-  //     alert(
-  //       "Une erreur est survenue lors de l'authentification. Veuillez réessayer.",
-  //     );
-  //   });
-  // }
-
   async function submit(e) {
     e.preventDefault();
     setError(false);
@@ -73,7 +53,7 @@ function Signin({ handleLogin }) {
       setIsSubmitted(true);
       alert('Connexion réussie !');
       handleLogin();
-      navigate('/mails/boite_de_reception');
+      navigate('/mails/inbox');
     } catch (error) {
       console.log(error);
       setError(true);
@@ -124,7 +104,6 @@ function Signin({ handleLogin }) {
                 className="eye-icon"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {/* Utilisez FontAwesomeIcon pour afficher l'icône */}
                 <FontAwesomeIcon
                   icon={showPassword ? faEye : faEyeSlash}
                   className="eye-icon-inner"
@@ -137,21 +116,18 @@ function Signin({ handleLogin }) {
                 required
               />
             </div>
-            {/* <input
-              // type="password"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="enter your passeword"
-              onChange={(e) => setpassword(e.target.value)}
-              required
-            ></input>
-            <label>
-              <input
-                type="checkbox"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              showPassword
-            </label> */}
+            <div className="forgot-password-link">
+              <span
+                className="forgot-password"
+                style={{
+                  color: 'spacegrey',
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                }}
+              >
+                Forgot Password?
+              </span>
+            </div>
             <br></br>
             <br></br>
             <Button

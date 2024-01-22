@@ -29,9 +29,15 @@ const accessChat = asyncHandler(async (req, res) => {
   if (isChat.length > 0) {
     res.send(isChat[0]); // Retourne la conversation existante s'il y en a une
   } else {
+    // Obtenez les détails de l'utilisateur invité
+    const invitedUser = await User.findById(userId);
+
+    // Construisez le chatName en utilisant le nom et le prénom de l'utilisateur invité
+    const chatNamee = `${invitedUser.firstname} ${invitedUser.lastname}`;
+    // Crée un nouveau chat privé avec l'utilisateur connecté et
     // Si la conversation n'existe pas, elle est créée
     const chatData = {
-      chatName: 'sender',
+      chatName: chatNamee,
       isGroupChat: false,
       users: [req.user._id, userId],
     };

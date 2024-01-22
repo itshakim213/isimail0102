@@ -14,6 +14,9 @@ function Header({ handleLogout }) {
 
   return (
     <header>
+      {/* <div className="profile-pic">
+        <img src={user.pic} alt="Profile" width="30" height="30" />
+      </div> */}
       <p className="user-session">
         {user && `${user.firstname} ${user.lastname}`}
       </p>
