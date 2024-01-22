@@ -49,3 +49,25 @@
   padding: 10px;
   margin-bottom: 20px;
 }
+
+.password-input-container {
+  position: relative;
+  display: flex;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.eye-icon-inner {
+  font-size: 1.2em;
+  color: gray;
+}
+
+.eye-icon.show .eye-icon-inner {
+  color: black;
+}

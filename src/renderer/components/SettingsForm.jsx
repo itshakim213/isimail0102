@@ -59,18 +59,35 @@ function SettingsForm() {
       <div className="setting-checkbox">
         <label className="option">Confirmer les actions:</label>
         <div className="values">
-          <input type="checkbox" id="suppression" name="suppression" />
-          <label for="suppression">Confirmer avant suppression</label>
+          <input type="radio" id="suppression" name="suppression" value="suppression" />
+          <label htmlFor="suppression">Confirmer avant suppression</label>
         </div>
         <div className="values">
-          <input type="checkbox" id="archivage" name="archivage" />
-          <label for="archivage">Confirmer avant archivage</label>
+          <input type="radio" id="archivage" name="archivage" value ="archivage" />
+          <label htmlFor="archivage">Confirmer avant archivage</label>
         </div>
         <div className="values">
+<<<<<<< HEAD
           <input type="checkbox" id="envoi" name="envoi" />
           <label for="envoi">Confirmer avant l'envoie</label>s
+=======
+          <input type="radio" id="envoi" name="envoi" value = "envoi"/>
+          <label htmlFor="envoi">Confirmer avant l'envoie</label>
+>>>>>>> f0041a8df519c5c28d52007d686264332981636c
         </div>
       </div>
+      {/* <script>
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      checkboxes.forEach(cb => {
+        if (cb !== this) {
+          cb.checked = false;
+        }
+      });
+    });
+  });
+</script> */}
     </form>
   );
 }

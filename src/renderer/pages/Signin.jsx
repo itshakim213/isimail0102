@@ -6,12 +6,16 @@ import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
 import '../styles/signin.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   async function LoadUser() {
     try {
@@ -108,23 +112,50 @@ function Signin({ handleLogin }) {
             <br></br>
             <input
               type="text"
-              placeholder="enter you email address"
+              placeholder="Saisissez votre adresse TalkMail"
               onChange={(e) => setemail(e.target.value)}
               required
             ></input>
             <br></br>
-            <label>Password:</label>
+            <label>Mot de passe :</label>
             <br></br>
-            <input
-              type="password"
+            <div className="password-input-container">
+              <div
+                className="eye-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {/* Utilisez FontAwesomeIcon pour afficher l'icône */}
+                <FontAwesomeIcon
+                  icon={showPassword ? faEye : faEyeSlash}
+                  className="eye-icon-inner"
+                />
+              </div>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Saisissez votre mot de passe"
+                onChange={(e) => setpassword(e.target.value)}
+                required
+              />
+            </div>
+            {/* <input
+              // type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="enter your passeword"
               onChange={(e) => setpassword(e.target.value)}
               required
             ></input>
+            <label>
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              showPassword
+            </label> */}
             <br></br>
             <br></br>
             <Button
-              btnText="Submit"
+              btnText="Se connecter"
               onClick={submit}
               CustomClass="signin-btn"
             />

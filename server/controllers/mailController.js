@@ -22,30 +22,39 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }); // thoura on peut utiliser uploade avec la config storage que jai fait di s multer
 
 const sendEmail = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
+  console.log(
+    `New mail was sent successfully! Sent by waki ---> ${currentuser.firstname} ${currentuser.lastname}`,
+  );
   try {
     // comme d hab extraction des donnée
-    const { from, to, subject, message, attachments } = req.body;
+    const { to, subject, message, attachments } = req.body;
     // verifikaychon de user dans user db
-    const userFrom = await User.findOne({ _id: from });
-    const userTo = await User.findOne({ _id: to });
 
-    // ça c pour cc ou cci
-    //const userTo = await User.findOne({ email: { $in: to } });
+    // const dest = Array.isArray(to) ? to : [to];
 
-    //if ( !userTo.length) {
-    //  return res.status(404).json({ error: 'Utilisateur introuvable' }); // sinon c sa faute 404
-    ///}
+    // // ça c pour cc ou cci
+    // const usersTo = await User.find({ _id: { $in: dest } });
 
-    if (!userFrom || !userTo) {
-      return res.status(404).json({ error: 'Utilisateur introuvable' }); // sinon c sa faute 404
+    // if (usersTo.length !== dest.length) {
+    //   return res.status(404).json({ error: 'Utilisateur introuvable' });
+    // }
+    const userTo = await User.findOne({ email: to });
+
+    if (!userTo) {
+      return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
+
     // la variable qui va contenir le mail aki et avec elle en va entregistrer di mail db
     const newMail = new MailModel({
-      from: userFrom._id,
+      from: currentuser._id,
       to: userTo._id,
+      // usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
       subject,
       message,
       attachments: [],
+      starred: false,
+      bin: false,
     });
 
     // middleware upload pour gérer les pj
@@ -77,17 +86,22 @@ const sendEmail = asyncHandler(async (req, res) => {
       await newMail.save();
       // update la Outbox (Boîte d’envoi) de l'expéditeur
       await MailBoxModel.findOneAndUpdate(
-        { userId: userFrom._id, name: 'Outbox' },
+        // { userId: userFrom._id, name: 'Outbox' },
+        { userId: currentuser._id, name: 'Outbox' },
         { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Outbox
         { upsert: true }, // Si la Outbox n'existe pas, on va la créer grace à upsert aki
       );
 
       // update la Inbox (Boîte de réception) du destinataire
+      // for (const userTo of usersTo) {
       await MailBoxModel.findOneAndUpdate(
         { userId: userTo._id, name: 'Inbox' },
         { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
         { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
       );
+      // }
+
+      console.log('sent mail is : ', newMail);
 
       // response msg
       res.status(200).json('mail sent successfully');
@@ -127,49 +141,48 @@ const receiveEmail = asyncHandler(async (req, res) => {
 // en le gardant dans l origine
 // et quand tu le retire s put ad yekhdhem une MàJ
 const toggleStarredEmail = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
+  console.log('Info sur current user', currentuser);
   try {
-    const { mailId, value } = req.body;
-    const mail = await MailModel.findById(mailId);
-    console.log('Found Mail:', mail);
+    const { mailId } = req.body;
+    const mail = await MailModel.findById(mailId); // recuperer le mail en qst
+    console.log('Found Mail:', mail); // l'afficher
     if (!mail) {
-      return res.status(404).json({ error: 'Mail not found' });
+      return res.status(404).json({ error: 'Mail not found' }); // non d lkhir kan ulach
     }
 
-    console.log('Mail ID:', mailId);
-    console.log('Mail Object:', mail);
+    // kifkif pr favoris
+    const starredMailbox = await MailBoxModel.findOne({
+      userId: currentuser._id,
+      name: 'Starred',
+    });
 
-    let starredMailbox = await MailBoxModel.findOne({ name: 'Starred' });
-    console.log('Starred Mailbox:', starredMailbox);
+    // ca c comme d hab
     if (!starredMailbox) {
       return res.status(404).json({ error: 'Starred mailbox not found' });
     }
 
-    // if (value) {
-    //   starredMailbox.mails.addToSet(new mongoose.Types.ObjectId(mailId));
-    // } else {
-    //   starredMailbox.mails.pull(new mongoose.Types.ObjectId(mailId));
-    // }
+    const star = mail.starred; // je stock la valeur true negh fals dans la var star
 
-    if (mongoose.Types.ObjectId.isValid(mailId)) {
-      const objectId = new mongoose.Types.ObjectId(mailId);
-
-      if (value) {
-        if (!starredMailbox.mails.some((id) => id.equals(objectId))) {
-          starredMailbox.mails.push(objectId);
-        }
-      } else {
-        starredMailbox.mails = starredMailbox.mails.filter(
-          (id) => !id.equals(objectId),
-        );
-      }
-
-      
-      await starredMailbox.save();
+    if (star) {
+      starredMailbox.mails.pull(mail._id); // si il est deja true je pull donc
     } else {
-      res.status(400).json({ error: 'Invalid mail ID' });
+      starredMailbox.mails.addToSet(mail._id); // sinon je l'ajoute
     }
 
-    res.status(201).json('Value is updated');
+    mail.starred = !star; // jinverse la valuer de starred par rapport au resultas precedent
+    await mail.save(); // je MàJ le mail et je prend s en compte celle de starred (le parametre)
+
+    console.log('Saving starred mailbox...');
+    await starredMailbox.save(); // saving it ;p
+
+    console.log(
+      'Here is the added/removed mail, look at its starred value : ',
+      mail,
+    );
+    console.log('Starred mailbox saved!');
+    console.log('Here it is the Starred Mailbox:', starredMailbox); // booooom ;)
+    res.status(201).json('starred updated');
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -177,32 +190,51 @@ const toggleStarredEmail = asyncHandler(async (req, res) => {
 
 // deplacer mail vers corbeille=bin
 const moveToBin = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
   try {
     // extraire id de mail
     const { mailId } = req.body;
 
-    const mail = await MailModel.findById(mailId); // verifyi l existence de mail dans le mail model db
+    const mail = await MailModel.findById(mailId);
+    // verifyi l existence de mail dans le mail model db
     if (!mail) {
       return res.status(404).json({ error: 'Mail not found' }); //404 azka ughaled
     }
+    console.log('Found Mail:', mail); // l'afficher
 
-    const binMailbox = await MailBoxModel.findOne({ name: 'Bin' });
+    // comme d'hab :-/
+    const binMailbox = await MailBoxModel.findOne({
+      userId: currentuser._id,
+      name: 'Bin',
+    });
     if (!binMailbox) {
       return res.status(404).json({ error: 'Bin mailbox not found' });
     }
 
-    // la meme chose avec push mais pas comme toogle chghel aki d la suppression
-    // mais avec put car de la corbeille tu px le recupérer
-    binMailbox.mails.push(mail._id);
-    await binMailbox.save();
+    const BinValue = mail.bin;
 
-    res.status(201).json('Mail moved to bin');
+    if (BinValue === false) {
+      // bin attoughal true et on l'ajoute ar bin mail box
+      mail.bin = true;
+      binMailbox.mails.push(mail._id);
+    } else {
+      // bin attoughal false et attoughal ansii dussa
+      mail.bin = false;
+      binMailbox.mails.pull(mail._id);
+    }
+
+    await mail.save(); // sauvegarder les changements
+    await binMailbox.save(); // Màj de dossier bin
+
+    console.log('Bin Mailbox:', binMailbox);
+
+    res.status(201).json('bin updated');
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-//supprimer  un mail carrément
+//supprimer  un mail carrément pour de beau, irreversible !!
 const deleteMail = asyncHandler(async (req, res) => {
   try {
     const { mailId } = req.body;
@@ -252,6 +284,132 @@ const forwardEmail = asyncHandler(async (req, res) => {
   }
 });
 
+const replyToEmail = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
+
+  try {
+    const { mailId, message } = req.body;
+
+    // le mail a quoi repondre
+    const originalMail = await MailModel.findById(mailId).populate(
+      'from',
+      'firstname lastname email',
+    );
+    if (!originalMail) {
+      return res.status(404).json({ error: 'Original mail not found' });
+    }
+
+    // je crre le schema de mail avec lequel je repond et
+    // je garde tt les infos de mail d origin
+    const repliedMail = new MailModel({
+      from: currentuser._id,
+      to: originalMail.from._id,
+      subject: `Re: ${originalMail.subject}`,
+      message: `On ${new Date().toLocaleString()}, ${currentuser.firstname} ${
+        currentuser.lastname
+      } wrote:\n${message}\n\nOriginal Message:\nFrom: ${
+        originalMail.from.firstname
+      } ${originalMail.from.lastname}\nSubject: ${originalMail.subject}\n\n${
+        originalMail.message
+      }`,
+      attachments: [],
+      starred: false,
+      bin: false,
+    });
+
+    // si on veut envoyer egalement des PJs avec on dois rajouter la configuration de attachement here aussi
+
+    await repliedMail.save();
+
+    // MàJ de outbox
+    await MailBoxModel.findOneAndUpdate(
+      { userId: currentuser._id, name: 'Outbox' },
+      { $addToSet: { mails: repliedMail._id } },
+      { upsert: true },
+    );
+
+    // MàJ de inbox
+    await MailBoxModel.findOneAndUpdate(
+      { userId: originalMail.from._id, name: 'Inbox' },
+      { $addToSet: { mails: repliedMail._id } },
+      { upsert: true },
+    );
+
+    res.status(200).json('Reply sent successfully');
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+const importantMails = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
+  console.log('Info sur current user', currentuser);
+  try {
+    const { mailId } = req.body;
+    const mail = await MailModel.findById(mailId); // recuperer le mail en qst
+    console.log('Found Mail:', mail); // l'afficher
+    if (!mail) {
+      return res.status(404).json({ error: 'Mail not found' }); // non d lkhir kan ulach
+    }
+
+    // kifkif pr favoris
+    const importantMailbox = await MailBoxModel.findOne({
+      userId: currentuser._id,
+      name: 'Important',
+    });
+
+    // ca c comme d hab
+    if (!importantMailbox) {
+      return res.status(404).json({ error: 'important mailbox not found' });
+    }
+
+    const imp = mail.important; // je stock la valeur true negh fals dans la var star
+
+    if (imp) {
+      importantMailbox.mails.pull(mail._id); // si il est deja true je pull donc
+    } else {
+      importantMailbox.mails.addToSet(mail._id); // sinon je l'ajoute
+    }
+
+    mail.important = !imp; // jinverse la valuer de imp par rapport au resultas precedent
+    await mail.save(); // je MàJ le mail et je prend s en compte celle de important (le parametre)
+
+    console.log('Saving important mailbox...');
+    await importantMailbox.save(); // saving it ;p
+
+    console.log('Important mailbox saved!');
+    console.log('Here it is the important Mailbox:', importantMailbox); // booooom ;)
+    res.status(201).json('important updated');
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+const saveDraft = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
+  const { to, subject, message } = req.body;
+
+  const newMail = new MailModel({
+    from: currentuser._id,
+    to: Array.isArray(to) ? to : [to],
+    subject,
+    message,
+    starred: false,
+    bin: false,
+    draft: true,
+  });
+
+  await newMail.save();
+
+  await MailBoxModel.findOneAndUpdate(
+    { userId: currentuser._id, name: 'Drafts' },
+    { $addToSet: { mails: newMail._id } },
+    { upsert: true },
+  );
+
+  res.status(200).json('draft saved successfully');
+});
+
 module.exports = {
   sendEmail,
   receiveEmail,
@@ -259,4 +417,7 @@ module.exports = {
   deleteMail,
   toggleStarredEmail,
   forwardEmail,
+  replyToEmail,
+  importantMails,
+  saveDraft,
 };

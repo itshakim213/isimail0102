@@ -9,12 +9,22 @@ import NewMessage from '../components/Newmessage';
 import '../styles/mails.css';
 import SideBarButton from './SideBarButton';
 
+<<<<<<< HEAD
 function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElementClick }) {
   const handleElementClick = (element) => {
     if (onElementClick) {
       onElementClick(element);
     }
   }
+=======
+function SideBarPage({
+  elements,
+  path,
+  showNewMessage,
+  showNewMessageForm,
+  setCurrentMailBox,
+}) {
+>>>>>>> f0041a8df519c5c28d52007d686264332981636c
   return (
     <div className="side-bar-page">
       {path === 'mails' && (
@@ -29,9 +39,9 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElem
           height={85}
         />
       ) : (
-        <div className="side-bar-page">
           <nav style={{ marginTop: 65 }}>
             {elements.map((item, index) => (
+<<<<<<< HEAD
               <div key={`${index}-${item}`} onClick={() => handleElementClick(item)} className="nav-item">
               {item}
             </div>
@@ -40,6 +50,30 @@ function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElem
         </div>
 
         )}
+=======
+              <NavLink
+                to={`/${path}/${item}`}
+                key={`${index}-${item}`}
+                className="nav-item"
+                onClick={() => setCurrentMailBox(item)}
+              >
+                {item}
+              </NavLink>
+            ))}
+          </nav>
+        // <nav style={{ marginTop: '.5rem' }}>
+        //   {elements.map((item, index) => (
+        //     <NavLink
+        //       to={`/${path}/${item}`}
+        //       key={`${index}-${item}`}
+        //       className="nav-item"
+        //     >
+        //       {item.replace(/_/g, ' ')}
+        //     </NavLink>
+        //   ))}
+        // </nav>
+      )}
+>>>>>>> f0041a8df519c5c28d52007d686264332981636c
 
       {path === 'chats' && !showNewMessage && (
         <SideBarButton text="Ajouter Conversation" />

@@ -21,7 +21,8 @@ router.get('/me', async (req, res) => {
   res.send(await userModel.findById(user._id));
 });
 
-router.route('/').post(registerUser).get(searchUsers);
+router.route('/').post(registerUser)
+router.get('/search', protect, searchUsers);
 router.post('/signin', authUser);
 router.delete('/delete/:id', protect, deleteUsers);
 router.post('/forgot', forgotPassword);

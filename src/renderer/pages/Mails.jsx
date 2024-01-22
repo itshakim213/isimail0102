@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import SideBarPage from '../components/SideBarPage';
 import PageList from '../components/PageList';
 import PageSelectCont from '../components/PageSelectCont';
@@ -8,6 +8,7 @@ import MailList from '../components/MailList';
 function Mails() {
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [showNewMail, setShowNewMail] = useState(false);
+  const [currentMailBox, setCurrentMailBox] = useState('inbox');
 
   const showNewMessageForm = () => {
     setShowNewMessage(!showNewMessage);
@@ -16,6 +17,8 @@ function Mails() {
   const showNewMailList = () => {
     setShowNewMail(!showNewMail);
   };
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  console.log(user);
 
   return (
     <div
@@ -29,21 +32,17 @@ function Mails() {
       }}
     >
       <SideBarPage
-        elements={[
-          <Link to="#" onClick={showNewMailList} className="mail-link">
-            Boite de receptions
-          </Link>,
-          'Boite d envoie',
-          'Brouillons',
-          'Favoris',
-          'Spam',
-          'Corbeille',
-        ]}
+        elements={['inbox', 'outbox', 'important', 'starred', 'drafts', 'bin']}
         path="mails"
         showNewMessageForm={showNewMessageForm}
         showNewMailList={showNewMailList}
+        setCurrentMailBox={setCurrentMailBox}
       />
-      <PageList showNewMail={showNewMail} showNewMailList={showNewMailList} />
+      <PageList
+        showNewMail={showNewMail}
+        showNewMailList={showNewMailList}
+        currentMailBox={currentMailBox}
+      />
       <PageSelectCont
         message="select mail to read"
         showNewMessage={showNewMessage}

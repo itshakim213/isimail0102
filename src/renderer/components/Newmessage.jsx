@@ -7,56 +7,46 @@ function Newmessage() {
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
-  //const [attachment, setAttachment] = useState(null);
 
   async function submitForm(e) {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token');
+      // const token = localStorage.getItem('token');
+      const user = JSON.parse(sessionStorage.getItem('user'));
 
-      await axios.post(
-        'http://localhost:4001/api/newmessage',
+      // Log user token
+      console.log('User Token:', user.token);
+
+      const response = await axios.post(
+        'http://localhost:4001/api/mail/sendemail',
         {
           to,
           subject,
           message,
-          // Assurez-vous que attachmentId est défini ou retiré de la requête si non utilisé
-          //attachment,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         },
       );
+
+      console.log('Server response:', response.data);
+      console.log(to);
+      console.log(subject);
+      console.log(message);
       // Réinitialisation des champs après l'envoi
       setTo('');
       setSubject('');
       setMessage('');
-      //setAttachment(null);
-      // Réinitialiser attachmentId si utilisé
-      // setAttachmentId('');
     } catch (error) {
       console.error("Erreur lors de l'envoi du message :", error);
-    }
-  }
-  async function saveDraft() {
-    try {
-      await axios.put('http://localhost:4001/api/draft', {
-        //from,
-        //to,
-        //subject,
-        //message,
-        send: false, // Indique que c'est un brouillon
-      });
-      // Réinitialisation des champs après l'enregistrement du brouillon
-      setFrom('');
-      setTo('');
-      setSubject('');
-      setMessage('');
-    } catch (error) {
-      console.error("Erreur lors de l'enregistrement du brouillon ", error);
+
+      // Log the specific response data from the server (if available)
+      if (error.response) {
+        console.error('Server respons Data:', error.response.data);
+      }
     }
   }
 
@@ -64,7 +54,9 @@ function Newmessage() {
     <body>
       <form className="form-sendMsg" onSubmit={submitForm}>
         <br></br>
-        <p className="mail-send">Let's send an email</p>
+        <p className="mail-send">
+          {subject === '' ? 'new mail' : `${subject}`}
+        </p>
         <br></br>
 
         <input
@@ -90,9 +82,9 @@ function Newmessage() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
-        <input type="file" onChange={(e) => setAttachment(e.target.files[0])} />
+        {/* <input type="file" onChange={(e) => setAttachment(e.target.files[0])} /> */}
         <Button btnText="Submit" />
-        <Button btnText="Draft" onClick={saveDraft} />
+        {/* <Button btnText="Draft" onClick={saveDraft} /> */}
       </form>
     </body>
   );

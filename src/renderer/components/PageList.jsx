@@ -1,12 +1,14 @@
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Empty from './Empty';
 import noMails from '../assets/noMails.png';
 import noFiles from '../assets/noFiles.png';
 import noContact from '../assets/noContact.png';
 import '../styles/PageList.css';
-import MailList from '../components//MailList';
+import MailList from '../components/MailList';
 
-function PageList(showNewMail, showNewMailList) {
+function PageList(showNewMail, showNewMailList, currentMailBox) {
+  // console.log('test', { showNewMail, showNewMailList, currentMailBox });
   let locat = useLocation().pathname;
   let part = locat.split('/');
   if (part[1] === 'mails') {
@@ -20,7 +22,7 @@ function PageList(showNewMail, showNewMailList) {
         }}
       >
         {showNewMail ? (
-          <MailList />
+          <MailList currentMailBox={showNewMail.currentMailBox} />
         ) : (
           <Empty
             image={noMails}

@@ -1,10 +1,10 @@
 import React from 'react';
 import SideBarPage from '../components/SideBarPage';
+import SideBarContact from '../components/SideBarContact';
 import PageList from '../components/PageList';
 import PageSelectCont from '../components/PageSelectCont';
 
 function Chats() {
-  let elems = [];
   return (
     <div
       className="page"
@@ -15,7 +15,8 @@ function Chats() {
         flexDirection: 'row',
       }}
     >
-      <SideBarPage elements={elems} path="chats" />
+      {/* <SideBarPage elements={elems} path="chats" /> */}
+      <SideBarContact />
       <PageList />
       <PageSelectCont message="select contact" />
     </div>

@@ -20,14 +20,14 @@ function Navbar(props) {
           <li>
             <Button
               btnLink="/signin"
-              btnText="Sign in"
+              btnText="Se connecter"
               CustomClass="button-link2"
             />
           </li>
           <li>
             <Button
               btnLink="/signup"
-              btnText="Create account"
+              btnText="Créer un compte"
               CustomClass="button-link1"
             />
           </li>

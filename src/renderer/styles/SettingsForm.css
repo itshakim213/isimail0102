@@ -14,14 +14,23 @@
 }
 
 .setting-checkbox {
+<<<<<<< HEAD
   padding: 3vh 3vw;
   margin: 5px 0 5px 3vw;
+=======
+  padding: 2vh 2vw;
+  margin: 5px 0 5px 5vw;
+>>>>>>> f0041a8df519c5c28d52007d686264332981636c
   background-color: rgba(126, 123, 123, 0.2);
   display: flex;
   flex-direction: column;
 }
 .setting-checkbox .option {
+<<<<<<< HEAD
   margin-bottom: 30px;
+=======
+  margin-bottom: 10px
+>>>>>>> f0041a8df519c5c28d52007d686264332981636c
 }
 
 .option {
