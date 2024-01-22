@@ -1,0 +1,42 @@
+.DialogTitle-root {
+  color: #99b0db;
+  font-size: 20px;
+  font-family: 'Your Font Family', sans-serif;
+  text-transform: uppercase;
+  padding: 10px;
+  padding-left: 0;
+}
+
+.DialogContent-root {
+  padding: 16px;
+  background-color: #1a2e62;
+}
+
+.Typography-variantH5 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-family: 'Arial', sans-serif;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.836);
+  padding-left: 80px;
+}
+
+.Typography-details {
+  color: whitesmoke;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-family: 'Your Font Family', sans-serif;
+}
+
+.Button-close {
+  margin-top: 16px;
+  background-color: #99b0db;
+
+  color: #fff;
+  font-size: 16px;
+  font-family: 'Your Font Family', sans-serif;
+}
+
+.Button-close:hover {
+  background-color: #d84315;
+}
