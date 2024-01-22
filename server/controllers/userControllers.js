@@ -18,6 +18,7 @@ const registerUser = asyncHandler(async (req, res) => {
     securityAnswer,
     securityQuestion,
     secureMail,
+    pic,
   } = req.body;
 
   // Vérification de la présence de toutes les données nécessaires
@@ -54,6 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
     securityQuestion,
     secureMail,
     isResettingPassword: false,
+    pic,
   });
 
   // // Génération et sauvegarde de l'OTP
@@ -75,6 +77,7 @@ const registerUser = asyncHandler(async (req, res) => {
       secureMail: user.secureMail,
       // otp: generatedOTP, // j'ai rajouté otp ici pour le sauvegarder lors d'inscription
       token: generateToken(user._id),
+      pic: user.pic,
     });
   } else {
     res.status(400);

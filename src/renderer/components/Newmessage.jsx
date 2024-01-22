@@ -7,7 +7,7 @@ function Newmessage() {
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
-  //   const [attachments, setAttachments] = useState([]);
+  // const [attachments, setAttachments] = useState([]);
 
   //   const handleFileChange = (e) => {
   //     setAttachments(e.target.files);
