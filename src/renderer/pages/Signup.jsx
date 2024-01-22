@@ -20,6 +20,35 @@ function Signup({ handleLogin }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [secureMail, setSecureMail] = useState('');
 
+  const [pic, setpic] = useState(
+    'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
+  );
+  const postDetails = (pics) => {
+    if (pics === undefined) {
+      return;
+    }
+    if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
+      const data = new FormData();
+      data.append('file', pics);
+      data.append('upload_preset', 'isinnovate');
+      data.append('cloud_name', 'dcdmnv6uy');
+      fetch('https://api.cloudinary.com/v1_1/dcdmnv6uy/image/upload', {
+        method: 'post',
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setpic(data.url.toString());
+          console.log(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return;
+    }
+  };
+
   async function addUser() {
     try {
       const config = {
@@ -38,6 +67,7 @@ function Signup({ handleLogin }) {
           secureMail,
           securityQuestion,
           securityAnswer,
+          pic,
         },
         config,
       );
@@ -85,6 +115,7 @@ function Signup({ handleLogin }) {
       setemail('');
       setpassword('');
       setSecurityAnswer('');
+      setpic('');
     }
   }, [isSubmitted]);
 
@@ -194,6 +225,13 @@ function Signup({ handleLogin }) {
               onChange={(e) => setSecurityAnswer(e.target.value)}
             ></input>
             <br></br>
+            <label>Charger votre photo de profil :</label>
+            <input
+              type="file"
+              p={1.5}
+              accept="image/*"
+              onChange={(e) => postDetails(e.target.files[0])}
+            />
             <br></br>
             <br></br>
             <Button
