@@ -30,7 +30,7 @@ function SideBarPage({
           height={85}
         />
       ) : (
-          <nav style={{ marginTop: 65 }}>
+          <nav>
             {elements.map((item, index) => (
               <NavLink
                 to={`/${path}/${item}`}

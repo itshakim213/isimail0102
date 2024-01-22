@@ -7,7 +7,7 @@ function ContactInv({ userId, fullname, email }) {
   const userInvId = userId;
   const user = JSON.parse(sessionStorage.getItem('user'));
 
-  //   console.log('User Token:', user.token);
+    console.log('User Token:', user.token);
   //   console.log('Invited User ID:', userInvId);
 
   const createConv = async (userInvId) => {

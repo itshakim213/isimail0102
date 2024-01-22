@@ -53,6 +53,7 @@ function SideBarContact() {
   // useEffect(() => {
   //   console.log(convs); // Log conversasion lors de changement kan
   // }, [convs]);
+  
 
   const user = JSON.parse(sessionStorage.getItem('user'));
 
@@ -89,6 +90,8 @@ function SideBarContact() {
   const convs = convsData || [];
   // console.log(convs);
 
+  const [searchedUser, setSearchedUser] = useState([])
+
   if (isLoading) {
     return <div>Chargement en cours...</div>;
   }
@@ -96,10 +99,10 @@ function SideBarContact() {
   if (isError) {
     return <div>Erreur lors du chargement des conversation</div>;
   }
-
+  console.log(convs)
   return (
     <div className="side-bar-contact">
-      <SearchChat />
+      <SearchChat users={users} setSearchedUser={ setSearchedUser } />
       {users.length === 0 ? (
         <Empty
           image={noConvers}
@@ -109,14 +112,25 @@ function SideBarContact() {
         />
       ) : (
         <nav className="contact-nav">
-          {users.map((user) => (
+          {
+          (searchedUser.length === 0) ?
+          users.map((user) => (
             <ContactInv
               key={user._id}
               userId={user._id}
               fullname={`${user.firstname} ${user.lastname}`}
               email={`${user.email}`}
             />
-          ))}
+          )) : 
+          searchedUser.map((user) => (
+            <ContactInv
+              key={user._id}
+              userId={user._id}
+              fullname={`${user.firstname} ${user.lastname}`}
+              email={`${user.email}`}
+            />
+          ))
+          }
         </nav>
       )}
       <SideBarButton text="Ajouter Conversation" />
