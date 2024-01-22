@@ -9,13 +9,6 @@ import NewMessage from '../components/Newmessage';
 import '../styles/mails.css';
 import SideBarButton from './SideBarButton';
 
-function SideBarPage({ elements, path, showNewMessage, showNewMessageForm,onElementClick }) {
-  const handleElementClick = (element) => {
-    if (onElementClick) {
-      onElementClick(element);
-    }
-  }
-=======
 function SideBarPage({
   elements,
   path,
@@ -24,7 +17,6 @@ function SideBarPage({
   setCurrentMailBox,
   // setCurrentSettings,
 }) {
->>>>>>> f0041a8df519c5c28d52007d686264332981636c
   return (
     <div className="side-bar-page">
       {path === 'mails' && (
@@ -39,40 +31,22 @@ function SideBarPage({
           height={85}
         />
       ) : (
-          <nav style={{ marginTop: 65 }}>
-            {elements.map((item, index) => (
-              <div key={`${index}-${item}`} onClick={() => handleElementClick(item)} className="nav-item">
+        <nav style={{ marginTop: 65 }}>
+          {elements.map((item, index) => (
+            <NavLink
+              to={`/${path}/${item}`}
+              key={`${index}-${item}`}
+              className="nav-item"
+              onClick={
+                () => setCurrentMailBox(item)
+                // setCurrentSettings(item)
+              }
+            >
               {item}
-            </div>
-            ))}
-          </nav>
-        </div>
-
-        )}
-
-            //   <NavLink
-            //     to={`/${path}/${item}`}
-            //     key={`${index}-${item}`}
-            //     className="nav-item"
-            //     onClick={() => setCurrentMailBox(item)}
-            //   >
-            //     {item}
-            //   </NavLink>
-            // ))}
-          </nav>
-        // <nav style={{ marginTop: '.5rem' }}>
-        //   {elements.map((item, index) => (
-        //     <NavLink
-        //       to={`/${path}/${item}`}
-        //       key={`${index}-${item}`}
-        //       className="nav-item"
-        //     >
-        //       {item.replace(/_/g, ' ')}
-        //     </NavLink>
-        //   ))}
-        // </nav>
+            </NavLink>
+          ))}
+        </nav>
       )}
-
 
       {path === 'chats' && !showNewMessage && (
         <SideBarButton text="Ajouter Conversation" />

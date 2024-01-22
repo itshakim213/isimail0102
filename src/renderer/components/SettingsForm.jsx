@@ -4,18 +4,18 @@ function SettingsForm() {
   return (
     <form className="settings-form">
       <div className="setting-box">
-        <label className="option">Thème</label>
+        <label className="option">Theme</label>
         <div className="values">
           <input type="radio" id="default" name="theme" />
-          <label for="default">Par défaut</label>
+          <label for="default">Par defaut</label>
         </div>
         <div className="values">
           <input type="radio" id="light" name="theme" />
-          <label for="light">Sombre</label>
+          <label for="light">Claire</label>
         </div>
         <div className="values">
           <input type="radio" id="dark" name="theme" />
-          <label for="dark">Claire</label>
+          <label for="dark">Sombre</label>
         </div>
       </div>
       <div className="setting-box">
@@ -29,35 +29,31 @@ function SettingsForm() {
           <label for="supprimer">Supprimer</label>
         </div>
       </div>
-      <div className="setting-box">Gestion des notifications</div>
+      <div className="setting-box">Gestion des notification</div>
       <div className="setting-box">
-        <label className="option">Densité de la list des conversations</label>
+        <label className="option">Densite de la list des conversation</label>
         <div className="values">
           <input type="radio" id="parDef" name="densite" />
-          <label for="parDef">Par défaut</label>
+          <label for="parDef">Par defaut</label>
         </div>
         <div className="values">
           <input type="radio" id="normal" name="densite" />
-          <label for="normal">Compact</label>
-        </div>
-        <div className="values">
-          <input type="radio" id="normal" name="densite" />
-          <label for="normal">Normal</label>
+          <label for="normal">Normal compact</label>
         </div>
       </div>
       <div className="setting-box">
-        <label className="option">Type de réponse au mails/chats</label>
+        <label className="option">Type de reponse au mails/chats</label>
         <div className="values">
           <input type="radio" id="rep" name="reponse" />
-          <label for="rep">Répondre à tous</label>
+          <label for="rep">Repondre</label>
         </div>
         <div className="values">
           <input type="radio" id="repTous" name="reponse" />
-          <label for="repTous">Répondre</label>
+          <label for="repTous">Repondre a tous</label>
         </div>
       </div>
       <div className="setting-checkbox">
-        <label className="option">Confirmer les actions:</label>
+        <label className="option">Confirmer les actions</label>
         <div className="values">
           <input
             type="radio"
@@ -77,8 +73,6 @@ function SettingsForm() {
           <label htmlFor="archivage">Confirmer avant archivage</label>
         </div>
         <div className="values">
-          <input type="checkbox" id="envoi" name="envoi" />
-          <label for="envoi">Confirmer avant l'envoie</label>
           <input type="radio" id="envoi" name="envoi" value="envoi" />
           <label htmlFor="envoi">Confirmer avant l'envoie</label>
         </div>
