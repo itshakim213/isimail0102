@@ -7,7 +7,7 @@
     justify-content: space-around;
 }
 
-.contact-nav {
+.contact-inv-nav {
     margin: 2.5rem 0 2rem 0;
     overflow-y: scroll;
     scrollbar-gutter: stable both-egdes;

@@ -15,6 +15,7 @@ function SideBarPage({
   showNewMessage,
   showNewMessageForm,
   setCurrentMailBox,
+  // setCurrentSettings,
 }) {
   return (
     <div className="side-bar-page">

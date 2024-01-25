@@ -48,26 +48,32 @@ const userSchema = new mongoose.Schema({
     },
   },
   isAdmin: { type: Boolean, default: false },
-  // securityQuestion:
+  securityQuestion: { type: String },
   securityAnswer: { type: String },
   isResettingPassword: { type: Boolean, default: false },
-  // secureMail: {
-  //   type: String,
-  //   // required: true,
-  //   validate: {
-  //     validator: function (value) {
-  //       // cette fonction est utilisée comme validateur
-  //       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
-  //       // [^\s@] tous les caracteres sauf les espaces et @
-  //     },
-  //     message: 'Veuillez entrer une adresse email valide.',
-  //   },
-  // },
+  secureMail: {
+    type: String,
+    // required: true,
+    validate: {
+      validator: function (value) {
+        // cette fonction est utilisée comme validateur
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
+        // [^\s@] tous les caracteres sauf les espaces et @
+      },
+      message: 'Veuillez entrer une adresse email valide.',
+    },
+  },
   // twoFactorsAuthentication: { type: Boolean, default: false },
   // otp: {
   //   type: String,
   //   default: null,
   // },
+  pic: {
+    type: 'String',
+    required: true,
+    default:
+      'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
+  },
 });
 
 // userSchema.methods.generateOTP = async function () {
