@@ -9,30 +9,9 @@ function Newmessage() {
   const [message, setMessage] = useState('');
   // const [attachments, setAttachments] = useState([]);
 
-  //   const handleFileChange = (e) => {
-  //     setAttachments(e.target.files);
-  //   };
-
-  //   const formData = new FormData();
-  // formData.append('to', to);
-  // formData.append('subject', subject);
-  // formData.append('message', message);
-
-  // // Append each file to the FormData
-  // for (let i = 0; i < attachments.length; i++) {
-  //   formData.append('attachments', attachments[i]);
-  // }
-
-  // const response = await axios.post(
-  //   'http://localhost:4001/api/mail/sendemail',
-  //   formData,
-  //   {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data',
-  //       Authorization: `Bearer ${user.token}`,
-  //     },
-  //   }
-  // );
+  // const handleFileChange = (e) => {
+  //   setAttachments(e.target.files);
+  // };
 
   async function submitForm(e) {
     e.preventDefault();
@@ -41,19 +20,29 @@ function Newmessage() {
       // const token = localStorage.getItem('token');
       const user = JSON.parse(sessionStorage.getItem('user'));
 
+      // const formData = new FormData();
+      // formData.append('to', to);
+      // formData.append('subject', subject);
+      // formData.append('message', message);
+
       // Log user token
       console.log('User Token:', user.token);
 
       const response = await axios.post(
         'http://localhost:4001/api/mail/sendemail',
+        // formData,
         {
           to,
           subject,
           message,
+          // attachments,
+          // formData,
         },
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
+            'Content-type': 'application/json',
+            // 'Content-type': 'multipart/form-data',
           },
         },
       );
@@ -62,14 +51,14 @@ function Newmessage() {
       console.log(to);
       console.log(subject);
       console.log(message);
+      alert(`Email sent successfully!`);
       // Réinitialisation des champs après l'envoi
       setTo('');
       setSubject('');
       setMessage('');
+      // setAttachments([]);
     } catch (error) {
       console.error("Erreur lors de l'envoi du message :", error);
-
-      // Log the specific response data from the server (if available)
       if (error.response) {
         console.error('Server respons Data:', error.response.data);
       }
@@ -108,11 +97,7 @@ function Newmessage() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
-        {/* <input
-          type="file"
-          onChange={(e) => handleFileChange(e)}
-          multiple
-        /> */}
+        {/* <input type="file" onChange={(e) => handleFileChange(e)} multiple /> */}
         {/* <input type="file" onChange={(e) => setAttachment(e.target.files[0])} /> */}
         <Button btnText="Submit" />
         {/* <Button btnText="Draft" onClick={saveDraft} /> */}

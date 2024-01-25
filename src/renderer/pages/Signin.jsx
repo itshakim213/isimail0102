@@ -5,9 +5,11 @@ import Button from '../components/Button';
 import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
 import '../styles/signin.css';
+import FormDialog from '../components/forgotPassword';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+// import TextField from '@mui/material/TextField';
 
 function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
@@ -16,6 +18,15 @@ function Signin({ handleLogin }) {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   async function LoadUser() {
     try {
@@ -83,12 +94,15 @@ function Signin({ handleLogin }) {
         </div>
       </div>
       <div className="right-section-signin">
-        <h1 className="sign-title-signin">Sign in</h1>
+        <h1 className="sign-title-signin"> Connection</h1>
         <br></br>
-        <p className="sign-description-signin">Welcome Back !</p>
+        {/* {validationError && (
+          <div className="validation-error">{validationError}</div>
+        )} */}
+        <p className="sign-description-signin"> Bienvenue !</p>
         <form onSubmit={(e) => submit(e)}>
           <div className="auth-form-signin">
-            <label>E-mail:</label>
+            <label>E-mail :</label>
             <br></br>
             <input
               type="text"
@@ -96,7 +110,22 @@ function Signin({ handleLogin }) {
               onChange={(e) => setemail(e.target.value)}
               required
             ></input>
+            {/* <TextField
+              label="E-mail"
+              variant="standard"
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
+              required
+            />
             <br></br>
+            <TextField
+              label="Mot de passe"
+              type={showPassword ? 'text' : 'password'}
+              variant="standard"
+              value={password}
+              onChange={(e) => setpassword(e.target.value)}
+              required
+            /> */}
             <label>Mot de passe :</label>
             <br></br>
             <div className="password-input-container">
@@ -116,6 +145,7 @@ function Signin({ handleLogin }) {
                 required
               />
             </div>
+
             <div className="forgot-password-link">
               <span
                 className="forgot-password"
@@ -124,6 +154,7 @@ function Signin({ handleLogin }) {
                   cursor: 'pointer',
                   textDecoration: 'underline',
                 }}
+                onClick={handleClickOpen}
               >
                 Forgot Password?
               </span>
@@ -138,6 +169,11 @@ function Signin({ handleLogin }) {
           </div>
         </form>
       </div>
+      {open && (
+        <div>
+          <FormDialog handleClose={handleClose} />
+        </div>
+      )}
     </div>
   );
 }

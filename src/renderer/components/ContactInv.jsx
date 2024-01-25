@@ -32,6 +32,8 @@ function ContactInv({ userId, fullname, email }) {
     // on succes aki theqared achu ylaqen ad yedhroun une fois la creatVonc aki th3eda du coup ad afficher les data n response nni
     onSuccess: (data) => {
       console.log('server response --> Conversation created:', data);
+      // handleAddUser(userInvId);
+      // return false;
     },
     // sinon err
     onError: (error) => {
@@ -54,6 +56,9 @@ function ContactInv({ userId, fullname, email }) {
           width={25}
           onClick={() => mutate(userInvId)} // faire appel a mutate.creatVonc lors de click avec
           // la recupération de la variable user ID , genre un trigger negh un declencheur mutate aki
+          // mutate ad ikhemen mutation i createConv
+          // c pour ça khemegh userInvId et pas createConv prs thedda dkhel n mutate
+
           //   onClick={createConv}
         />
       </div>
