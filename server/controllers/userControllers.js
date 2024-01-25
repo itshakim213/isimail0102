@@ -167,28 +167,47 @@ const deleteUsers = asyncHandler(async (req, res) => {
 const forgotPassword = asyncHandler(async (req, res) => {
   // on saisi email et la reponse a la qst de sécurité
   const { email, securityAnswer } = req.body;
+  console.log(
+    'Received request for password reset with email:',
+    email,
+    'and security answer:',
+    securityAnswer,
+  );
+
   const user = await User.findOne({ email }); // yella ?
 
   if (!user) {
+    console.log('User not found');
     return res.status(404).json({ error: 'User not found' }); // nn ulachith ughaled azka ;))
   }
 
   // but does the answer match akked wayen dennidh deja ?
   if (user.securityAnswer !== securityAnswer) {
+    console.log('Incorrect security answer');
     return res.status(401).json({ error: 'Incorrect security answer' });
   }
 
   user.isResettingPassword = true; // daki thoura nezmer anvedel le mdp s reset akki qui suit
 
-  await user.save(); // enregistrigh les changement aki
+  // await user.save(); // enregistrigh les changement aki
 
-  res.json({ message: 'Security answer verified successfully' });
+  // res.json({ message: 'Security answer verified successfully' });
+
+  try {
+    await user.save();
+    console.log('Password reset initiated successfully');
+    res.json({ message: 'Security answer verified successfully' });
+  } catch (error) {
+    console.error('Error saving user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 const resetPassword = asyncHandler(async (req, res) => {
   // daki blama nenad
   const { email, newPassword } = req.body;
   console.log('reset password pour :', email);
+  console.log('Received request for password reset with email:', email);
 
   const user = await User.findOne({ email, isResettingPassword: true }); //on verifi mayella user s lemail nni akked is resettttbfuvbe aki true
 
@@ -202,8 +221,10 @@ const resetPassword = asyncHandler(async (req, res) => {
   user.isResettingPassword = false; // apres athner ar false aken yella zik par defaul
 
   await user.save(); // save les changement
+  console.log('Password reset successful for:', email);
 
-  res.json({ message: 'Password reset successful' });
+  // res.json({ message: 'Password reset successful' });
+  res.json({ success: true, message: 'Password reset successful' });
 });
 
 module.exports = {

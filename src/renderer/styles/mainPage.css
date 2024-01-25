@@ -2,6 +2,11 @@
     width: calc(100% - 85px);
     margin-left: 85px;
     margin-top: 66px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
 }

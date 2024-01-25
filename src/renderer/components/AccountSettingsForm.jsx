@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import '../styles/AccountSettingsForm.css';
+import { Link, useNavigate } from 'react-router-dom';
 
-function AccountSettingsForm({ email }) {
+function AccountSettingsForm({ email, handleLogout }) {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    handleLogout();
+    navigate('/index.html');
+  };
 
   const handleOldPasswordChange = (e) => {
     setOldPassword(e.target.value);
@@ -77,7 +84,10 @@ function AccountSettingsForm({ email }) {
       </div>
 
       <div className="setting-box">
-        <button className="logout-button">Logout</button>
+        <Link to="/index.html" onClick={handleLogoutClick}>
+          <button className="logout-button">Logout</button>
+        </Link>
+        {/* <button className="logout-button">Logout</button> */}
       </div>
     </form>
   );

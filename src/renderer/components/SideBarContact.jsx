@@ -55,7 +55,6 @@ function SideBarContact() {
   // useEffect(() => {
   //   console.log(convs); // Log conversasion lors de changement kan
   // }, [convs]);
-  
 
   const user = JSON.parse(sessionStorage.getItem('user'));
   const [chats, setChats] = useState([])

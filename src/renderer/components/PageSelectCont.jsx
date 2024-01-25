@@ -1,9 +1,17 @@
+import React from 'react';
 import Empty from './Empty';
 import noSelect from '../assets/noSelected.png';
 import Newmessage from './Newmessage';
+import EmailDetailsModal from '../components/EmailDetailsModal';
 import '../styles/PageSelectCont.css';
 
-function PageSelectCont({ message, showNewMessage, showNewMessageForm }) {
+function PageSelectCont({
+  message,
+  showNewMessage,
+  selectedEmail,
+  isEmailModalOpen,
+  closeEmailModal,
+}) {
   return (
     <div
       className="page-content"
@@ -16,9 +24,25 @@ function PageSelectCont({ message, showNewMessage, showNewMessageForm }) {
       {showNewMessage ? (
         <Newmessage />
       ) : (
-        <Empty image={noSelect} message={message} width={180} height={180} />
+        <>
+          {selectedEmail ? (
+            <EmailDetailsModal
+              emailInfo={selectedEmail}
+              isModalOpen={isEmailModalOpen}
+              handleClose={closeEmailModal}
+            />
+          ) : (
+            <Empty
+              image={noSelect}
+              message={message}
+              width={180}
+              height={180}
+            />
+          )}
+        </>
       )}
     </div>
   );
 }
+
 export default PageSelectCont;
