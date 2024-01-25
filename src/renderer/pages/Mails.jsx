@@ -9,6 +9,8 @@ function Mails() {
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [showNewMail, setShowNewMail] = useState(false);
   const [currentMailBox, setCurrentMailBox] = useState('inbox');
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
   const showNewMessageForm = () => {
     setShowNewMessage(!showNewMessage);
@@ -17,8 +19,18 @@ function Mails() {
   const showNewMailList = () => {
     setShowNewMail(!showNewMail);
   };
+
+  const openEmailModal = (email) => {
+    setSelectedEmail(email);
+    setIsEmailModalOpen(true);
+  };
+
+  const closeEmailModal = () => {
+    setIsEmailModalOpen(false);
+    setSelectedEmail(null);
+  };
+
   const user = JSON.parse(sessionStorage.getItem('user'));
-  console.log(user);
 
   return (
     <div
@@ -38,15 +50,16 @@ function Mails() {
         showNewMailList={showNewMailList}
         setCurrentMailBox={setCurrentMailBox}
       />
-      <PageList
-        showNewMail={showNewMail}
-        showNewMailList={showNewMailList}
+      <MailList
         currentMailBox={currentMailBox}
+        openEmailModal={openEmailModal}
       />
       <PageSelectCont
         message="select mail to read"
         showNewMessage={showNewMessage}
-        showNewMessageForm={showNewMessageForm}
+        selectedEmail={selectedEmail}
+        isEmailModalOpen={isEmailModalOpen}
+        closeEmailModal={closeEmailModal}
       />
     </div>
   );

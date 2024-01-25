@@ -10,3 +10,14 @@ insert_final_newline = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+# [*.js]
+# max-line-length = off
+
+# [*.jsx]
+# max-line-length = off
+
+# [*.css]
+# max-line-length = off
+
+# Ajoutez d'autres règles si nécessaire

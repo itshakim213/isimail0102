@@ -9,13 +9,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import '../styles/mailist.css';
 import { useQuery } from 'react-query';
-import EmailDetailsModal from '../components/EmailDetailsModal';
 
-function MailList({ currentMailBox }) {
+function MailList({ currentMailBox, openEmailModal }) {
   const mailboxFetch = currentMailBox || 'inbox';
-
   const [selectedEmail, setSelectedEmail] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     data: mails,
@@ -48,12 +45,9 @@ function MailList({ currentMailBox }) {
   }
 
   const handleRowClick = (email) => {
-    setSelectedEmail(email);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+    console.log('avant de cliquer sur un email');
+    openEmailModal(email);
+    console.log('apres avoir cliquer sur un email');
   };
 
   if (isLoading) {
@@ -105,12 +99,6 @@ function MailList({ currentMailBox }) {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <EmailDetailsModal
-        emailInfo={selectedEmail}
-        isModalOpen={isModalOpen}
-        handleClose={handleCloseModal}
-      />
     </div>
   );
 }
