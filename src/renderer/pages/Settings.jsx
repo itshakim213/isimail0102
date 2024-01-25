@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SideBarPage from '../components/SideBarPage';
-// import SettingsForm from '../components/SettingsForm';
+ //import SettingsForm from '../components/SettingsForm';
 import AccountSettingsForm from '../components/AccountSettingsForm';
 
 function Settings() {
@@ -25,9 +25,9 @@ function Settings() {
         setCurrentSettings={setCurrentSettings}
       />
       <AccountSettingsForm
-      // currentSettings={currentSettings}
+      //currentSettings={currentSettings}
       />
-      {/* <SettingsForm currentSettings={currentSettings} /> */}
+      { /* <SettingsForm currentSettings={currentSettings} /> */}
     </div>
   );
 }
