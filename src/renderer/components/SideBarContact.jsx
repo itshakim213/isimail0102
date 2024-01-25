@@ -10,50 +10,6 @@ import { useQuery } from 'react-query'; // useQuery pour le GET, useMutate c pr 
 import React, { memo } from 'react'; // React.memo sert a ne pas faire de re render bla lma3na ;p
 
 function SideBarContact() {
-  // const [users, setUsers] = useState([]);
-  // const [convs, setConvs] = useState([]);
-  // const user = JSON.parse(sessionStorage.getItem('user'));
-
-  // useEffect(() => {
-  //   const loadUsers = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         'http://localhost:4001/api/user/search',
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${user.token}`,
-  //             'Content-Type': 'application/json',
-  //           },
-  //         },
-  //       );
-  //       setUsers(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   const loadConvs = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:4001/api/chat', {
-  //         headers: {
-  //           Authorization: `Bearer ${user.token}`,
-  //           'Content-Type': 'application/json',
-  //         },
-  //       });
-  //       setConvs(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   loadUsers();
-  //   loadConvs();
-  // }, [user.token]);
-  // // console.log(convs)
-
-  // useEffect(() => {
-  //   console.log(convs); // Log conversasion lors de changement kan
-  // }, [convs]);
-
   const user = JSON.parse(sessionStorage.getItem('user'));
 
   const { data: usersData } = useQuery('users', async () => {

@@ -65,6 +65,7 @@ button[type='submit']:hover {
 .logout-button:hover {
   background-color: #608bbd;
 }
+
 .delete-account-button {
   padding: 8px 10px;
   background-color: #3850bbe8;

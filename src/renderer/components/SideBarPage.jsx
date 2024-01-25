@@ -37,10 +37,17 @@ function SideBarPage({
               to={`/${path}/${item}`}
               key={`${index}-${item}`}
               className="nav-item"
-              onClick={
-                () => setCurrentMailBox(item)
-                // setCurrentSettings(item)
-              }
+              onClick={() => {
+                if (path === 'settings') {
+                  setCurrentSettings(item);
+                } else {
+                  setCurrentMailBox(item);
+                }
+              }}
+              // onClick={
+              //   () => setCurrentMailBox(item)
+              //   // setCurrentSettings(item)
+              // }
             >
               {item}
             </NavLink>

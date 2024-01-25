@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SideBarPage from '../components/SideBarPage';
 // import SettingsForm from '../components/SettingsForm';
 import AccountSettingsForm from '../components/AccountSettingsForm';
+import PageList from '../components/PageList';
 
 function Settings() {
   const [currentSettings, setCurrentSettings] = useState('Parametre de compte');
@@ -24,9 +25,8 @@ function Settings() {
         path="settings"
         setCurrentSettings={setCurrentSettings}
       />
-      <AccountSettingsForm
-      // currentSettings={currentSettings}
-      />
+
+      <AccountSettingsForm currentSettings={currentSettings} />
       {/* <SettingsForm currentSettings={currentSettings} /> */}
     </div>
   );
