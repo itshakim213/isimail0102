@@ -2,6 +2,9 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/UserModel');
 const generateToken = require('../config/generateToken');
 
+const MailModel = require('../models/MailModel');
+const MailBoxModel = require('../models/MailBoxModel');
+
 // Cette fonction est destinée à l'inscription d'un nouvel utilisateur.
 // Elle vérifie la présence des champs requis (firstname, lastname, email, password).
 // Vérifie également si l'utilisateur avec l'e-mail donné existe déjà.
@@ -17,7 +20,6 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     securityAnswer,
     securityQuestion,
-    secureMail,
     pic,
   } = req.body;
 
@@ -29,8 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
     !email ||
     !password ||
     !securityQuestion ||
-    !securityAnswer ||
-    !secureMail
+    !securityAnswer
   ) {
     res.status(400);
     throw new Error('Please enter all the fields');
@@ -53,15 +54,44 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     securityAnswer,
     securityQuestion,
-    secureMail,
     isResettingPassword: false,
     pic,
   });
 
+  console.log('User created:', user);
+
   // // Génération et sauvegarde de l'OTP
   // const generatedOTP = await user.generateOTP();
-  // console.log(`Generated OTP: ${generatedOTP}`);
+  // console.log(Generated OTP: ${generatedOTP});
 
+  const adminUser = await User.findOne({ email: 'contact@talkmail.dz' });
+  if (!adminUser) {
+    return res.status(404).json({ error: 'admin introuvable.' });
+  }
+
+  const adminId = adminUser._id;
+
+  const welcomeMail = new MailModel({
+    from: adminUser._id,
+    to: user._id,
+    subject: 'Bienvenue sur notre plateforme',
+    message:
+      'Bonjour et bienvenue sur notre plateforme. Nous sommes ravis de vous avoir parmi nous !',
+  });
+
+  await welcomeMail.save();
+  const populatedMail = await MailModel.findById(welcomeMail._id).populate({
+    path: 'to',
+    select: 'firstname lastname email',
+  });
+
+  console.log('Welcome mail created:', welcomeMail);
+
+  await MailBoxModel.findOneAndUpdate(
+    { userId: user._id, name: 'Inbox' },
+    { $addToSet: { mails: populatedMail } },
+    { upsert: true },
+  );
   // Envoi d'une réponse avec les détails de l'utilisateur et un token d'authentification
   // la c juste pour l'api dans postman sinon on peut renvoyer un message du type inscription reussie
   if (user) {
@@ -74,7 +104,6 @@ const registerUser = asyncHandler(async (req, res) => {
       securityAnswer: user.securityAnswer,
       isResettingPassword: user.isResettingPassword,
       securityQuestion: user.securityQuestion,
-      secureMail: user.secureMail,
       // otp: generatedOTP, // j'ai rajouté otp ici pour le sauvegarder lors d'inscription
       token: generateToken(user._id),
       pic: user.pic,
@@ -146,10 +175,10 @@ const deleteUsers = asyncHandler(async (req, res) => {
   // je récupere l id daki
   const userId = req.params.id;
   console.log('Deleting user with id:', userId); // j affich l id
-  // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella ;)
+  // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella 😉
 
   try {
-    const user = await User.findOne({ _id: userId }); // anwalli ma yella ;)
+    const user = await User.findOne({ _id: userId }); // anwalli ma yella 😉
     if (!user) {
       return res.status(404).json({ error: 'Utilisateur introuvable' }); // khati ulachith x)
     }
@@ -167,28 +196,47 @@ const deleteUsers = asyncHandler(async (req, res) => {
 const forgotPassword = asyncHandler(async (req, res) => {
   // on saisi email et la reponse a la qst de sécurité
   const { email, securityAnswer } = req.body;
+  console.log(
+    'Received request for password reset with email:',
+    email,
+    'and security answer:',
+    securityAnswer,
+  );
+
   const user = await User.findOne({ email }); // yella ?
 
   if (!user) {
+    console.log('User not found');
     return res.status(404).json({ error: 'User not found' }); // nn ulachith ughaled azka ;))
   }
 
   // but does the answer match akked wayen dennidh deja ?
   if (user.securityAnswer !== securityAnswer) {
+    console.log('Incorrect security answer');
     return res.status(401).json({ error: 'Incorrect security answer' });
   }
 
   user.isResettingPassword = true; // daki thoura nezmer anvedel le mdp s reset akki qui suit
 
-  await user.save(); // enregistrigh les changement aki
+  // await user.save(); // enregistrigh les changement aki
 
-  res.json({ message: 'Security answer verified successfully' });
+  // res.json({ message: 'Security answer verified successfully' });
+
+  try {
+    await user.save();
+    console.log('Password reset initiated successfully');
+    res.json({ message: 'Security answer verified successfully' });
+  } catch (error) {
+    console.error('Error saving user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 const resetPassword = asyncHandler(async (req, res) => {
   // daki blama nenad
   const { email, newPassword } = req.body;
   console.log('reset password pour :', email);
+  console.log('Received request for password reset with email:', email);
 
   const user = await User.findOne({ email, isResettingPassword: true }); //on verifi mayella user s lemail nni akked is resettttbfuvbe aki true
 
@@ -202,8 +250,10 @@ const resetPassword = asyncHandler(async (req, res) => {
   user.isResettingPassword = false; // apres athner ar false aken yella zik par defaul
 
   await user.save(); // save les changement
+  console.log('Password reset successful for:', email);
 
-  res.json({ message: 'Password reset successful' });
+  // res.json({ message: 'Password reset successful' });
+  res.json({ success: true, message: 'Password reset successful' });
 });
 
 module.exports = {

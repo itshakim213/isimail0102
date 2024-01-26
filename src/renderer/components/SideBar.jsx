@@ -7,10 +7,20 @@ import { NavLink, matchPath, useLocation } from 'react-router-dom';
 import '../styles/Sidebar.css';
 
 function SideBar() {
+  const user = JSON.parse(sessionStorage.getItem('user'));
   const loc = useLocation();
   return (
     <aside>
-      <div className="profile"></div>
+      <div className="profile">
+        {' '}
+        <img
+          src={user.pic}
+          alt="User Picture"
+          width="50"
+          height="50"
+          style={{ borderRadius: '50', margin: '2rem 0 0.5rem' }}
+        />
+      </div>
       <div className="navigate">
         <ul>
           <li>

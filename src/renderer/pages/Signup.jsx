@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import Button from '../components/Button';
 import Img from '../assets/signup-img.png';
@@ -18,13 +19,22 @@ function Signup({ handleLogin }) {
   const [securityQuestion, setSecurityQuestion] = useState('');
   const [securityAnswer, setSecurityAnswer] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [secureMail, setSecureMail] = useState('');
+  const [loading, setLoading] = useState(false);
+  // if (password.length < 8 || !/[A-Z]/.test(password)) {
+  //   toast.error(
+  //     'Le mot de passe doit contenir au moins 8 caractères avec au moins une majuscule.',
+  //   );
+  //   setLoading(false);
+  //   return;
+  // }
 
   const [pic, setpic] = useState(
     'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
   );
   const postDetails = (pics) => {
+    setLoading(true);
     if (pics === undefined) {
+      setLoading(false);
       return;
     }
     if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
@@ -39,12 +49,17 @@ function Signup({ handleLogin }) {
         .then((res) => res.json())
         .then((data) => {
           setpic(data.url.toString());
+          setLoading(false);
           console.log(data.url.toString());
+          //pour l'afficher egalement dans signin
+          localStorage.setItem('profilePicture', data.url.toString());
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false);
         });
     } else {
+      setLoading(false);
       return;
     }
   };
@@ -64,7 +79,6 @@ function Signup({ handleLogin }) {
           dateofbirth,
           email,
           password,
-          secureMail,
           securityQuestion,
           securityAnswer,
           pic,
@@ -80,9 +94,10 @@ function Signup({ handleLogin }) {
   async function submit(e) {
     e.preventDefault();
     setError(false); // Reset error before submission
+    setLoading(true);
 
     if (password !== confirmPassword) {
-      alert('Les mots de passe ne correspondent pas.');
+      toast.error('Les mots de passe ne correspondent pas.');
       return;
     }
 
@@ -93,17 +108,20 @@ function Signup({ handleLogin }) {
         sessionStorage.setItem('user', JSON.stringify(userData));
         const userItem = JSON.parse(sessionStorage.getItem('user'));
         setIsSubmitted(true);
-        alert('Connexion réussie !');
-        console.log(userItem);
-        handleLogin();
-        navigate('/mails/inbox');
+
+        toast.success('Inscription réussie ! Bienvenue a Talkmail', {
+          onClose: () => {
+            console.log(userItem);
+            handleLogin();
+            navigate('/mails/inbox');
+          },
+        });
       })
       .catch((error) => {
         console.error(error);
         setError(true); // Set error if API call fails
-        alert(
-          "Une erreur est survenue lors de l'inscription. Veuillez réessayer.",
-        );
+        toast.error('Veuillez remplir tous les champs.');
+        setLoading(false);
       });
   }
 
@@ -132,74 +150,62 @@ function Signup({ handleLogin }) {
         </div>
       </div>
       <div className="right-section">
-        <h1 className="sign-title">Inscription</h1>
+        <h1 className="sign-title-signin">Inscription</h1>
         <br></br>
-        <p className="sign-description">
+        <p className="sign-description-signup">
           Let's begin your journey with TalkMail
         </p>
         <br></br>
         <form>
-          <div className="auth-form">
-            <label>Prénom : </label>
+          <div className="auth-form-signup">
             <input
+              className="input-style"
               type="text"
               placeholder="Entrez votre prénom"
               required
               value={firstname}
               onChange={(e) => setfirstname(e.target.value)}
             ></input>
-            <br></br>
-            <label>Nom : </label>
 
             <input
+              className="input-style"
               type="text"
               placeholder="Entrez votre nom"
               value={lastname}
               onChange={(e) => setlastname(e.target.value)}
             ></input>
-            <br></br>
-            <label>Date de naissance : </label>
             <input
+              className="input-style"
               type="date"
               placeholder="enter your date of birth"
               value={dateofbirth}
               onChange={(e) => setdateofbirth(e.target.value)}
             ></input>
-            <br></br>
-
-            <label>Email : </label>
             <input
+              className="input-style"
               type="email"
               placeholder="Entrez votre talkmail email "
               value={email}
               onChange={(e) => setemail(e.target.value)}
             ></input>
             <br></br>
-            <label>Mot de passe :</label>
             <input
+              className="input-style"
               type="password"
               placeholder="Entrez votre mot de passe"
               value={password}
               onChange={(e) => setpassword(e.target.value)}
             ></input>
-            <label>Confirmez votre mot de passe :</label>
             <input
+              className="input-style"
               type="password"
               placeholder="Confirmez votre mot de passe"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></input>
             <br></br>
-            <label>Email de sécurité : </label>
-            <input
-              type="email"
-              placeholder="Entrez votre email de sécurité"
-              value={secureMail}
-              onChange={(e) => setSecureMail(e.target.value)}
-            ></input>
-            <br></br>
-            <label>Question de sécurité : </label>
             <select
+              className="input-style"
               required
               value={securityQuestion}
               onChange={(e) => setSecurityQuestion(e.target.value)}
@@ -216,8 +222,8 @@ function Signup({ handleLogin }) {
               </option>
             </select>
             <br></br>
-            <label>Answer :</label>
             <input
+              className="input-style"
               type="text"
               placeholder="enter your security question answer"
               required
@@ -225,8 +231,9 @@ function Signup({ handleLogin }) {
               onChange={(e) => setSecurityAnswer(e.target.value)}
             ></input>
             <br></br>
-            <label>Charger votre photo de profil :</label>
             <input
+              className="file-input-style"
+              placeholder="Charger votre photo de profil"
               type="file"
               p={1.5}
               accept="image/*"
@@ -236,12 +243,14 @@ function Signup({ handleLogin }) {
             <br></br>
             <Button
               CustomClass="signup-btn"
-              btnText="S'inscrire"
+              disabled={loading}
+              btnText={loading ? 'Signing Up...' : 'Submit'}
               onClick={submit}
             />
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }
