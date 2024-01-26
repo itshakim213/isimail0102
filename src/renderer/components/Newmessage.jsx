@@ -36,7 +36,7 @@ function Newmessage({ reply, fwd }) {
       console.log(to);
       console.log(subject);
       console.log(message);
-      alert(`Email sent successfully!`);
+      alert('Email sent successfully!');
       // Réinitialisation des champs après l'envoi
       setTo('');
       setSubject('');

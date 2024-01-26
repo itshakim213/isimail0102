@@ -154,6 +154,7 @@ const authUser = asyncHandler(async (req, res) => {
       securityAnswer: user.securityAnswer,
       isResettingPassword: user.isResettingPassword,
       token: generateToken(user._id),
+      pic: user.pic
     });
   } else {
     // Envoi d'une réponse d'erreur en cas d'authentification échouée
