@@ -65,7 +65,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // // Génération et sauvegarde de l'OTP
   // const generatedOTP = await user.generateOTP();
-  // console.log(`Generated OTP: ${generatedOTP}`);
+  // console.log(Generated OTP: ${generatedOTP});
 
   const adminUser = await User.findOne({ email: 'contact@talkmail.dz' });
   if (!adminUser) {
@@ -82,7 +82,7 @@ const registerUser = asyncHandler(async (req, res) => {
         Bonjour et bienvenue sur notre plateforme !
 
         Nous sommes ravis de vous avoir parmi nous. C'est un plaisir de vous accueillir dans notre communauté.
-        
+
         Rejoignez-nous sur :
         - LinkedIn: [https://www.linkedin.com/company/isinnovate]
         - Twitter: [https://x.com/isinnovateteam]
@@ -194,10 +194,10 @@ const deleteUsers = asyncHandler(async (req, res) => {
   // je récupere l id daki
   const userId = req.params.id;
   console.log('Deleting user with id:', userId); // j affich l id
-  // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella ;)
+  // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella 😉
 
   try {
-    const user = await User.findOne({ _id: userId }); // anwalli ma yella ;)
+    const user = await User.findOne({ _id: userId }); // anwalli ma yella 😉
     if (!user) {
       return res.status(404).json({ error: 'Utilisateur introuvable' }); // khati ulachith x)
     }

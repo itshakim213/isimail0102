@@ -23,7 +23,6 @@ const queryClient = new QueryClient();
 function App() {
   const [isAuthen, setIsAuthen] = useState(false);
 
-
   const handleLogout = () => {
     console.log('Logging out...'); // Ajout d'un message de test
     setIsAuthen(false);
