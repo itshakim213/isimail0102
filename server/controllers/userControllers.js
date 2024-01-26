@@ -77,9 +77,24 @@ const registerUser = asyncHandler(async (req, res) => {
   const welcomeMail = new MailModel({
     from: adminUser._id,
     to: user._id,
-    subject: 'Bienvenue sur notre plateforme',
-    message:
-      'Bonjour et bienvenue sur notre plateforme. Nous sommes ravis de vous avoir parmi nous !',
+    subject: 'Bienvenue sur TalkMail',
+    message: `
+        Bonjour et bienvenue sur notre plateforme !
+
+        Nous sommes ravis de vous avoir parmi nous. C'est un plaisir de vous accueillir dans notre communauté.
+        
+        Rejoignez-nous sur :
+        - LinkedIn: [https://www.linkedin.com/company/isinnovate]
+        - Twitter: [https://x.com/isinnovateteam]
+        - Instagram: [https://www.instagram.com/isinnovate]
+
+        Si vous avez des questions, n'hésitez pas à nous contacter à l'adresse suivante : [contact@talkmail.dz].
+
+        Merci encore de faire partie de notre communauté. Nous sommes impatients de vous offrir une expérience exceptionnelle !
+
+        Bien cordialement,
+        L'équipe ISInnovate.
+    `,
   });
 
   await welcomeMail.save();

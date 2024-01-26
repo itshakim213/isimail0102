@@ -40,7 +40,7 @@ function App() {
       document.body.style.backgroundColor = '#fff';
     }
   }, [isAuthen]);
-  
+
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
@@ -69,7 +69,7 @@ function App() {
               <Route path="/files/:category" element={<Files />} />
               <Route path="/agenda" element={<Agenda />} />
               <Route path="/settings" element={<Settings />} />
-              <Route path="/newmessage" element={<Newmessage />} />
+              {/* <Route path="/newmessage" element={<Newmessage />} /> */}
             </Routes>
           </React.StrictMode>
         )}

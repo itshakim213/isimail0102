@@ -8,7 +8,9 @@ function Header({ handleLogout }) {
   const navigate = useNavigate();
 
   const hadnleLogoutClick = () => {
-    const confirmLogout = window.confirm('Are you sure you want to log out?');
+    const confirmLogout = window.confirm(
+      'Voulez vous vraimant vous déconnecter ?',
+    );
     if (confirmLogout) {
       handleLogout();
       navigate('/index.html');

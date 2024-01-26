@@ -93,7 +93,7 @@ function Signup({ handleLogin }) {
         sessionStorage.setItem('user', JSON.stringify(userData));
         const userItem = JSON.parse(sessionStorage.getItem('user'));
         setIsSubmitted(true);
-        alert('Connexion réussie !');
+        alert('Connexion réussie ! Bienvenue à TalkMail');
         console.log(userItem);
         handleLogin();
         navigate('/mails/inbox');

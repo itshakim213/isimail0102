@@ -35,7 +35,7 @@ const getAllEvents = asyncHandler(async (req, res) => {
       createdAt: -1,
     });
 
-    res.status(200).json( events );
+    res.status(200).json(events);
   } catch (error) {
     res
       .status(500)
@@ -79,7 +79,7 @@ const updateEvent = asyncHandler(async (req, res) => {
 
     console.log('Updated Event:', updatedEvent);
 
-    res.status(200).json( updatedEvent );
+    res.status(200).json(updatedEvent);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erreur lors de la MaJ de ev' });

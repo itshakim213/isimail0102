@@ -11,7 +11,16 @@ function PageSelectCont({
   selectedEmail,
   isEmailModalOpen,
   closeEmailModal,
+  setShowNewMessage,
+  setReply,
+  reply,
+  fwd,
+  setFwd,
 }) {
+  // const [isReplying, setIsReplying] = useState(false);
+
+  // const [reply, setReply] = useState(null);
+
   return (
     <div
       className="page-content"
@@ -22,7 +31,7 @@ function PageSelectCont({
       }}
     >
       {showNewMessage ? (
-        <Newmessage />
+        <Newmessage reply={reply} fwd={fwd} />
       ) : (
         <>
           {selectedEmail ? (
@@ -30,6 +39,9 @@ function PageSelectCont({
               emailInfo={selectedEmail}
               isModalOpen={isEmailModalOpen}
               handleClose={closeEmailModal}
+              setReply={setReply}
+              setShowNewMessage={setShowNewMessage}
+              setFwd={setFwd}
             />
           ) : (
             <Empty
