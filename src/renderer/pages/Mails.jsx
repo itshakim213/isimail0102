@@ -9,6 +9,13 @@ function Mails() {
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [showNewMail, setShowNewMail] = useState(false);
   const [currentMailBox, setCurrentMailBox] = useState('inbox');
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [reply, setReply] = useState(null);
+  const [fwd, setFwd] = useState(null);
+  const [star, setStar] = useState(null);
+  const [bin, setBin] = useState(null);
+  const [imp, setImp] = useState(null);
 
   const showNewMessageForm = () => {
     setShowNewMessage(!showNewMessage);
@@ -17,8 +24,22 @@ function Mails() {
   const showNewMailList = () => {
     setShowNewMail(!showNewMail);
   };
+
+  const openEmailModal = (email) => {
+    setSelectedEmail(email);
+    setIsEmailModalOpen(true);
+  };
+
+  const closeEmailModal = () => {
+    setIsEmailModalOpen(false);
+    setSelectedEmail(null);
+  };
+
+  // const wannaReply = () => {
+  //   setShowNewMessage(true);
+  // }
+
   const user = JSON.parse(sessionStorage.getItem('user'));
-  console.log(user);
 
   return (
     <div
@@ -38,15 +59,30 @@ function Mails() {
         showNewMailList={showNewMailList}
         setCurrentMailBox={setCurrentMailBox}
       />
-      <PageList
-        showNewMail={showNewMail}
-        showNewMailList={showNewMailList}
+      <MailList
         currentMailBox={currentMailBox}
+        openEmailModal={openEmailModal}
+        star={star}
+        setStar={setStar}
+        bin={bin}
+        setBin={setBin}
+        emailInfo={selectedEmail}
+        imp={imp}
+        setImp={setImp}
       />
       <PageSelectCont
         message="select mail to read"
         showNewMessage={showNewMessage}
-        showNewMessageForm={showNewMessageForm}
+        selectedEmail={selectedEmail}
+        isEmailModalOpen={isEmailModalOpen}
+        closeEmailModal={closeEmailModal}
+        setShowNewMessage={setShowNewMessage}
+        reply={reply}
+        setReply={setReply}
+        fwd={fwd}
+        setFwd={setFwd}
+        imp={imp}
+        setImp={setImp}
       />
     </div>
   );

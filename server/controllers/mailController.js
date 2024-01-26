@@ -2,24 +2,6 @@ const MailModel = require('../models/MailModel');
 const MailBoxModel = require('../models/MailBoxModel');
 const User = require('../models/UserModel');
 const asyncHandler = require('express-async-handler');
-const fs = require('fs');
-const BSON = require('bson');
-const AttachmentModel = require('../models/AttachmentModel');
-const multer = require('multer');
-
-const mongoose = require('mongoose');
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads/'); // dossier anda on stock les fichiers
-  },
-  filename: function (req, file, cb) {
-    // sert à determini isem n fihier
-    cb(null, new Date().toISOString() + file.originalname); // on utilisant la date aken ad yili unique l'enregistrement ines
-  },
-});
-
-const upload = multer({ storage: storage }); // thoura on peut utiliser uploade avec la config storage que jai fait di s multer
 
 const sendEmail = asyncHandler(async (req, res) => {
   const currentuser = req.user;
@@ -28,8 +10,9 @@ const sendEmail = asyncHandler(async (req, res) => {
   );
   try {
     // comme d hab extraction des donnée
-    const { to, subject, message, attachments } = req.body;
+    const { to, subject, message } = req.body;
     // verifikaychon de user dans user db
+    // const { attachments } = req.body;
 
     // const dest = Array.isArray(to) ? to : [to];
 
@@ -52,60 +35,41 @@ const sendEmail = asyncHandler(async (req, res) => {
       // usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
       subject,
       message,
-      attachments: [],
       starred: false,
       bin: false,
     });
 
-    // middleware upload pour gérer les pj
-    // array prsq yezmer pas un seul donc khemegh vecteur ok !!
-    upload.array('attachments')(req, res, async function (err) {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
+    // enregistrmt de mail
+    await newMail.save();
 
-      if (attachments && attachments.length > 0) {
-        // verifi si la pj existe et > af zero
-        // parcour des pj yellan
-        for (let i = 0; i < attachments.length; i++) {
-          const attachment = attachments[i]; // recuperer la pj
-          const data = fs.readFileSync(attachment.path); // lit le contenu de la pj de manière synchron
-          const bson = BSON.serialize({ data }); // convertir en format bson pr les stocker
-          const newAttachment = new AttachmentModel({
-            // je l'ai creé pr chaque pj
-            nameAttach: attachment.originalname,
-            url: '',
-            taille: attachment.size,
-          });
-          await newAttachment.save(); // ça l'enregistre dans la db de attachement
-          newMail.attachments.push(newAttachment._id); // ajout de la pj dans newMail
-        }
-      }
-
-      // enregistrmt de mail
-      await newMail.save();
-      // update la Outbox (Boîte d’envoi) de l'expéditeur
-      await MailBoxModel.findOneAndUpdate(
-        // { userId: userFrom._id, name: 'Outbox' },
-        { userId: currentuser._id, name: 'Outbox' },
-        { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Outbox
-        { upsert: true }, // Si la Outbox n'existe pas, on va la créer grace à upsert aki
-      );
-
-      // update la Inbox (Boîte de réception) du destinataire
-      // for (const userTo of usersTo) {
-      await MailBoxModel.findOneAndUpdate(
-        { userId: userTo._id, name: 'Inbox' },
-        { $addToSet: { mails: newMail._id } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
-        { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
-      );
-      // }
-
-      console.log('sent mail is : ', newMail);
-
-      // response msg
-      res.status(200).json('mail sent successfully');
+    const populatedMail = await MailModel.findById(newMail._id).populate({
+      path: 'to',
+      select: 'firstname lastname email',
     });
+
+    // update la Outbox (Boîte d’envoi) de l'expéditeur
+    await MailBoxModel.findOneAndUpdate(
+      // { userId: userFrom._id, name: 'Outbox' },
+      { userId: currentuser._id, name: 'Outbox' },
+      { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Outbox
+      { upsert: true }, // Si la Outbox n'existe pas, on va la créer grace à upsert aki
+    );
+
+    // update la Inbox (Boîte de réception) du destinataire
+    // for (const userTo of usersTo) {
+    await MailBoxModel.findOneAndUpdate(
+      { userId: userTo._id, name: 'Inbox' },
+      { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
+      { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
+    );
+    // }
+
+    console.log('sent mail is : ', newMail);
+
+    console.log('popu mail is : ', populatedMail);
+    // response msg
+    res.status(200).json('mail sent successfully');
+    // });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -262,7 +226,7 @@ const forwardEmail = asyncHandler(async (req, res) => {
       return res.status(404).json({ error: 'Mail not found' });
     }
 
-    const userTo = await User.findOne({ _id: to }); // recherdche de to le destinataire
+    const userTo = await User.findOne({ email: to }); // recherdche de to le destinataire
     if (!userTo) {
       return res.status(404).json({ error: 'destinataire introuvable' });
     }

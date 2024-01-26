@@ -31,9 +31,11 @@ const getAllEvents = asyncHandler(async (req, res) => {
         .json({ error: 'Lutilisateur nest pas authentifié' });
     }
 
-    const events = await Event.find({ user: req.user._id });
+    const events = await Event.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
 
-    res.status(200).json({ events });
+    res.status(200).json(events);
   } catch (error) {
     res
       .status(500)
@@ -77,7 +79,7 @@ const updateEvent = asyncHandler(async (req, res) => {
 
     console.log('Updated Event:', updatedEvent);
 
-    res.status(200).json({ message: 'Event est MaJ avec succès' });
+    res.status(200).json(updatedEvent);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erreur lors de la MaJ de ev' });

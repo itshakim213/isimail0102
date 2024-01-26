@@ -3,8 +3,9 @@
     background-position: left center;
     background-size: 20px;
     text-align: center;
-    border-radius: 5px;
-    margin: 0 .3rem 0 .3rem;
-    padding: 5px;
+    border-radius: 5px !important;
+    margin: 5rem .3rem 0 .3rem !important;
+    padding: .3rem !important;
     background-repeat: no-repeat;
+    background-color: none;
 }

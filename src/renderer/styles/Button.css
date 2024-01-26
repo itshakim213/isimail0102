@@ -8,11 +8,11 @@
 
 .send-button {
   padding: 10px 15px;
-  margin: .2rem 1.5rem 0 1.5rem;
+  margin: 1.2rem 1.5rem 1.5rem 1.5rem;
   border: none;
   border-radius: 25px;
   color: black;
-  background-color: #557CC8;
+  background-color: #557cc8;
   font-weight: bold;
 }
 
@@ -43,6 +43,7 @@
 
 .signup-btn {
   width: 20%;
+  margin-left: 30px;
   padding: 10px;
   background-color: #557cc8;
   color: white;
@@ -57,8 +58,9 @@
 }
 
 .signin-btn {
-  width: 20%;
-  padding: 10px;
+  margin-left: 15px;
+  width: 30%;
+  padding: 15px;
   background-color: #557cc8;
   color: white;
   border: none;

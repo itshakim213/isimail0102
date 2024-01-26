@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
 import '../styles/signin.css';
+import FormDialog from '../components/forgotPassword';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +19,24 @@ function Signin({ handleLogin }) {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const profilePictureUrl =
+    localStorage.getItem('profilePicture') || 'default-url';
+
+  const Notify = (message, callback) => {
+    toast.success(message, {
+      onClose: callback,
+    });
+  };
 
   async function LoadUser() {
     try {
@@ -32,7 +53,7 @@ function Signin({ handleLogin }) {
         },
         config,
       );
-      // met en place le token
+      // Set up the token
       window.localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (e) {
@@ -40,6 +61,7 @@ function Signin({ handleLogin }) {
       setError(true);
       setemail('');
       setpassword('');
+      throw e; // Re-throw the error for the calling function (submit) to catch
     }
   }
 
@@ -51,15 +73,14 @@ function Signin({ handleLogin }) {
       const userData = await LoadUser();
       sessionStorage.setItem('user', JSON.stringify(userData));
       setIsSubmitted(true);
-      alert('Connexion réussie !');
-      handleLogin();
-      navigate('/mails/inbox');
+      Notify('Connexion réussie !', () => {
+        handleLogin();
+        navigate('/mails/inbox');
+      });
     } catch (error) {
       console.log(error);
       setError(true);
-      alert(
-        "Une erreur est survenue lors de l'authentification. Veuillez réessayer.",
-      );
+      toast.error('Adresse ou Mot de passe incorrect.');
     }
   }
 
@@ -83,21 +104,23 @@ function Signin({ handleLogin }) {
         </div>
       </div>
       <div className="right-section-signin">
-        <h1 className="sign-title-signin">Sign in</h1>
+        <h1 className="sign-title-signin"> Connection</h1>
         <br></br>
-        <p className="sign-description-signin">Welcome Back !</p>
+        {/* {validationError && (
+          <div className="validation-error">{validationError}</div>
+        )} */}
+        <p className="sign-description-signin"> Bienvenue !</p>
         <form onSubmit={(e) => submit(e)}>
           <div className="auth-form-signin">
-            <label>E-mail:</label>
             <br></br>
             <input
+              className="input-style"
               type="text"
               placeholder="Saisissez votre adresse TalkMail"
               onChange={(e) => setemail(e.target.value)}
               required
             ></input>
             <br></br>
-            <label>Mot de passe :</label>
             <br></br>
             <div className="password-input-container">
               <div
@@ -110,12 +133,14 @@ function Signin({ handleLogin }) {
                 />
               </div>
               <input
+                className="input-style"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Saisissez votre mot de passe"
                 onChange={(e) => setpassword(e.target.value)}
                 required
               />
             </div>
+
             <div className="forgot-password-link">
               <span
                 className="forgot-password"
@@ -124,6 +149,7 @@ function Signin({ handleLogin }) {
                   cursor: 'pointer',
                   textDecoration: 'underline',
                 }}
+                onClick={handleClickOpen}
               >
                 Forgot Password?
               </span>
@@ -137,8 +163,16 @@ function Signin({ handleLogin }) {
             />
           </div>
         </form>
+        <ToastContainer />
       </div>
+
+      {open && (
+        <div>
+          <FormDialog handleClose={handleClose} />
+        </div>
+      )}
     </div>
   );
 }
+
 export default Signin;

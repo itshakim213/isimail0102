@@ -15,7 +15,7 @@ function SideBarPage({
   showNewMessage,
   showNewMessageForm,
   setCurrentMailBox,
-  // setCurrentSettings,
+  setCurrentSettings,
 }) {
   return (
     <div className="side-bar-page">
@@ -31,21 +31,29 @@ function SideBarPage({
           height={85}
         />
       ) : (
-        <nav style={{ marginTop: 65 }}>
-          {elements.map((item, index) => (
-            <NavLink
-              to={`/${path}/${item}`}
-              key={`${index}-${item}`}
-              className="nav-item"
-              onClick={
-                () => setCurrentMailBox(item)
-                // setCurrentSettings(item)
-              }
-            >
-              {item}
-            </NavLink>
-          ))}
-        </nav>
+          <nav>
+            {elements.map((item, index) => (
+              <NavLink
+                to={`/${path}/${item}`}
+                key={`${index}-${item}`}
+                className="nav-item"
+                onClick={() => setCurrentMailBox(item)}
+              >
+                {item}
+              </NavLink>
+            ))}
+          </nav>
+        // <nav style={{ marginTop: '.5rem' }}>
+        //   {elements.map((item, index) => (
+        //     <NavLink
+        //       to={`/${path}/${item}`}
+        //       key={`${index}-${item}`}
+        //       className="nav-item"
+        //     >
+        //       {item.replace(/_/g, ' ')}
+        //     </NavLink>
+        //   ))}
+        // </nav>
       )}
 
       {path === 'chats' && !showNewMessage && (
