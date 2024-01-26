@@ -13,9 +13,8 @@ function Mails() {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [reply, setReply] = useState(null);
   const [fwd, setFwd] = useState(null);
-  //added now
-  const [deleteMail, setDeleteMail] = useState(false);
-  const [starMail, setStarMail] = useState(false);
+  const [star, setStar] = useState(null);
+  const [bin, setBin] = useState(null);
 
   const showNewMessageForm = () => {
     setShowNewMessage(!showNewMessage);
@@ -62,6 +61,10 @@ function Mails() {
       <MailList
         currentMailBox={currentMailBox}
         openEmailModal={openEmailModal}
+        star={star}
+        setStar={setStar}
+        bin={bin}
+        setBin={setBin}
         emailInfo={selectedEmail}
       />
       <PageSelectCont

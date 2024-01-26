@@ -69,13 +69,13 @@ function MailList({
       console.log('user token :', user.token);
 
       const response = await axios.put(
-        'http://localhost:4001/api/mail/togglestar',
+        `http://localhost:4001/api/mail/togglestar`,
         { mailId },
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
-        }
+        },
       );
       console.log('Toggle star response:', response.data);
       fetchMails();
