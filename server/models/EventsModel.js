@@ -10,9 +10,11 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
+  startDate: {
     type: Date,
-    required: true,
+  },
+  endDate: {
+    type: Date,
   },
   isAllDay: {
     type: Boolean,
@@ -20,6 +22,17 @@ const eventSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+  },
+  location: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

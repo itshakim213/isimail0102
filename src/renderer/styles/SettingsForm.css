@@ -1,7 +1,14 @@
 .settings-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   color: rgb(0, 0, 0);
 }
 
@@ -14,15 +21,21 @@
 }
 
 .setting-checkbox {
-  padding: 3vh 3vw;
-  margin: 5px 0 5px 3vw;
+
+  padding: 2vh 2vw;
+  margin: 5px 0 5px 5vw;
   background-color: rgba(126, 123, 123, 0.2);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .setting-checkbox .option {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .option {
@@ -38,3 +51,4 @@
   margin-right: 9px;
 
 }
+

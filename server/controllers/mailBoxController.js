@@ -37,10 +37,16 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Outbox',
     }).populate({
       path: 'mails',
-      populate: {
-        path: 'from',
-        select: 'firstname lastname email',
-      },
+      populate: [
+        {
+          path: 'from',
+          select: 'firstname lastname email',
+        },
+        {
+          path: 'to',
+          select: 'firstname lastname email',
+        },
+      ],
     });
     // otherwise on la creer et lui donner son name
     if (!outbox) {
@@ -56,10 +62,16 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Inbox',
     }).populate({
       path: 'mails',
-      populate: {
-        path: 'from',
-        select: 'firstname lastname email',
-      },
+      populate: [
+        {
+          path: 'from',
+          select: 'firstname lastname email',
+        },
+        {
+          path: 'to',
+          select: 'firstname lastname email',
+        },
+      ],
     });
 
     if (!inbox) {
@@ -75,10 +87,16 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Starred',
     }).populate({
       path: 'mails',
-      populate: {
-        path: 'from',
-        select: 'firstname lastname email',
-      },
+      populate: [
+        {
+          path: 'from',
+          select: 'firstname lastname email',
+        },
+        {
+          path: 'to',
+          select: 'firstname lastname email',
+        },
+      ],
     });
 
     if (!starred) {
@@ -94,10 +112,16 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Important',
     }).populate({
       path: 'mails',
-      populate: {
-        path: 'from',
-        select: 'firstname lastname email',
-      },
+      populate: [
+        {
+          path: 'from',
+          select: 'firstname lastname email',
+        },
+        {
+          path: 'to',
+          select: 'firstname lastname email',
+        },
+      ],
     });
 
     if (!important) {
@@ -113,10 +137,16 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Bin',
     }).populate({
       path: 'mails',
-      populate: {
-        path: 'from',
-        select: 'firstname lastname email',
-      },
+      populate: [
+        {
+          path: 'from',
+          select: 'firstname lastname email',
+        },
+        {
+          path: 'to',
+          select: 'firstname lastname email',
+        },
+      ],
     });
 
     if (!bin) {
@@ -132,10 +162,16 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Drafts',
     }).populate({
       path: 'mails',
-      populate: {
-        path: 'from',
-        select: 'firstname lastname email',
-      },
+      populate: [
+        {
+          path: 'from',
+          select: 'firstname lastname email',
+        },
+        {
+          path: 'to',
+          select: 'firstname lastname email',
+        },
+      ],
     });
 
     if (!drafts) {
@@ -179,9 +215,3 @@ const retrieveMails = asyncHandler(async (req, res) => {
 });
 
 module.exports = { retrieveMails };
-
-// mohand
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODU4ZDUwZTgyMDNhNTM0NmZmN2ZmMSIsImlhdCI6MTcwNTU3MjA3NCwiZXhwIjoxNzA4MTY0MDc0fQ.6Uq7rJ9i3Cz2Yzh0O6k8Tt1e724zSDWpNlC49HjVme4
-
-// 65858d50e8203a5346ff7ff1

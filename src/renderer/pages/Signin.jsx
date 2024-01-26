@@ -9,7 +9,6 @@ import FormDialog from '../components/forgotPassword';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-// import TextField from '@mui/material/TextField';
 
 function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
@@ -62,7 +61,7 @@ function Signin({ handleLogin }) {
       const userData = await LoadUser();
       sessionStorage.setItem('user', JSON.stringify(userData));
       setIsSubmitted(true);
-      alert('Connexion réussie !');
+      alert('Connexion réussie ! Bienvenue à TalkMail');
       handleLogin();
       navigate('/mails/inbox');
     } catch (error) {
@@ -110,22 +109,6 @@ function Signin({ handleLogin }) {
               onChange={(e) => setemail(e.target.value)}
               required
             ></input>
-            {/* <TextField
-              label="E-mail"
-              variant="standard"
-              value={email}
-              onChange={(e) => setemail(e.target.value)}
-              required
-            />
-            <br></br>
-            <TextField
-              label="Mot de passe"
-              type={showPassword ? 'text' : 'password'}
-              variant="standard"
-              value={password}
-              onChange={(e) => setpassword(e.target.value)}
-              required
-            /> */}
             <label>Mot de passe :</label>
             <br></br>
             <div className="password-input-container">
