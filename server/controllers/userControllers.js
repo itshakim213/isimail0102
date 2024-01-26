@@ -2,6 +2,9 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/UserModel');
 const generateToken = require('../config/generateToken');
 
+const MailModel = require('../models/MailModel');
+const MailBoxModel = require('../models/MailBoxModel');
+
 // Cette fonction est destinée à l'inscription d'un nouvel utilisateur.
 // Elle vérifie la présence des champs requis (firstname, lastname, email, password).
 // Vérifie également si l'utilisateur avec l'e-mail donné existe déjà.
@@ -17,7 +20,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     securityAnswer,
     securityQuestion,
-    secureMail,
+    // secureMail,
     pic,
   } = req.body;
 
@@ -29,8 +32,8 @@ const registerUser = asyncHandler(async (req, res) => {
     !email ||
     !password ||
     !securityQuestion ||
-    !securityAnswer ||
-    !secureMail
+    !securityAnswer
+    // !secureMail
   ) {
     res.status(400);
     throw new Error('Please enter all the fields');
@@ -53,15 +56,45 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     securityAnswer,
     securityQuestion,
-    secureMail,
+    // secureMail,
     isResettingPassword: false,
     pic,
   });
 
+  console.log('User created:', user);
+
   // // Génération et sauvegarde de l'OTP
   // const generatedOTP = await user.generateOTP();
-  // console.log(`Generated OTP: ${generatedOTP}`);
+  // console.log(Generated OTP: ${generatedOTP});
 
+  const adminUser = await User.findOne({ email: 'contact@talkmail.dz' });
+  if (!adminUser) {
+    return res.status(404).json({ error: 'admin introuvable.' });
+  }
+
+  const adminId = adminUser._id;
+
+  const welcomeMail = new MailModel({
+    from: adminUser._id,
+    to: user._id,
+    subject: 'Bienvenue sur notre plateforme',
+    message:
+      'Bonjour et bienvenue sur notre plateforme. Nous sommes ravis de vous avoir parmi nous !',
+  });
+
+  await welcomeMail.save();
+  const populatedMail = await MailModel.findById(welcomeMail._id).populate({
+    path: 'to',
+    select: 'firstname lastname email',
+  });
+
+  console.log('Welcome mail created:', welcomeMail);
+
+  await MailBoxModel.findOneAndUpdate(
+    { userId: user._id, name: 'Inbox' },
+    { $addToSet: { mails: populatedMail } },
+    { upsert: true },
+  );
   // Envoi d'une réponse avec les détails de l'utilisateur et un token d'authentification
   // la c juste pour l'api dans postman sinon on peut renvoyer un message du type inscription reussie
   if (user) {
@@ -74,7 +107,7 @@ const registerUser = asyncHandler(async (req, res) => {
       securityAnswer: user.securityAnswer,
       isResettingPassword: user.isResettingPassword,
       securityQuestion: user.securityQuestion,
-      secureMail: user.secureMail,
+      // secureMail: user.secureMail,
       // otp: generatedOTP, // j'ai rajouté otp ici pour le sauvegarder lors d'inscription
       token: generateToken(user._id),
       pic: user.pic,
@@ -106,6 +139,7 @@ const authUser = asyncHandler(async (req, res) => {
       securityAnswer: user.securityAnswer,
       isResettingPassword: user.isResettingPassword,
       token: generateToken(user._id),
+      pic: user.pic
     });
   } else {
     // Envoi d'une réponse d'erreur en cas d'authentification échouée
@@ -146,10 +180,10 @@ const deleteUsers = asyncHandler(async (req, res) => {
   // je récupere l id daki
   const userId = req.params.id;
   console.log('Deleting user with id:', userId); // j affich l id
-  // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella ;)
+  // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella 😉
 
   try {
-    const user = await User.findOne({ _id: userId }); // anwalli ma yella ;)
+    const user = await User.findOne({ _id: userId }); // anwalli ma yella 😉
     if (!user) {
       return res.status(404).json({ error: 'Utilisateur introuvable' }); // khati ulachith x)
     }

@@ -18,7 +18,7 @@ function Signup({ handleLogin }) {
   const [securityQuestion, setSecurityQuestion] = useState('');
   const [securityAnswer, setSecurityAnswer] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [secureMail, setSecureMail] = useState('');
+  // const [secureMail, setSecureMail] = useState('');
 
   const [pic, setpic] = useState(
     'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
@@ -64,7 +64,7 @@ function Signup({ handleLogin }) {
           dateofbirth,
           email,
           password,
-          secureMail,
+          // secureMail,
           securityQuestion,
           securityAnswer,
           pic,
@@ -190,14 +190,14 @@ function Signup({ handleLogin }) {
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></input>
             <br></br>
-            <label>Email de sécurité : </label>
+            {/* <label>Email de sécurité : </label>
             <input
               type="email"
               placeholder="Entrez votre email de sécurité"
               value={secureMail}
               onChange={(e) => setSecureMail(e.target.value)}
             ></input>
-            <br></br>
+            <br></br> */}
             <label>Question de sécurité : </label>
             <select
               required

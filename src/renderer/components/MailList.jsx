@@ -62,7 +62,7 @@ function MailList({ currentMailBox, openEmailModal, setDeleteMail, setStarMail})
   }
 
   return (
-    <div className="mail-item" style={{ overflowY: 'auto', height: '100%' }}>
+    <div className="mail-item">
       <p className="mail-send">Mails reçus:</p>
       <TableContainer className="mailist-container" component={Paper}>
         <Table size="small" aria-label="a dense table">
@@ -73,7 +73,7 @@ function MailList({ currentMailBox, openEmailModal, setDeleteMail, setStarMail})
               <TableCell align="right">Objet</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody style={{ overflowY: scroll }}>
             {mails?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={4} align="center">
