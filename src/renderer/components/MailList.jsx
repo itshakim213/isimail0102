@@ -11,6 +11,7 @@ import '../styles/mailist.css';
 import empStar from '../assets/empStar.png';
 import star from '../assets/star.png';
 import trash from '../assets/delete.png';
+import imp from '../assets/important.png';
 import { useQuery } from 'react-query';
 
 function MailList({
@@ -19,6 +20,7 @@ function MailList({
   setStar,
   setBin,
   emailInfo,
+  setImp,
 }) {
   const mailboxFetch = currentMailBox || 'inbox';
   const [selectedEmail, setSelectedEmail] = useState(null);
@@ -78,9 +80,55 @@ function MailList({
         },
       );
       console.log('Toggle star response:', response.data);
-      fetchMails();
+      await fetchMails();
     } catch (error) {
       console.error('Error toggling star:', error);
+    }
+  };
+
+  const handleBin = async () => {
+    try {
+      console.log('mailId:', mailId);
+
+      const user = JSON.parse(sessionStorage.getItem('user'));
+      console.log('user token :', user.token);
+
+      const response = await axios.put(
+        `http://localhost:4001/api/mail/movetobin`,
+        { mailId },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
+      );
+      console.log('Bin response:', response.data);
+      await fetchMails();
+    } catch (error) {
+      console.error('Error moving to bin:', error);
+    }
+  };
+
+  const handleImp = async () => {
+    try {
+      console.log('mailId:', mailId);
+
+      const user = JSON.parse(sessionStorage.getItem('user'));
+      console.log('user token :', user.token);
+
+      const response = await axios.put(
+        `http://localhost:4001/api/mail/important`,
+        { mailId },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
+      );
+      console.log('Imp response:', response.data);
+      await fetchMails();
+    } catch (error) {
+      console.error('Error moving to imp:', error);
     }
   };
 
@@ -175,6 +223,7 @@ function MailList({
                         height={15}
                         style={{ marginRight: '.5rem' }}
                         // onClick={setBin(true)}
+                        onClick={handleBin}
                       />
                       <img
                         src={mail.starred ? star : empStar}
@@ -184,6 +233,15 @@ function MailList({
                         style={{ marginRight: '.5rem' }}
                         // onClick={setStar(true)}
                         onClick={handleToggleStar}
+                      />
+                      <img
+                        src={imp}
+                        alt="important-mail"
+                        width={15}
+                        height={15}
+                        style={{ marginRight: '.5rem' }}
+                        // onClick={setBin(true)}
+                        onClick={handleImp}
                       />
                     </div>
                   </TableCell>

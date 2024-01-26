@@ -15,6 +15,7 @@ function Mails() {
   const [fwd, setFwd] = useState(null);
   const [star, setStar] = useState(null);
   const [bin, setBin] = useState(null);
+  const [imp, setImp] = useState(null);
 
   const showNewMessageForm = () => {
     setShowNewMessage(!showNewMessage);
@@ -66,6 +67,8 @@ function Mails() {
         bin={bin}
         setBin={setBin}
         emailInfo={selectedEmail}
+        imp={imp}
+        setImp={setImp}
       />
       <PageSelectCont
         message="select mail to read"
@@ -78,6 +81,8 @@ function Mails() {
         setReply={setReply}
         fwd={fwd}
         setFwd={setFwd}
+        imp={imp}
+        setImp={setImp}
       />
     </div>
   );

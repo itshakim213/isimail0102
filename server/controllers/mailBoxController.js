@@ -37,6 +37,7 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Outbox',
     }).populate({
       path: 'mails',
+      match: { bin: { $ne: true } },
       populate: [
         {
           path: 'from',
@@ -62,6 +63,7 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Inbox',
     }).populate({
       path: 'mails',
+      match: { bin: { $ne: true } },
       populate: [
         {
           path: 'from',
@@ -87,6 +89,7 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Starred',
     }).populate({
       path: 'mails',
+      match: { bin: { $ne: true } },
       populate: [
         {
           path: 'from',
@@ -112,6 +115,7 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Important',
     }).populate({
       path: 'mails',
+      match: { bin: { $ne: true } },
       populate: [
         {
           path: 'from',
@@ -162,6 +166,7 @@ const retrieveMails = asyncHandler(async (req, res) => {
       name: 'Drafts',
     }).populate({
       path: 'mails',
+      match: { bin: { $ne: true } },
       populate: [
         {
           path: 'from',

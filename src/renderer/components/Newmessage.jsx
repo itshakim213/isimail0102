@@ -53,12 +53,14 @@ function Newmessage({ reply, fwd }) {
     if (reply !== null) {
       setTo(reply.from.email);
       setSubject(`Re : ${reply.subject}`);
+      setMessage('');
       console.log(to);
     }
   }, [reply]);
 
   useEffect(() => {
     if (fwd !== null) {
+      setTo('');
       setSubject(`FWD : ${fwd.subject}`);
       setMessage(fwd.message);
       console.log(to);
