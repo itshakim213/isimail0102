@@ -8,12 +8,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import '../styles/mailist.css';
+import empStar from '../assets/empStar.png'
+import star from '../assets/star.png'
+import trash from '../assets/delete.png'
 import { useQuery } from 'react-query';
 
-function MailList({ currentMailBox, openEmailModal }) {
+function MailList({ currentMailBox, openEmailModal, setDeleteMail, setStarMail}) {
   const mailboxFetch = currentMailBox || 'inbox';
   const [selectedEmail, setSelectedEmail] = useState(null);
-
+  console.log('render')
   const {
     data: mails,
     isLoading,
@@ -68,7 +71,6 @@ function MailList({ currentMailBox, openEmailModal }) {
               <TableCell>De</TableCell>
               <TableCell align="right">Email</TableCell>
               <TableCell align="right">Objet</TableCell>
-              <TableCell align="right">Message</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -92,7 +94,12 @@ function MailList({ currentMailBox, openEmailModal }) {
                     {mail.from ? mail.from.email || 'N/A' : 'N/A'}
                   </TableCell>
                   <TableCell align="right">{mail.subject || 'N/A'}</TableCell>
-                  <TableCell align="right">{mail.message || 'N/A'}</TableCell>
+                  <TableCell align="right">
+                    <div>
+                      <img src={trash} alt="delete-mail" width={15} height={15} style={{marginRight: '.5rem'}} onClick={setDeleteMail(true)} />
+                      <img src={(mail.starred) ? star : empStar} alt="favori-mail" width={15} height={15} style={{marginRight: '.5rem'}} onClick={setStarMail(true)} />
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))
             )}

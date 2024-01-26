@@ -11,6 +11,8 @@ function Mails() {
   const [currentMailBox, setCurrentMailBox] = useState('inbox');
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [deleteMail, setDeleteMail] = useState(false)
+  const [starMail, setStarMail] = useState(false)
 
   const showNewMessageForm = () => {
     setShowNewMessage(!showNewMessage);
@@ -53,6 +55,8 @@ function Mails() {
       <MailList
         currentMailBox={currentMailBox}
         openEmailModal={openEmailModal}
+        setDeleteMail={setDeleteMail}
+        setStarMail={setStarMail}
       />
       <PageSelectCont
         message="select mail to read"
