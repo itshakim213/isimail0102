@@ -21,9 +21,8 @@
 }
 
 .setting-checkbox {
-
-  padding: 2vh 2vw;
-  margin: 5px 0 5px 5vw;
+  padding: 3vh 3vw;
+  margin: 5px 0 5px 3vw;
   background-color: rgba(126, 123, 123, 0.2);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -35,7 +34,7 @@
 }
 
 .setting-checkbox .option {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 .option {
@@ -51,4 +50,3 @@
   margin-right: 9px;
 
 }
-

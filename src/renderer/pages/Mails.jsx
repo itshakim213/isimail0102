@@ -59,6 +59,8 @@ function Mails() {
       <MailList
         currentMailBox={currentMailBox}
         openEmailModal={openEmailModal}
+        setDeleteMail={setDeleteMail}
+        setStarMail={setStarMail}
       />
       <PageSelectCont
         message="select mail to read"

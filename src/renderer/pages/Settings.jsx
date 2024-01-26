@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SideBarPage from '../components/SideBarPage';
-// import SettingsForm from '../components/SettingsForm';
+ //import SettingsForm from '../components/SettingsForm';
 import AccountSettingsForm from '../components/AccountSettingsForm';
 import PageList from '../components/PageList';
 
