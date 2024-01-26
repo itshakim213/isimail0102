@@ -23,8 +23,6 @@
 .setting-checkbox {
   padding: 3vh 3vw;
   margin: 5px 0 5px 3vw;
-  padding: 2vh 2vw;
-  margin: 5px 0 5px 5vw;
   background-color: rgba(126, 123, 123, 0.2);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -36,16 +34,17 @@
 }
 .setting-checkbox .option {
   margin-bottom: 30px;
-  margin-bottom: 10px;
 }
 
 .option {
   float: left;
 }
+
 .setting-box .values {
   padding: 24px;
   float: right;
 }
+
 .values input {
   margin-right: 9px;
 }

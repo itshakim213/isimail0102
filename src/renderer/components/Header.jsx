@@ -8,8 +8,13 @@ function Header({ handleLogout }) {
   const navigate = useNavigate();
 
   const hadnleLogoutClick = () => {
-    handleLogout();
-    navigate('/index.html');
+    const confirmLogout = window.confirm(
+      'Voulez vous vraimant vous déconnecter ?',
+    );
+    if (confirmLogout) {
+      handleLogout();
+      navigate('/index.html');
+    }
   };
 
   return (

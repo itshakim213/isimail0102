@@ -3,30 +3,18 @@ import search from '../assets/search.png';
 import '../styles/SearchChat.css';
 import axios from 'axios';
 
-function SearchChat() {
-  // const [search, setSearch] = useState();
-  // const loadUsers = async (users) => {
-  //   try {
-  //     const response = await axios.get('http://localhost:4001/api/user/search');
-  //     return response.data;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // function searchUser(sear) {
-  //   const usersPromise = loadUsers();
-  //   usersPromise.then((usersData) => {
-  //     const users = [...usersData];
-  //     const filtredUsers = users.filter((user) => {
-  //       return (
-  //         user.firstname.includes(sear) ||
-  //         user.lastname.includes(sear) ||
-  //         user.email.includes(sear)
-  //       );
-  //     });
-  //   });
-  //   return filtredUsers;
-  // }
+function SearchChat({ users, setSearchedUser }) {
+  
+  function searchUser(sear) {
+    const filtredUsers = users.filter((user) => {
+      return (
+        user.lastname.includes(sear) ||
+        user.email.includes(sear) ||
+        user.firstname.includes(sear) 
+      );
+    });
+    return filtredUsers;
+  }
 
   return (
     <input
@@ -34,6 +22,7 @@ function SearchChat() {
       type="text"
       placeholder="Search"
       name="search-chat"
+      onChange={(e) => { setSearchedUser(searchUser(e.target.value)) }}
     />
   );
 }

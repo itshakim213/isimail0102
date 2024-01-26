@@ -3,12 +3,9 @@ import axios from 'axios';
 import addUser from '../assets/addUser.png';
 import '../styles/ContactInv.css';
 
-function ContactInv({ userId, fullname, email }) {
+function ContactInv({ userId, fullname, email, chats, setChats }) {
   const userInvId = userId;
   const user = JSON.parse(sessionStorage.getItem('user'));
-
-  //   console.log('User Token:', user.token);
-  //   console.log('Invited User ID:', userInvId);
 
   const createConv = async (userInvId) => {
     const response = await axios.post(
@@ -31,7 +28,10 @@ function ContactInv({ userId, fullname, email }) {
     // il m affiche les details de la vonc cree, la response obtenu de server
     // on succes aki theqared achu ylaqen ad yedhroun une fois la creatVonc aki th3eda du coup ad afficher les data n response nni
     onSuccess: (data) => {
+      setChats([...chats,data])
       console.log('server response --> Conversation created:', data);
+      // handleAddUser(userInvId);
+      // return false;
     },
     // sinon err
     onError: (error) => {
@@ -54,6 +54,9 @@ function ContactInv({ userId, fullname, email }) {
           width={25}
           onClick={() => mutate(userInvId)} // faire appel a mutate.creatVonc lors de click avec
           // la recupération de la variable user ID , genre un trigger negh un declencheur mutate aki
+          // mutate ad ikhemen mutation i createConv
+          // c pour ça khemegh userInvId et pas createConv prs thedda dkhel n mutate
+
           //   onClick={createConv}
         />
       </div>

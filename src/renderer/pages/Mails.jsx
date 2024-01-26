@@ -11,6 +11,11 @@ function Mails() {
   const [currentMailBox, setCurrentMailBox] = useState('inbox');
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [reply, setReply] = useState(null);
+  const [fwd, setFwd] = useState(null);
+  //added now
+  const [deleteMail, setDeleteMail] = useState(false);
+  const [starMail, setStarMail] = useState(false);
 
   const showNewMessageForm = () => {
     setShowNewMessage(!showNewMessage);
@@ -29,6 +34,10 @@ function Mails() {
     setIsEmailModalOpen(false);
     setSelectedEmail(null);
   };
+
+  // const wannaReply = () => {
+  //   setShowNewMessage(true);
+  // }
 
   const user = JSON.parse(sessionStorage.getItem('user'));
 
@@ -53,6 +62,8 @@ function Mails() {
       <MailList
         currentMailBox={currentMailBox}
         openEmailModal={openEmailModal}
+        setDeleteMail={setDeleteMail}
+        setStarMail={setStarMail}
       />
       <PageSelectCont
         message="select mail to read"
@@ -60,6 +71,11 @@ function Mails() {
         selectedEmail={selectedEmail}
         isEmailModalOpen={isEmailModalOpen}
         closeEmailModal={closeEmailModal}
+        setShowNewMessage={setShowNewMessage}
+        reply={reply}
+        setReply={setReply}
+        fwd={fwd}
+        setFwd={setFwd}
       />
     </div>
   );

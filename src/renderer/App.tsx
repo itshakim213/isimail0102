@@ -39,7 +39,7 @@ function App() {
       document.body.style.backgroundColor = '#fff';
     }
   }, [isAuthen]);
-
+  
   return (
     <QueryClientProvider client={queryClient}>
       <Router>

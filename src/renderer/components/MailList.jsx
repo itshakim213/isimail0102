@@ -8,12 +8,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import '../styles/mailist.css';
+import empStar from '../assets/empStar.png'
+import star from '../assets/star.png'
+import trash from '../assets/delete.png'
 import { useQuery } from 'react-query';
 
-function MailList({ currentMailBox, openEmailModal }) {
+function MailList({ currentMailBox, openEmailModal, setDeleteMail, setStarMail}) {
   const mailboxFetch = currentMailBox || 'inbox';
   const [selectedEmail, setSelectedEmail] = useState(null);
-
+  console.log('render')
   const {
     data: mails,
     isLoading,
@@ -60,15 +63,29 @@ function MailList({ currentMailBox, openEmailModal }) {
 
   return (
     <div className="mail-item" style={{ overflowY: 'auto', height: '100%' }}>
-      <p className="mail-send">Mails reçus:</p>
+      {/* <p className="mail-send">Mails reçus:</p> */}
+      <p className="mail-send">
+        {currentMailBox === 'outbox'
+          ? 'Mails envoyés:'
+          : currentMailBox === 'inbox'
+            ? 'Mails reçus:'
+            : currentMailBox === 'starred'
+              ? 'Favoris:'
+              : currentMailBox === 'bin'
+                ? 'Supprimés:'
+                : currentMailBox === 'important'
+                  ? 'Mails importants:'
+                  : ''}
+      </p>
       <TableContainer className="mailist-container" component={Paper}>
         <Table size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
-              <TableCell>De</TableCell>
+              <TableCell>
+                {currentMailBox === 'outbox' ? 'Vers' : 'De'}
+              </TableCell>
               <TableCell align="right">Email</TableCell>
               <TableCell align="right">Objet</TableCell>
-              <TableCell align="right">Message</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -82,17 +99,48 @@ function MailList({ currentMailBox, openEmailModal }) {
               mails.map((mail) => (
                 <TableRow key={mail._id} onClick={() => handleRowClick(mail)}>
                   <TableCell component="th" scope="row">
-                    {mail.from
-                      ? `${mail.from.firstname || 'N/A'} ${
-                          mail.from.lastname || ''
+                    {currentMailBox === 'outbox' && mail.to
+                      ? `${mail.to.firstname || 'N/A'} ${
+                          mail.to.lastname || ''
                         }`
-                      : 'N/A'}
+                      : currentMailBox === 'inbox' && mail.from
+                        ? `${mail.from.firstname || 'N/A'} ${
+                            mail.from.lastname || ''
+                          }`
+                        : currentMailBox === 'starred' && mail.from
+                          ? `${mail.from.firstname || 'N/A'} ${
+                              mail.from.lastname || ''
+                            }`
+                          : currentMailBox === 'bin' && mail.from
+                            ? `${mail.from.firstname || 'N/A'} ${
+                                mail.from.lastname || ''
+                              }`
+                            : currentMailBox === 'important' && mail.from
+                              ? `${mail.from.firstname || 'N/A'} ${
+                                  mail.from.lastname || ''
+                                }`
+                              : 'N/A'}
                   </TableCell>
                   <TableCell align="right">
-                    {mail.from ? mail.from.email || 'N/A' : 'N/A'}
+                    {currentMailBox === 'outbox' && mail.to
+                      ? mail.to.email || 'N/A'
+                      : currentMailBox === 'inbox' && mail.from
+                        ? mail.from.email || 'N/A'
+                        : currentMailBox === 'starred' && mail.from
+                          ? mail.from.email || 'N/A'
+                          : currentMailBox === 'bin' && mail.from
+                            ? mail.from.email || 'N/A'
+                            : currentMailBox === 'important' && mail.from
+                              ? mail.from.email || 'N/A'
+                              : 'N/A'}
                   </TableCell>
                   <TableCell align="right">{mail.subject || 'N/A'}</TableCell>
-                  <TableCell align="right">{mail.message || 'N/A'}</TableCell>
+                  <TableCell align="right">
+                    <div>
+                      <img src={trash} alt="delete-mail" width={15} height={15} style={{marginRight: '.5rem'}} onClick={setDeleteMail(true)} />
+                      <img src={(mail.starred) ? star : empStar} alt="favori-mail" width={15} height={15} style={{marginRight: '.5rem'}} onClick={setStarMail(true)} />
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))
             )}

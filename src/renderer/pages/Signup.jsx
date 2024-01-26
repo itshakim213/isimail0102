@@ -79,6 +79,7 @@ function Signup({ handleLogin }) {
           dateofbirth,
           email,
           password,
+          // secureMail,
           securityQuestion,
           securityAnswer,
           pic,

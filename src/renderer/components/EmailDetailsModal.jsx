@@ -4,7 +4,15 @@ import Button from '@mui/material/Button';
 import '../styles/EmailDetailsModal.css';
 import { format } from 'date-fns';
 
-const EmailDetailsModal = ({ emailInfo, isModalOpen, handleClose }) => {
+const EmailDetailsModal = ({
+  emailInfo,
+  isModalOpen,
+  handleClose,
+  showNewMessage,
+  setReply,
+  setShowNewMessage,
+  setFwd,
+}) => {
   console.log('Modal State:', isModalOpen);
 
   if (!isModalOpen || !emailInfo) {
@@ -15,6 +23,18 @@ const EmailDetailsModal = ({ emailInfo, isModalOpen, handleClose }) => {
     new Date(emailInfo.createdAt),
     'dd/MM/yyyy HH:mm:ss',
   );
+
+  const handleReply = () => {
+    setReply(emailInfo);
+    setShowNewMessage(true);
+    console.log(showNewMessage);
+  };
+
+  const handleForward = () => {
+    console.log('Forward button clicked');
+    setFwd(emailInfo);
+    setShowNewMessage(true);
+  };
 
   return (
     <div className="email-details-modal-container">
@@ -37,6 +57,14 @@ const EmailDetailsModal = ({ emailInfo, isModalOpen, handleClose }) => {
           <Typography className="Typography-details">
             Message: {emailInfo.message || 'N/A'}
           </Typography>
+        </div>
+        <div className="button-container">
+          <Button onClick={handleReply} className="Button-modal">
+            Répondre
+          </Button>
+          <Button onClick={handleForward} className="Button-modal">
+            Transférer
+          </Button>
         </div>
         <Button onClick={() => handleClose()} className="Button-modal-close">
           Close
