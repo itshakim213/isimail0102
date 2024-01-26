@@ -17,12 +17,12 @@ import Settings from './pages/Settings';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
 import Newmessage from './components/Newmessage';
+import { ChatContext } from './context/ChatContext';
 
 const queryClient = new QueryClient();
 
 function App() {
   const [isAuthen, setIsAuthen] = useState(false);
-
 
   const handleLogout = () => {
     console.log('Logging out...'); // Ajout d'un message de test
@@ -61,16 +61,19 @@ function App() {
           </div>
         ) : (
           <React.StrictMode>
-            <Header handleLogout={handleLogout} />
-            <SideBar />
-            <Routes>
-              <Route path="/mails/:category" element={<Mails />} />
-              <Route path="/chats" element={<Chats />} />
-              <Route path="/files/:category" element={<Files />} />
-              <Route path="/agenda" element={<Agenda />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/newmessage" element={<Newmessage />} />
-            </Routes>
+            <ChatContext>
+              <Header handleLogout={handleLogout} />
+              <SideBar />
+              <Routes>
+                <Route path="/mails/:category" element={<Mails />} />
+                <Route path="/chats" element={<Chats />} />
+                <Route path="/files/:category" element={<Files />} />
+                <Route path="/agenda" element={<Agenda />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/newmessage" element={<Newmessage />} />
+                {/* <Route path="/visio" element={<Visio />} /> */}
+              </Routes>
+            </ChatContext>
           </React.StrictMode>
         )}
       </Router>

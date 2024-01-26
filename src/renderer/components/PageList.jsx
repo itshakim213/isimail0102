@@ -6,11 +6,16 @@ import noFiles from '../assets/noFiles.png';
 import noContact from '../assets/noContact.png';
 import '../styles/PageList.css';
 import MailList from '../components/MailList';
+import ChatBox from './ChatBox';
+import { useContext } from 'react';
+import ChatContext, { ChatState } from '../context/ChatContext';
+import SingleChat from './SingleChat';
 
 function PageList(showNewMail, showNewMailList, currentMailBox) {
   // console.log('test', { showNewMail, showNewMailList, currentMailBox });
   let locat = useLocation().pathname;
   let part = locat.split('/');
+  const { chats, selectedChat } = useContext(ChatState);
   if (part[1] === 'mails') {
     return (
       <div
@@ -61,12 +66,16 @@ function PageList(showNewMail, showNewMailList, currentMailBox) {
           paddingTop: 45,
         }}
       >
-        <Empty
-          image={noContact}
-          message="you have no conversation"
-          width={290}
-          height={290}
-        />
+        {selectedChat ? (
+          <SingleChat></SingleChat>
+        ) : (
+          <Empty
+            image={noContact}
+            message="Select a user to start chatting"
+            width={290}
+            height={290}
+          />
+        )}
       </div>
     );
   }

@@ -1,6 +1,6 @@
 .side-bar-contact {
-    width: 18vw;
-    background-color: #1a2e62;
+    width: 30vw;
+    background-color: #fff;
     border-right: 2px solid #aeefeb;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -14,6 +14,7 @@
 }
 
 .contact-nav {
+  padding: 5rem 0 2rem 0;
     margin: 5rem 0 2rem 0;
     overflow-y: scroll;
 }
