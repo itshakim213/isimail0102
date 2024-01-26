@@ -82,7 +82,7 @@ const registerUser = asyncHandler(async (req, res) => {
         Bonjour et bienvenue sur notre plateforme !
 
         Nous sommes ravis de vous avoir parmi nous. C'est un plaisir de vous accueillir dans notre communauté.
-        
+
         Rejoignez-nous sur :
         - LinkedIn: [https://www.linkedin.com/company/isinnovate]
         - Twitter: [https://x.com/isinnovateteam]

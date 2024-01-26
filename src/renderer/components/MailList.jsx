@@ -93,7 +93,7 @@ function MailList({
   }
 
   return (
-    <div className="mail-item" style={{ overflowY: 'auto', height: '100%' }}>
+    <div className="mail-item">
       {/* <p className="mail-send">Mails reçus:</p> */}
       <p className="mail-send">
         {currentMailBox === 'outbox'

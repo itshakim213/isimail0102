@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
@@ -27,6 +29,15 @@ function Signin({ handleLogin }) {
     setOpen(false);
   };
 
+  const profilePictureUrl =
+    localStorage.getItem('profilePicture') || 'default-url';
+
+  const Notify = (message, callback) => {
+    toast.success(message, {
+      onClose: callback,
+    });
+  };
+
   async function LoadUser() {
     try {
       const config = {
@@ -42,7 +53,7 @@ function Signin({ handleLogin }) {
         },
         config,
       );
-      // met en place le token
+      // Set up the token
       window.localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (e) {
@@ -50,6 +61,7 @@ function Signin({ handleLogin }) {
       setError(true);
       setemail('');
       setpassword('');
+      throw e; // Re-throw the error for the calling function (submit) to catch
     }
   }
 
@@ -61,15 +73,14 @@ function Signin({ handleLogin }) {
       const userData = await LoadUser();
       sessionStorage.setItem('user', JSON.stringify(userData));
       setIsSubmitted(true);
-      alert('Connexion réussie ! Bienvenue à TalkMail');
-      handleLogin();
-      navigate('/mails/inbox');
+      Notify('Connexion réussie !', () => {
+        handleLogin();
+        navigate('/mails/inbox');
+      });
     } catch (error) {
       console.log(error);
       setError(true);
-      alert(
-        "Une erreur est survenue lors de l'authentification. Veuillez réessayer.",
-      );
+      toast.error('Adresse ou Mot de passe incorrect.');
     }
   }
 
@@ -101,15 +112,15 @@ function Signin({ handleLogin }) {
         <p className="sign-description-signin"> Bienvenue !</p>
         <form onSubmit={(e) => submit(e)}>
           <div className="auth-form-signin">
-            <label>E-mail :</label>
             <br></br>
             <input
+              className="input-style"
               type="text"
               placeholder="Saisissez votre adresse TalkMail"
               onChange={(e) => setemail(e.target.value)}
               required
             ></input>
-            <label>Mot de passe :</label>
+            <br></br>
             <br></br>
             <div className="password-input-container">
               <div
@@ -122,6 +133,7 @@ function Signin({ handleLogin }) {
                 />
               </div>
               <input
+                className="input-style"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Saisissez votre mot de passe"
                 onChange={(e) => setpassword(e.target.value)}
@@ -151,7 +163,9 @@ function Signin({ handleLogin }) {
             />
           </div>
         </form>
+        <ToastContainer />
       </div>
+
       {open && (
         <div>
           <FormDialog handleClose={handleClose} />
@@ -160,6 +174,5 @@ function Signin({ handleLogin }) {
     </div>
   );
 }
-export default Signin;
 
-// cccccc
+export default Signin;
