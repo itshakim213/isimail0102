@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/AccountSettingsForm.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 function AccountSettingsForm({ email, handleLogout }) {
   const [oldPassword, setOldPassword] = useState('');
@@ -9,7 +10,7 @@ function AccountSettingsForm({ email, handleLogout }) {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [profilePic, setProfilePic] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const profilePicture = localStorage.getItem('profilePicture');
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
@@ -110,6 +111,22 @@ function AccountSettingsForm({ email, handleLogout }) {
     }
   };
 
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePic(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleConfirmChange = () => {
+    localStorage.setItem('profilePicture', profilePic);
+    toast.success('Photo changée avec succès');
+  };
+
   useEffect(() => {
     setOldPassword('');
     setNewPassword('');
@@ -119,10 +136,12 @@ function AccountSettingsForm({ email, handleLogout }) {
   return (
     <div className="account-settings-form">
       <div className="setting-box">
+        <div className="btn-pic-change"></div>
         <label className="option">Changer la photo de profil</label>
         <img
           src={
             profilePic ||
+            profilePicture ||
             'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
           }
           alt="Profile Pic"
@@ -133,10 +152,18 @@ function AccountSettingsForm({ email, handleLogout }) {
           placeholder="Charger votre photo de profil"
           type="file"
           accept="image/*"
-          // onChange={handleProfilePicChange}
-          // onChange={(e) => handleProfilePicChange(e)}
+          onChange={handleProfilePicChange}
         />
-        <button>Confirmer le changement</button>
+        <button className="btn-pic-annuler" onClick={() => setProfilePic('')}>
+          Annuler
+        </button>
+        <button
+          className="btn-pic-confirmer"
+          disabled={!profilePic}
+          onClick={handleConfirmChange}
+        >
+          Confirmer le changement
+        </button>
       </div>
 
       <div className="setting-box">
@@ -171,6 +198,7 @@ function AccountSettingsForm({ email, handleLogout }) {
           </Link>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -12,9 +12,9 @@
 }
 
 .profile-pic {
-  width: 150px;
+  width: 180px;
   height: 150px;
-  border-radius: 50%;
+  border-radius: 40%;
   object-fit: cover;
   margin-bottom: 20px;
 }
@@ -37,14 +37,14 @@
 
 input[type='password'] {
   margin: 10px 0;
-  padding: 10px;
+  padding: 6px;
   width: 100%;
   box-sizing: border-box;
 }
 
 button {
   margin-top: 20px;
-  padding: 15px;
+  padding: 10px;
   background-color: #1a2e62;
   color: #fff;
   cursor: pointer;
@@ -54,7 +54,8 @@ button {
 
 .delete-account-button {
   background-color: #dc3546;
-  margin-left: 100px;
+  margin-left: 140px;
+  padding: 10px;
 }
 
 .delete-account-button:hover {
@@ -62,7 +63,8 @@ button {
 }
 
 .logout-button {
-  background-color: #557bc8;
+  background-color: #1a2e62;
+  padding: 10px;
 }
 
 .two-buttons-box {
@@ -89,4 +91,18 @@ button {
   width: 100%;
   margin-top: 0px;
   margin-bottom: 80px;
+}
+
+.btn-pic-annuler {
+  background-color: #557bc8;
+  align-items: center;
+  padding: 10px;
+  margin-left: 97px;
+}
+
+.btn-pic-confirmer {
+  background-color: #557bc8;
+  align-items: center;
+  margin-left: 10px;
+  padding: 10px;
 }
