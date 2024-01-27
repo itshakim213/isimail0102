@@ -154,7 +154,7 @@ const authUser = asyncHandler(async (req, res) => {
       securityAnswer: user.securityAnswer,
       isResettingPassword: user.isResettingPassword,
       token: generateToken(user._id),
-      pic: user.pic
+      pic: user.pic,
     });
   } else {
     // Envoi d'une réponse d'erreur en cas d'authentification échouée
@@ -258,7 +258,7 @@ const resetPassword = asyncHandler(async (req, res) => {
   console.log('reset password pour :', email);
   console.log('Received request for password reset with email:', email);
 
-  const user = await User.findOne({ email, isResettingPassword: true }); //on verifi mayella user s lemail nni akked is resettttbfuvbe aki true
+  const user = await User.findOne({ email }); //on verifi mayella user s lemail nni akked is resettttbfuvbe aki true
 
   if (!user) {
     console.log('404 pour l email:', email);

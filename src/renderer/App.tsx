@@ -67,7 +67,10 @@ function App() {
               <Route path="/chats" element={<Chats />} />
               <Route path="/files/:category" element={<Files />} />
               <Route path="/agenda" element={<Agenda />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route
+                path="/settings"
+                element={<Settings handleLogout={handleLogout} />}
+              />
               {/* <Route path="/newmessage" element={<Newmessage />} /> */}
             </Routes>
           </React.StrictMode>
