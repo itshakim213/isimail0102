@@ -78,6 +78,14 @@ function SideBar() {
               />
             </NavLink>
           </li>
+          {/* <li>
+            <NavLink
+              to="/visio"
+              className={loc.pathname.startsWith('/visio') ? 'active' : ''}
+            >
+              <img src={calendar} alt="calendar-icon" width={25} height={25} />
+            </NavLink>
+          </li> */}
         </ul>
       </div>
     </aside>

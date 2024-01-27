@@ -104,12 +104,12 @@ function Signin({ handleLogin }) {
         </div>
       </div>
       <div className="right-section-signin">
-        <h1 className="sign-title-signin"> Connection</h1>
+        <h1 className="sign-title-signin"> Connexion</h1>
         <br></br>
         {/* {validationError && (
           <div className="validation-error">{validationError}</div>
         )} */}
-        <p className="sign-description-signin"> Bienvenue !</p>
+        <p className="sign-description-signin"> Bienvenue à TalkMail !</p>
         <form onSubmit={(e) => submit(e)}>
           <div className="auth-form-signin">
             <br></br>

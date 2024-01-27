@@ -41,11 +41,12 @@
 .auth-form-signin {
   padding: 25px;
   width: 70%;
+  margin-bottom: 1px;
 }
 
 .auth-form-signin .input-style {
   padding: 10px;
-  margin-bottom: 3px;
+  margin-bottom: 1px;
   box-sizing: border-box;
 }
 

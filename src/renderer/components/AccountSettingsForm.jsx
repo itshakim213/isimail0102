@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import '../styles/AccountSettingsForm.css';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function AccountSettingsForm({ email, handleLogout }) {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [profilePic, setProfilePic] = useState('');
+
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
@@ -25,18 +28,87 @@ function AccountSettingsForm({ email, handleLogout }) {
     setConfirmNewPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const updateProfilePic = async (newProfilePic) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', newProfilePic);
+
+      const response = await axios.post(
+        'URL_DU_BACKEND/pour_changer_la_photo',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+
+      setProfilePic(response.data.newProfilePicURL);
+    } catch (error) {
+      console.error(
+        'Erreur lors de la mise à jour de la photo de profil',
+        error,
+      );
+    }
+  };
+
+  const handleProfilePicChange = (e) => {
+    const newProfilePic = e.target.files[0];
+    updateProfilePic(newProfilePic);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (newPassword !== confirmNewPassword) {
+      alert('Les mots de passe ne correspondent pas.');
+      return;
+    }
+
+    try {
+      const user = JSON.parse(sessionStorage.getItem('user'));
+      const response = await axios.post(
+        `http://localhost:4001/api/user/reset`,
+        {
+          email: user.email,
+          newPassword: newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error('Error fetching emails:', error);
+    }
   };
 
   const handleDeleteAccount = () => {
     console.log('Compte supprimé !');
+    setProfilePic('');
   };
 
   return (
-    <form className="account-settings-form">
+    <div className="account-settings-form">
       <div className="setting-box">
         <label className="option">Changer la photo de profil</label>
+        <img
+          src={
+            profilePic ||
+            'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
+          }
+          alt="Profile Pic"
+          className="profile-pic"
+        />
+        <input
+          className="file-input-style-file"
+          placeholder="Charger votre photo de profil"
+          type="file"
+          accept="image/*"
+          onChange={handleProfilePicChange}
+        />
       </div>
 
       <div className="setting-box">
@@ -59,37 +131,22 @@ function AccountSettingsForm({ email, handleLogout }) {
           value={confirmNewPassword}
           onChange={handleConfirmNewPasswordChange}
         />
-        <button type="submit">Enregistrer le nouveau mot de passe</button>
+        <div className="button-container">
+          <button onClick={handleSubmit}>
+            Enregistrer le nouveau mot de passe
+          </button>
+          <button
+            className="delete-account-button"
+            onClick={handleDeleteAccount}
+          >
+            Supprimer le compte
+          </button>
+          <Link to="/index.html" onClick={handleLogoutClick}>
+            <button className="logout-button">Logout</button>
+          </Link>
+        </div>
       </div>
-
-      <div className="setting-box">
-        <label className="option">Modifier le numéro de téléphone</label>
-        <input type="text" placeholder="Nouveau numéro de téléphone" />
-      </div>
-
-      <div className="setting-box">
-        <label className="option">Ajouter un email de secours</label>
-        <input type="email" placeholder="Adresse email de secours" />
-      </div>
-
-      <div className="setting-box">
-        <label className="option">Numéro de téléphone de récupération</label>
-        <input type="text" placeholder="Numéro de téléphone de récupération" />
-      </div>
-
-      <div className="setting-box">
-        <button className="delete-account-button" onClick={handleDeleteAccount}>
-          Supprimer le compte
-        </button>
-      </div>
-
-      <div className="setting-box">
-        <Link to="/index.html" onClick={handleLogoutClick}>
-          <button className="logout-button">Logout</button>
-        </Link>
-        {/* <button className="logout-button">Logout</button> */}
-      </div>
-    </form>
+    </div>
   );
 }
 
