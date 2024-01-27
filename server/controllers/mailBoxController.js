@@ -41,11 +41,11 @@ const retrieveMails = asyncHandler(async (req, res) => {
       populate: [
         {
           path: 'from',
-          select: 'firstname lastname email',
+          select: 'firstname lastname email pic',
         },
         {
           path: 'to',
-          select: 'firstname lastname email',
+          select: 'firstname lastname email pic',
         },
       ],
     });
@@ -67,11 +67,11 @@ const retrieveMails = asyncHandler(async (req, res) => {
       populate: [
         {
           path: 'from',
-          select: 'firstname lastname email',
+          select: 'firstname lastname email pic',
         },
         {
           path: 'to',
-          select: 'firstname lastname email',
+          select: 'firstname lastname email pic',
         },
       ],
     });

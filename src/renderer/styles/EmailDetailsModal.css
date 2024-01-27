@@ -7,10 +7,11 @@
 
 .email-details-modal-container {
   position: fixed;
-  top: 20%;
+  top: 15%;
   left: 68%;
   width: 350px;
   max-width: 90%;
+  height: 75%;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -29,8 +30,31 @@
   flex-direction: column;
 }
 
+.typography-details-container {
+  float: right;
+}
+
 .Typography-details {
+  margin: 10px;
   margin-bottom: 10px;
+}
+
+.send-rec-pic {
+  float: left;
+  margin-left: .5rem;
+  border-radius: 50%;
+  width: 99px;
+  height: 75px;
+}
+
+.message-container {
+  height: 75%;
+}
+
+.button-container-mail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .Button-close {

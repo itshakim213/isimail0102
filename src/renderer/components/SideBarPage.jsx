@@ -87,6 +87,7 @@ function SideBarPage({
               key={`${index}-${item}`}
               className="nav-item"
               onClick={() => setCurrentMailBox(item)}
+              style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}
             >
               {mailboxIcons[item]}
               {item}
