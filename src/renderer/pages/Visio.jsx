@@ -1,3 +1,12 @@
+import React from 'react';
+import Navbar from '../components/Navbar';
+import MainSection from '../components/MainSection';
+
+function Visio() {
+  return <div className="visio"></div>;
+}
+
+export default Visio;
 // import React from 'react';
 // import VideoPlayer from '../components/VideoPlayer';
 // import Options from '../components/Options';

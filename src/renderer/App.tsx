@@ -16,7 +16,7 @@ import Mails from './pages/Mails';
 import Settings from './pages/Settings';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
-import Newmessage from './components/Newmessage';
+import Visio from './pages/Visio';
 import { ChatContext } from './context/ChatContext';
 
 const queryClient = new QueryClient();
@@ -69,9 +69,11 @@ function App() {
                 <Route path="/chats" element={<Chats />} />
                 <Route path="/files/:category" element={<Files />} />
                 <Route path="/agenda" element={<Agenda />} />
-                <Route path="/settings" element={<Settings />} />
-                {/* <Route path="/newmessage" element={<Newmessage />} /> */}
-                {/* <Route path="/visio" element={<Visio />} /> */}
+                <Route
+                  path="/settings"
+                  element={<Settings handleLogout={handleLogout} />}
+                />
+                <Route path="/visio" element={<Visio />} />
               </Routes>
             </ChatContext>
           </React.StrictMode>

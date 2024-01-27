@@ -3,14 +3,16 @@ import file from '../assets/file.png';
 import setting from '../assets/setting.png';
 import calendar from '../assets/calendar.png';
 import messages from '../assets/messages.png';
+import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import { NavLink, matchPath, useLocation } from 'react-router-dom';
 import '../styles/Sidebar.css';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 
 function SideBar() {
   const user = JSON.parse(sessionStorage.getItem('user'));
   const loc = useLocation();
-  
-  console.log(user)
+
+  console.log(user);
   return (
     <aside>
       <div className="profile">
@@ -63,6 +65,17 @@ function SideBar() {
               className={loc.pathname.startsWith('/agenda') ? 'active' : ''}
             >
               <img src={calendar} alt="calendar-icon" width={25} height={25} />
+            </NavLink>
+            <NavLink
+              to="/visio"
+              className={loc.pathname.startsWith('/visio') ? 'active' : ''}
+            >
+              <img
+                src={VideoCallIcon}
+                alt="visio-icon"
+                width={25}
+                height={25}
+              />
             </NavLink>
           </li>
           {/* <li>

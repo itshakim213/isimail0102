@@ -1,88 +1,92 @@
 .account-settings-form {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  color: #000000;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  margin: 40px auto;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.file-input-style-file {
+  margin-top: 10px;
 }
 
 .setting-box {
-  padding: 0.5vh 1vw;
-  overflow: hidden;
-  background-color: rgba(126, 123, 123, 0.2);
-  width: 60vw;
-  margin: 7px 0 6px 3vw;
-  position: relative;
+  width: 100%;
+  margin: 20px 0;
 }
 
 .option {
-  float: left;
-  display: block;
+  font-size: 1.2rem;
+  color: #1a2e62;
+  font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 10px;
 }
 
-input[type='text'],
-input[type='email'] {
-  width: calc(100% - 5px);
-  padding: 1px;
-  margin: 1px 0;
-  border: 0.5px solid #ccc;
-  border-radius: 3px;
-}
-
 input[type='password'] {
-  width: calc(100% - 10px);
-  padding: 2px;
-  margin: 2px 0;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-button[type='submit'] {
-  padding: 8px 10px;
-  background-color: #3850bbe8;
-  color: #ffffff;
-  border: 1;
+button {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #1a2e62;
+  color: #fff;
   cursor: pointer;
-  margin-top: 4px;
-  border-radius: 10px;
-}
-
-button[type='submit']:hover {
-  background-color: #608bbd;
-}
-
-.logout-button {
-  padding: 8px 20px;
-  background-color: #3850bbe8;
-  color: #ffffff;
-  border: 1;
-  cursor: pointer;
-  margin-top: 10px;
-  float: right;
-  border-radius: 10px;
-}
-
-.logout-button:hover {
-  background-color: #608bbd;
+  border: none;
+  border-radius: 8px;
 }
 
 .delete-account-button {
-  padding: 8px 10px;
-  background-color: #3850bbe8;
-  color: #ffffff;
-  border: 1;
-  cursor: pointer;
-  float: right;
-  border-radius: 10px;
+  background-color: #dc3546;
+  margin-left: 100px;
 }
 
 .delete-account-button:hover {
-  background-color: #608bbd;
+  background-color: #ce0404;
+}
+
+.logout-button {
+  background-color: #557bc8;
+}
+
+.two-buttons-box {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+@media (max-width: 600px) {
+  .account-settings-form {
+    margin: 20px auto;
+  }
+
+  .file-input-style-file {
+    padding-left: 0;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 80px;
 }

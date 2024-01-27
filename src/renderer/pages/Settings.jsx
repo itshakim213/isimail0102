@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import SideBarPage from '../components/SideBarPage';
- //import SettingsForm from '../components/SettingsForm';
+//import SettingsForm from '../components/SettingsForm';
 import AccountSettingsForm from '../components/AccountSettingsForm';
 import PageList from '../components/PageList';
 
-function Settings() {
+function Settings({ handleLogout }) {
   const [currentSettings, setCurrentSettings] = useState('Parametre de compte');
 
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -21,12 +21,15 @@ function Settings() {
       }}
     >
       <SideBarPage
-        elements={['Parametre de compte', 'Parametre general']}
+        elements={['']}
         path="settings"
         setCurrentSettings={setCurrentSettings}
       />
 
-      <AccountSettingsForm currentSettings={currentSettings} />
+      <AccountSettingsForm
+        handleLogout={handleLogout}
+        currentSettings={currentSettings}
+      />
       {/* <SettingsForm currentSettings={currentSettings} /> */}
     </div>
   );

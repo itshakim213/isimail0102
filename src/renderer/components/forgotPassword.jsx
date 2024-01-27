@@ -9,6 +9,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { useState } from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 function FormDialog({ handleClickOpen, handleClose }) {
   const [email, setEmail] = useState('');
@@ -113,6 +118,32 @@ function FormDialog({ handleClickOpen, handleClose }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <br></br>
+          <br></br>
+          <DialogContentText>
+            Choisissez la question de sécurité choisie lors de votre insciption
+            :
+          </DialogContentText>
+          <br></br>
+          <br></br>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">
+              Questions de sécurité
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+            >
+              <MenuItem>
+                Quel est le nom de votre premier animal de compagnie ?
+              </MenuItem>
+              <MenuItem>Quel est le nom de votre enseignant préféré ?</MenuItem>
+              <MenuItem>
+                Quel est l'adresse de votre maison d'enfance ?
+              </MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             autoFocus
             required
@@ -140,8 +171,8 @@ function FormDialog({ handleClickOpen, handleClose }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">OK</Button>
+          <Button onClick={handleClose}>Annuler</Button>
+          <Button type="submit">Reset</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
