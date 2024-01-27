@@ -102,6 +102,25 @@ function Signup({ handleLogin }) {
       return;
     }
 
+    // Check if the entered email matches the required pattern
+    const emailPattern = /^[^\s@]+@talkmail\.dz$/;
+    if (!emailPattern.test(email)) {
+      setError(true);
+      toast.error('Veuillez entrer une adresse email valide de talkmail.dz.');
+      setLoading(false);
+      return;
+    }
+    const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordPattern.test(password)) {
+      setError(true);
+      // Display an error message or take appropriate action
+      toast.error(
+        'Le mot de passe doit comporter au moins 8 caractères, dont au moins une lettre majuscule et un chiffre.',
+      );
+      setLoading(false);
+      return;
+    }
+
     const userDataPromise = addUser();
 
     userDataPromise
@@ -133,6 +152,8 @@ function Signup({ handleLogin }) {
       setdateofbirth('');
       setemail('');
       setpassword('');
+      setConfirmPassword('');
+      setSecurityQuestion('');
       setSecurityAnswer('');
       setpic('');
     }
@@ -154,7 +175,7 @@ function Signup({ handleLogin }) {
         <h1 className="sign-title-signin">Inscription</h1>
         <br></br>
         <p className="sign-description-signup">
-          Let's begin your journey with TalkMail
+          Commençons votre aventure avec TalkMail.
         </p>
         <br></br>
         <form>
@@ -245,7 +266,7 @@ function Signup({ handleLogin }) {
             <Button
               CustomClass="signup-btn"
               disabled={loading}
-              btnText={loading ? 'Signing Up...' : 'Submit'}
+              btnText={loading ? 'Signing Up...' : "S'inscrire"}
               onClick={submit}
             />
           </div>

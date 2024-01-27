@@ -154,7 +154,7 @@ const authUser = asyncHandler(async (req, res) => {
       securityAnswer: user.securityAnswer,
       isResettingPassword: user.isResettingPassword,
       token: generateToken(user._id),
-      pic: user.pic
+      pic: user.pic,
     });
   } else {
     // Envoi d'une réponse d'erreur en cas d'authentification échouée
@@ -275,6 +275,33 @@ const resetPassword = asyncHandler(async (req, res) => {
   // res.json({ message: 'Password reset successful' });
   res.json({ success: true, message: 'Password reset successful' });
 });
+
+// const changePassword = asyncHandler(async (req, res) => {
+//   const { currentPassword, newPassword } = req.body;
+//   const userId = req.user.id;
+
+//   try {
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       console.log('User not found:', userId);
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+//     const isPasswordValid = await user.comparePassword(currentPassword);
+//     if (!isPasswordValid) {
+//       console.log('Invalid current password for user:');
+//       return res.status(401).json({ error: 'Invalid current password' });
+//     }
+//     user.password = newPassword;
+//     await user.save();
+
+//     console.log('Password changed successfully');
+
+//     res.json({ success: true, message: 'Password changed successfully' });
+//   } catch (error) {
+//     console.error('Error changing password:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
 
 module.exports = {
   registerUser,

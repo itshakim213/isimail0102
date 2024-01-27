@@ -12,10 +12,11 @@ const userSchema = new mongoose.Schema({
     validate: {
       validator: function (value) {
         // cette fonction est utilisée comme validateur
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
+        // return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // un modèle spécifique d'adresse email
         // [^\s@] tous les caracteres sauf les espaces et @
+        return /^[^\s@]+@talkmail\.dz$/.test(value);
       },
-      message: 'Veuillez entrer une adresse email valide.',
+      message: 'Veuillez entrer une adresse email valide de talkmail.dz .',
     },
   },
   password: {
