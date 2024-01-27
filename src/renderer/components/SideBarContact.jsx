@@ -17,9 +17,6 @@ function SideBarContact() {
   const { chats } = useContext(ChatState);
   const [fetchAgain, setFetchAgain] = useState(false);
   
- 
- 
-
   return (
     <div className="side-bar-contact">
       {chats ? (

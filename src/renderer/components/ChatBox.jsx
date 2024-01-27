@@ -6,6 +6,8 @@ import { DialogContent, DialogTitle, FormControl, FormLabel, ModalClose, ModalDi
 import { Add } from '@mui/icons-material';
 import UserListItem from './UserListItem';
 import GroupChatModal from './GroupChatModal';
+import '../styles/ChatBox.css'
+import '../styles/SearchChat.css'
 
 function ChatBox({ fetchAgain }) {
   const [loggedUser, setLoggedUser] = useState();
@@ -103,29 +105,15 @@ function ChatBox({ fetchAgain }) {
   }, [fetchAgain]);
   return (
     <div className="contact-nav">
-      <Box
-        pb={3}
-        px={3}
-        fontSize={{ base: '28px', md: '30px' }}
-        fontFamily="Work sans"
-        display="flex"
-        w="70%"
-        textAlign="center"
-      >
-        Discussions
-      </Box>
-      <GroupChatModal>
-        <Button variant="filled" onClick={handleClickOpen}>
-          New Group Chat
-        </Button>
-      </GroupChatModal>
       <Input
-        placeholder="Search users to chat"
-        color="primary"
-        size="lg"
-        variant="outlined"
+        placeholder="Search"
+        // color="primary"
+        // size="lg"
+        // variant="outlined
+        className='search-cht'
         onChange={(e) => handleSearch(e.target.value)}
       />
+      <div className='contact-list'>
       {loading ? (
         <div>loadin</div>
       ) : (
@@ -144,8 +132,9 @@ function ChatBox({ fetchAgain }) {
         <Box
           onClick={() => setSelectedChat(chat)}
           cursor="pointer"
-          backgroundColor={selectedChat === chat ? '#1a2e62' : '#fff'}
+          backgroundColor={selectedChat === chat ? '#374957' : '#1a2e62'}
           color={selectedChat === chat ? 'white' : 'black'}
+          style={{  }}
           px={3}
           py={2}
           borderRadius="lg"
@@ -162,6 +151,12 @@ function ChatBox({ fetchAgain }) {
           )}
         </Box>
       ))}
+      </div>
+      <GroupChatModal >
+        <Button style={{ margin: '1.5rem', backgroundColor: '#557cc8' }} variant="filled" onClick={handleClickOpen}>
+          New Group Chat
+        </Button>
+      </GroupChatModal>
     </div>
   );
 }

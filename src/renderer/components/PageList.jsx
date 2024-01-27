@@ -59,11 +59,16 @@ function PageList(showNewMail, showNewMailList, currentMailBox) {
   } else if (part[1] === 'chats') {
     return (
       <div
-        className="page-list"
+        // className="page-list"
         style={{
           display: 'flex',
           justifyContent: 'center',
-          paddingTop: 45,
+          alignItems: 'center',
+          width: '100vw',
+          padding: ' 5rem 0 0 0',
+          margin: ' 4rem 0 0 0',
+          width: '90vw',
+          borderRight: '2px solid #aeefeb',
         }}
       >
         {selectedChat ? (
