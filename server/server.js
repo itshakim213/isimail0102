@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
   socket.on('answercall', (data) => {
     io.to(data.to).emit('callaccepted', data.signal);
   });
-   
+
   socket.on('setup', (userData) => {
     socket.join(userData._id);
     console.log(userData._id);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/AccountSettingsForm.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,87 +8,113 @@ function AccountSettingsForm({ email, handleLogout }) {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [profilePic, setProfilePic] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
-    handleLogout();
-    navigate('/index.html');
-  };
-
-  const handleOldPasswordChange = (e) => {
-    setOldPassword(e.target.value);
-  };
-
-  const handleNewPasswordChange = (e) => {
-    setNewPassword(e.target.value);
-  };
-
-  const handleConfirmNewPasswordChange = (e) => {
-    setConfirmNewPassword(e.target.value);
-  };
-
-  const updateProfilePic = async (newProfilePic) => {
-    try {
-      const formData = new FormData();
-      formData.append('file', newProfilePic);
-
-      const response = await axios.post(
-        'URL_DU_BACKEND/pour_changer_la_photo',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      );
-
-      setProfilePic(response.data.newProfilePicURL);
-    } catch (error) {
-      console.error(
-        'Erreur lors de la mise à jour de la photo de profil',
-        error,
-      );
+    const confirmLogout = window.confirm(
+      'Voulez vous vraimant vous déconnecter ?',
+    );
+    if (confirmLogout) {
+      handleLogout();
+      navigate('/index.html');
     }
   };
 
-  const handleProfilePicChange = (e) => {
-    const newProfilePic = e.target.files[0];
-    updateProfilePic(newProfilePic);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (newPassword !== confirmNewPassword) {
       alert('Les mots de passe ne correspondent pas.');
       return;
     }
 
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'));
-      const response = await axios.post(
-        `http://localhost:4001/api/user/reset`,
+      const response = await changePassword();
+      console.log('Password change successful:', response);
+    } catch (error) {
+      console.error('Password change failed:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      'Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.',
+    );
+
+    if (confirmDelete) {
+      try {
+        const response = await deleteUser();
+        console.log('User deleted', response);
+        handleLogout();
+        navigate('/index.html');
+      } catch (error) {
+        console.error('Deleting user failed', error);
+      }
+    }
+  };
+
+  const changePassword = async () => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+
+    try {
+      const response = await axios.put(
+        'http://localhost:4001/api/user/changepassword',
         {
-          email: user.email,
+          currentPassword: oldPassword,
           newPassword: newPassword,
         },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            'Content-type': 'application/json',
+          },
+        },
+      );
+      console.log('API Response:', response.data);
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
+      return response.data;
+    } catch (error) {
+      console.error('Password change failed:', error);
+
+      if (error.response && error.response.status === 400) {
+        alert('Ancien mot de passe incorrect. Veuillez réessayer.');
+      } else {
+        alert(
+          "Une erreur s'est produite lors de la modification du mot de passe.",
+        );
+      }
+    }
+  };
+
+  const deleteUser = async () => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+
+    try {
+      const user = JSON.parse(sessionStorage.getItem('user'));
+      const response = await axios.delete(
+        `http://localhost:4001/api/user/delete/${user._id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
         },
       );
-
-      console.log(response);
+      console.log('API Response:', response.data);
+      return response.data;
     } catch (error) {
-      console.error('Error fetching emails:', error);
+      console.error('error deleting user', error);
+
+      throw error;
     }
   };
 
-  const handleDeleteAccount = () => {
-    console.log('Compte supprimé !');
-    setProfilePic('');
-  };
+  useEffect(() => {
+    setOldPassword('');
+    setNewPassword('');
+    setConfirmNewPassword('');
+  }, []);
 
   return (
     <div className="account-settings-form">
@@ -107,8 +133,10 @@ function AccountSettingsForm({ email, handleLogout }) {
           placeholder="Charger votre photo de profil"
           type="file"
           accept="image/*"
-          onChange={handleProfilePicChange}
+          // onChange={handleProfilePicChange}
+          // onChange={(e) => handleProfilePicChange(e)}
         />
+        <button>Confirmer le changement</button>
       </div>
 
       <div className="setting-box">
@@ -117,28 +145,25 @@ function AccountSettingsForm({ email, handleLogout }) {
           type="password"
           placeholder="Ancien mot de passe"
           value={oldPassword}
-          onChange={handleOldPasswordChange}
+          onChange={(e) => setOldPassword(e.target.value)}
         />
         <input
           type="password"
           placeholder="Nouveau mot de passe"
           value={newPassword}
-          onChange={handleNewPasswordChange}
+          onChange={(e) => setNewPassword(e.target.value)}
         />
         <input
           type="password"
           placeholder="Confirmer le nouveau mot de passe"
           value={confirmNewPassword}
-          onChange={handleConfirmNewPasswordChange}
+          onChange={(e) => setConfirmNewPassword(e.target.value)}
         />
         <div className="button-container">
           <button onClick={handleSubmit}>
             Enregistrer le nouveau mot de passe
           </button>
-          <button
-            className="delete-account-button"
-            onClick={handleDeleteAccount}
-          >
+          <button className="delete-account-button" onClick={handleDelete}>
             Supprimer le compte
           </button>
           <Link to="/index.html" onClick={handleLogoutClick}>

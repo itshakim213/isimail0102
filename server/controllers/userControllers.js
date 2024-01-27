@@ -4,6 +4,7 @@ const generateToken = require('../config/generateToken');
 
 const MailModel = require('../models/MailModel');
 const MailBoxModel = require('../models/MailBoxModel');
+const bcrypt = require('bcryptjs');
 
 // Cette fonction est destinée à l'inscription d'un nouvel utilisateur.
 // Elle vérifie la présence des champs requis (firstname, lastname, email, password).
@@ -276,32 +277,69 @@ const resetPassword = asyncHandler(async (req, res) => {
   res.json({ success: true, message: 'Password reset successful' });
 });
 
-// const changePassword = asyncHandler(async (req, res) => {
-//   const { currentPassword, newPassword } = req.body;
-//   const userId = req.user.id;
+const changePassword = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
 
-//   try {
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       console.log('User not found:', userId);
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-//     const isPasswordValid = await user.comparePassword(currentPassword);
-//     if (!isPasswordValid) {
-//       console.log('Invalid current password for user:');
-//       return res.status(401).json({ error: 'Invalid current password' });
-//     }
-//     user.password = newPassword;
-//     await user.save();
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const user = await User.findById(currentuser.id).select('+password');
 
-//     console.log('Password changed successfully');
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-//     res.json({ success: true, message: 'Password changed successfully' });
-//   } catch (error) {
-//     console.error('Error changing password:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
+    const isCurrentPasswordValid = await user.comparePassword(currentPassword);
+
+    if (!isCurrentPasswordValid) {
+      console.log('Old password is incorrect');
+      return res.status(401).json({ error: 'Old password is incorrect' });
+    }
+    user.password = newPassword;
+    await user.save();
+
+    console.log('Password changed successfully');
+
+    res.json({ success: true, message: 'Password changed successfully' });
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+const changePic = asyncHandler(async (req, res) => {
+  const currentuser = req.user;
+
+  try {
+    const { file } = req;
+    console.log('Received file:', file);
+
+    if (!file) {
+      console.log('File not found');
+      return res.status(400).json({ error: 'File not found' });
+    }
+
+    const user = await User.findById(currentuser.id);
+
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).json({ error: 'User not found' });
+    }
+    user.pic = file.buffer;
+
+    await user.save();
+
+    console.log('Profile picture changed successfully');
+
+    res.json({
+      success: true,
+      message: 'Profile picture changed successfully',
+    });
+  } catch (error) {
+    console.error('Error changing profile picture:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = {
   registerUser,
@@ -310,4 +348,6 @@ module.exports = {
   deleteUsers,
   forgotPassword,
   resetPassword,
+  changePassword,
+  changePic,
 };

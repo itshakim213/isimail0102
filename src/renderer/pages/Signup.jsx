@@ -40,9 +40,9 @@ function Signup({ handleLogin }) {
     if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
       const data = new FormData();
       data.append('file', pics);
-      data.append('upload_preset', 'isinnovate');
-      data.append('cloud_name', 'dcdmnv6uy');
-      fetch('https://api.cloudinary.com/v1_1/dcdmnv6uy/image/upload', {
+      data.append('upload_preset', 'TalkMail');
+      data.append('cloud_name', 'dwgulyxkt');
+      fetch('https://api.cloudinary.com/v1_1/dwgulyxkt/image/upload', {
         method: 'post',
         body: data,
       })
