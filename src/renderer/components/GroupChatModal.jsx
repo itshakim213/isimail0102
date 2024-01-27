@@ -113,7 +113,7 @@ function GroupChatModal({children}) {
               display="flex"
               justifyContent="center"
             >
-              <Typography>Create Group Chat</Typography>
+              <Typography>{ (groupChatName !== '') ? groupChatName : 'Create Group Chat' }</Typography>
             </DialogTitle>
             <DialogContent display="flex" flexDir="column" alignItems="center">
               <TextField
@@ -122,6 +122,7 @@ function GroupChatModal({children}) {
                 fullWidth
                 variant="outlined"
                 onChange={(e) => setGroupChatName(e.target.value)}
+                style={{ marginBottom: '1rem' }}
               />
               <TextField
                 placeholder="Add Users to the group.."

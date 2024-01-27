@@ -7,18 +7,18 @@ function UserBadgeItem ({user, handleFunction, admin}) {
     <Box
       px={2}
       py={1}
-      borderRadius="10%"
+      borderRadius="8%"
       m={1}
       mb={2}
       fontSize={15}
-      backgroundColor="purple"
+      backgroundColor="rgb(85, 124, 200)"
       color="white"
       cursor="pointer"
       onClick={handleFunction}
     >
-      {user.firstname} {user.lastname}
-      {admin === user._id && <span>(Admin)</span>}{' '}
-      <CloseIcon fontSize='15px' cursor="pointer"></CloseIcon>
+      <p style={{display: 'inline-block', fontSize: 22 }}>{user.firstname} {user.lastname}
+      {admin === user._id && <span>(Admin)</span>}{' '}</p>
+      <CloseIcon style={{ fontSize: 18, margin: '.6rem 0 0 .5rem' }} cursor="pointer"></CloseIcon>
     </Box>
   );
 };

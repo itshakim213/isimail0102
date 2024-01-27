@@ -32,11 +32,13 @@ function PageSelectCont({
   if (part[1] === 'chats') {
     return (
       <div
-        className="page-list"
+        // className="page-list"
         style={{
           display: 'flex',
           justifyContent: 'center',
+          alignItems: 'center',
           paddingTop: 0,
+          width: '45vw',
         }}
       >
         {selectedChat ? (

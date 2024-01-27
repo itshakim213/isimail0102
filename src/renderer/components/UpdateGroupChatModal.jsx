@@ -1,4 +1,5 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
+import CloseIcon from '@material-ui/icons/Close'
 import React, { useContext, useState } from 'react';
 import { ChatState } from '../context/ChatContext';
 import UserBadgeItem from './UserBadgeItem';
@@ -144,20 +145,36 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
     <div>
       <Typography
         fontSize="35px"
-        fontFamily="Work sans"
+        fontFamily="system-ui"
         display="flex"
+        color='#374957'
         justifyContent="center"
       >
         {selectedChat.chatName}
       </Typography>
       <Box w="100%" display="flex" flexWrap="wrap" >
         {selectedChat.users.map((u) => (
-          <UserBadgeItem
-            key={u._id}
-            user={u}
-            admin={selectedChat.groupAdmin}
-            handleFunction={() => handleRemove(u)}
-          />
+          // <UserBadgeItem
+          //   key={u._id}
+          //   user={u}
+          //   admin={selectedChat.groupAdmin}
+          //   handleFunction={() => handleRemove(u)}
+          // />
+        <Box
+          cursor="pointer"
+          px={3}
+          py={2}
+          borderRadius="lg"
+        >
+          <div style={{ overflowY: scroll}}>
+          <ul style={{ overflowY: scroll }}>
+            <li style={{
+              listStyle: 'none',
+              padding: '.2rem',
+            }}>{`${u.firstname } ${u.lastname}`} </li>
+          </ul> 
+          </div> 
+        </Box>
         ))}
       </Box>
       <Box
@@ -179,9 +196,6 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
           Update
         </Button>
       </Box>
-      <Button onClick={() => handleRemove(user)} color="secondary">
-        Leave Group
-      </Button>
       <TextField
         placeholder="Add Users to the group.."
         mb={3}
@@ -202,6 +216,9 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
             />
           ))
       )}
+      <Button onClick={() => handleRemove(user)} style={{ color: 'black', margin: '1.5rem 0 0 6rem', backgroundColor: '#557cc8' }}>
+        Leave Group
+      </Button>
     </div>
   );
 };

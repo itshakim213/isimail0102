@@ -1,20 +1,13 @@
 .side-bar-contact {
     width: 30vw;
-    background-color: #fff;
-    border-right: 2px solid #aeefeb;
+    /* background-color: #1a2e62; */
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
     -ms-flex-pack: distribute;
-        justify-content: space-around;
-}
-
-.contact-nav {
-  padding: 5rem 0 2rem 0;
-    margin: 5rem 0 2rem 0;
-    overflow-y: scroll;
+    justify-content: space-around;
 }

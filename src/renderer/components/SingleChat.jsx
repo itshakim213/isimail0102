@@ -119,24 +119,35 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   });
 
   return (
-    <div className="mail-item" style={{ overflowY: 'auto', height: '100%' }}>
+    <div className='convItem' 
+      style={{
+        marginBottom: '3rem',
+        width: '45vw',
+        height: '75vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'space-around'
+      }}
+    >
       <Typography
         fontSize={{ base: '28px', md: '30px' }}
         pb={3}
         px={2}
+        style={{ backgroundColor: '#557bc8', padding: '1rem', borderRadius: '1rem 1rem 0 0 ' }}
         w="100%"
         fontFamily="Work sans"
         display="flex"
-        justifyContent={{ base: 'space-between' }}
+        justifyContent='space-between'
         alignItems="center"
       >
+        <h5 style={{ float: 'left', fontFamily: 'system-ui' }}>{selectedChat.chatName}</h5>
         <Button
           display={{ base: 'flex', md: 'none' }}
           onClick={() => setSelectedChat('')}
         >
-          <CloseIcon cursor="pointer"></CloseIcon>
+          <CloseIcon cursor="pointer" style={{ float: 'right' }}></CloseIcon>
         </Button>
-        <h5>{selectedChat.chatName.toUpperCase()}</h5>
       </Typography>
       <Box
         display="flex"
@@ -147,14 +158,13 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
         w="100%"
         h="100%"
         borderRadius="lg"
-        overflowY="hidden"
-        style={{ flex: 1 }}
+        style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)' }}
       >
-        <div style={{ flex: 1, overflowY: 'auto' }}>
+        <div style={{ flex: 1 }}>
           {loading ? (
             <div>loading</div>
           ) : (
-            <div display="flex">
+            <div display="flex" style={{ height: '50vh' }}>
               <ScrollableChat messages={messages} />
             </div>
           )}
@@ -162,9 +172,10 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       </Box>
       <FormControl
         onKeyDown={sendMessage}
-        style={{ width: '100%', height: '50px', alignSelf: 'flex-end' }}
+        style={{ width: '94.5%', height: '50px', alignSelf: 'center', padding: '.8rem 1rem', backgroundColor: '#557bc8', borderRadius: '0 0 1rem 1rem' }}
       >
         <TextField
+          style={{ width: '100%', marginTop: '.3rem' }}
           fullWidth
           size="md"
           variant="outlined"
