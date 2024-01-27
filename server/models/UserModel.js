@@ -70,7 +70,7 @@ const userSchema = new mongoose.Schema({
   //   default: null,
   // },
   pic: {
-    type: 'String',
+    type: String,
     required: true,
     default:
       'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
@@ -86,6 +86,14 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    throw error;
+  }
 };
 
 userSchema.pre('save', async function (next) {

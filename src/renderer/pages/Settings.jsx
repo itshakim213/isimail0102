@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import SideBarPage from '../components/SideBarPage';
-//import SettingsForm from '../components/SettingsForm';
 import AccountSettingsForm from '../components/AccountSettingsForm';
 import PageList from '../components/PageList';
 
@@ -30,7 +29,6 @@ function Settings({ handleLogout }) {
         handleLogout={handleLogout}
         currentSettings={currentSettings}
       />
-      {/* <SettingsForm currentSettings={currentSettings} /> */}
     </div>
   );
 }

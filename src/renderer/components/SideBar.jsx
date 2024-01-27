@@ -7,8 +7,10 @@ import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import { NavLink, matchPath, useLocation } from 'react-router-dom';
 import '../styles/Sidebar.css';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
+import VisioIcon from '../assets/visio-icon.png';
 
 function SideBar() {
+  const profilePicture = localStorage.getItem('profilePicture');
   const user = JSON.parse(sessionStorage.getItem('user'));
   const loc = useLocation();
 
@@ -18,7 +20,7 @@ function SideBar() {
       <div className="profile">
         {' '}
         <img
-          src={user.pic}
+          src={profilePicture}
           alt="User Picture"
           width="60"
           height="60"
@@ -70,22 +72,9 @@ function SideBar() {
               to="/visio"
               className={loc.pathname.startsWith('/visio') ? 'active' : ''}
             >
-              <img
-                src={VideoCallIcon}
-                alt="visio-icon"
-                width={25}
-                height={25}
-              />
+              <img src={VisioIcon} alt="visio-icon" width={25} height={25} />
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink
-              to="/visio"
-              className={loc.pathname.startsWith('/visio') ? 'active' : ''}
-            >
-              <img src={calendar} alt="calendar-icon" width={25} height={25} />
-            </NavLink>
-          </li> */}
         </ul>
       </div>
     </aside>

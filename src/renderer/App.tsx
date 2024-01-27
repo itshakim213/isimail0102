@@ -16,8 +16,8 @@ import Mails from './pages/Mails';
 import Settings from './pages/Settings';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
-import Visio from './pages/Visio';
 import { ChatContext } from './context/ChatContext';
+import Visio from './pages/Visio';
 
 const queryClient = new QueryClient();
 

@@ -8,14 +8,16 @@ function MainSection() {
     <div className="main-section">
       <div className="text-btn">
         <h1 className="slogan">
-          Empower Your Conversations with <span>TalkMail !</span> <br></br>{' '}
-          Where the Chat and Email Unites <br></br>
+          Améliorez vos échanges avec <span>TalkMail !</span> <br></br>Là où la
+          messagerie instantanée et l'e-mail fusionnent pour une expérience
+          inédite.
+          <br></br>
         </h1>
         <br></br>
         <br></br>
         <Button
           btnLink="/signup"
-          btnText="Get Started"
+          btnText="Démarrer"
           CustomClass="button-link2"
         />
       </div>
