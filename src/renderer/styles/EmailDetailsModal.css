@@ -17,6 +17,7 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  overflow-y: scroll;
 }
 
 .Date-details {
@@ -49,6 +50,7 @@
 
 .message-container {
   height: 75%;
+
 }
 
 .button-container-mail {

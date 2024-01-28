@@ -6,6 +6,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import ScrollableChat from './ScrollableChat';
 import '../styles/mailist.css';
+import { getSender } from '../context/ChatLogics';
 
 const ENDPOINT = 'http://localhost:4001';
 var socket, selectedChatCompare;
@@ -17,7 +18,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
-
+  
   const { user, selectedChat, setSelectedChat } = useContext(ChatState);
 
   const fetchMessages = async () => {
@@ -119,7 +120,8 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   });
 
   return (
-    <div className='convItem' 
+    <div
+      className="convItem"
       style={{
         marginBottom: '3rem',
         width: '45vw',
@@ -127,21 +129,29 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'space-around'
+        alignItems: 'space-around',
       }}
     >
       <Typography
         fontSize={{ base: '28px', md: '30px' }}
         pb={3}
         px={2}
-        style={{ backgroundColor: '#557bc8', padding: '1rem', borderRadius: '1rem 1rem 0 0 ' }}
+        style={{
+          backgroundColor: '#557bc8',
+          padding: '1rem',
+          borderRadius: '1rem 1rem 0 0 ',
+        }}
         w="100%"
         fontFamily="Work sans"
         display="flex"
-        justifyContent='space-between'
+        justifyContent="space-between"
         alignItems="center"
       >
-        <h5 style={{ float: 'left', fontFamily: 'system-ui' }}>{selectedChat.chatName}</h5>
+        <h5 style={{ float: 'left', fontFamily: 'system-ui' }}>
+          {!selectedChat.isGroupChat
+            ? getSender(user, selectedChat.users)
+            : selectedChat.chatName.toUpperCase()}
+        </h5>
         <Button
           display={{ base: 'flex', md: 'none' }}
           onClick={() => setSelectedChat('')}
@@ -172,7 +182,14 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       </Box>
       <FormControl
         onKeyDown={sendMessage}
-        style={{ width: '94.5%', height: '50px', alignSelf: 'center', padding: '.8rem 1rem', backgroundColor: '#557bc8', borderRadius: '0 0 1rem 1rem' }}
+        style={{
+          width: '94.5%',
+          height: '50px',
+          alignSelf: 'center',
+          padding: '.8rem 1rem',
+          backgroundColor: '#557bc8',
+          borderRadius: '0 0 1rem 1rem',
+        }}
       >
         <TextField
           style={{ width: '100%', marginTop: '.3rem' }}

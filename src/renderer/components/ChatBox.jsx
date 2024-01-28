@@ -8,6 +8,7 @@ import UserListItem from './UserListItem';
 import GroupChatModal from './GroupChatModal';
 import '../styles/ChatBox.css'
 import '../styles/SearchChat.css'
+import { getSender } from '../context/ChatLogics';
 
 function ChatBox({ fetchAgain }) {
   const [loggedUser, setLoggedUser] = useState();
@@ -110,50 +111,61 @@ function ChatBox({ fetchAgain }) {
         // color="primary"
         // size="lg"
         // variant="outlined
-        className='search-cht'
+        className="search-cht"
         onChange={(e) => handleSearch(e.target.value)}
       />
-      <div className='contact-list'>
-      {loading ? (
-        <div>loadin</div>
-      ) : (
-        searchResult?.slice(0, 4).map((userr) => (
-          <UserListItem
-            key={userr._id}
-            user={userr}
-            handleFunction={() => accessChat(userr)}
-            color="white"
+      <div className="contact-list" style={{ color: 'white' }}>
+        {loading ? (
+          <div>loadin</div>
+        ) : (
+          searchResult?.slice(0, 4).map((userr) => (
+            <UserListItem
+              key={userr._id}
+              user={userr}
+              handleFunction={() => accessChat(userr)}
+              color="white"
+            >
+              {userr.lastname}
+            </UserListItem>
+          ))
+        )}
+        {chats.map((chat) => (
+          <Box
+            onClick={() => setSelectedChat(chat)}
+            cursor="pointer"
+            backgroundColor={selectedChat === chat ? '#374957' : '#1a2e62'}
+            color={selectedChat === chat ? 'white' : 'white'}
+            style={{}}
+            px={3}
+            py={2}
+            borderRadius="lg"
+            key={chat._id}
           >
-            {userr.lastname}
-          </UserListItem>
-        ))
-      )}
-      {chats.map((chat) => (
-        <Box
-          onClick={() => setSelectedChat(chat)}
-          cursor="pointer"
-          backgroundColor={selectedChat === chat ? '#374957' : '#1a2e62'}
-          color={selectedChat === chat ? 'white' : 'black'}
-          style={{  }}
-          px={3}
-          py={2}
-          borderRadius="lg"
-          key={chat._id}
-        >
-          <Typography> {chat.chatName} </Typography>
-          {chat.latestMessage && (
-            <p fontSize="xs">
-              <b>{chat.latestMessage.sender.firstname} : </b>
-              {chat.latestMessage.content.length > 50
-                ? chat.latestMessage.content.substring(0, 51) + '...'
-                : chat.latestMessage.content}
-            </p>
-          )}
-        </Box>
-      ))}
+            <Typography>
+              {!chat.isGroupChat
+                ? chat.users && chat.users.length > 0
+                  ? getSender(user, chat.users)
+                  : 'unknown sender'
+                : chat.chatName}
+            </Typography>
+            {chat.latestMessage && (
+              <p fontSize="xs">
+                <b>{chat.latestMessage?.sender?.firstname} : </b>
+
+                {chat.latestMessage.content.length > 50
+                  ? chat.latestMessage.content.substring(0, 51) + '...'
+                  : chat.latestMessage.content}
+              </p>
+            )}
+          </Box>
+        ))}
       </div>
-      <GroupChatModal >
-        <Button style={{ margin: '1.5rem', backgroundColor: '#557cc8' }} variant="filled" onClick={handleClickOpen}>
+      <GroupChatModal>
+        <Button
+          style={{ margin: '1.5rem', backgroundColor: '#557cc8' }}
+          variant="filled"
+          onClick={handleClickOpen}
+        >
           New Group Chat
         </Button>
       </GroupChatModal>
