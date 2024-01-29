@@ -8,73 +8,65 @@ const sendEmail = asyncHandler(async (req, res) => {
   console.log(
     `New mail was sent successfully! Sent by waki ---> ${currentuser.firstname} ${currentuser.lastname}`,
   );
+
   try {
-    // comme d hab extraction des donnée
+    // Extraction des données
     const { to, subject, message } = req.body;
-    // verifikaychon de user dans user db
-    // const { attachments } = req.body;
-
-    // const dest = Array.isArray(to) ? to : [to];
-
-    // // ça c pour cc ou cci
-    // const usersTo = await User.find({ _id: { $in: dest } });
-
-    // if (usersTo.length !== dest.length) {
-    //   return res.status(404).json({ error: 'Utilisateur introuvable' });
-    // }
     const userTo = await User.findOne({ email: to });
 
+    // Vérification de l'existence de l'utilisateur destinataire
     if (!userTo) {
       return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
 
-    // la variable qui va contenir le mail aki et avec elle en va entregistrer di mail db
-    const newMail = new MailModel({
+    // Gestion de la pièce jointe
+    const attachment = req.file;
+
+    // Création du nouvel email avec les données et la pièce jointe
+    const newMailData = {
       from: currentuser._id,
       to: userTo._id,
-      // usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
       subject,
       message,
       starred: false,
       bin: false,
-    });
+    };
 
-    // enregistrmt de mail
+    // Si une pièce jointe est présente, l'ajouter aux données du nouvel email
+
+    if (attachment) {
+      newMailData.attachments = [attachment.path];
+    }
+    console.log('Litissiaaaaaaaaa', newMailData);
+
+    // Création de l'instance du nouvel email
+    const newMail = new MailModel(newMailData);
+
+    // Enregistrement du nouvel email dans la base de données
     await newMail.save();
 
-    const populatedMail = await MailModel.findById(newMail._id).populate({
-      path: 'to',
-      select: 'firstname lastname email',
-    });
-
-    // update la Outbox (Boîte d’envoi) de l'expéditeur
+    // Mise à jour de la boîte d'envoi de l'expéditeur
     await MailBoxModel.findOneAndUpdate(
-      // { userId: userFrom._id, name: 'Outbox' },
       { userId: currentuser._id, name: 'Outbox' },
-      { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Outbox
-      { upsert: true }, // Si la Outbox n'existe pas, on va la créer grace à upsert aki
+      { $addToSet: { mails: newMail._id } },
+      { upsert: true },
     );
 
-    // update la Inbox (Boîte de réception) du destinataire
-    // for (const userTo of usersTo) {
+    // Mise à jour de la boîte de réception du destinataire
     await MailBoxModel.findOneAndUpdate(
       { userId: userTo._id, name: 'Inbox' },
-      { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
-      { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
+      { $addToSet: { mails: newMail._id } },
+      { upsert: true },
     );
-    // }
 
-    console.log('sent mail is : ', newMail);
+    console.log('Mail sent:', newMail);
 
-    console.log('popu mail is : ', populatedMail);
-    // response msg
-    res.status(200).json('mail sent successfully');
-    // });
+    // Réponse JSON indiquant que l'e-mail a été envoyé avec succès
+    res.status(200).json('Email sent successfully');
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
 // Rec mail
 const receiveEmail = asyncHandler(async (req, res) => {
   try {

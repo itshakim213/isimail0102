@@ -26,8 +26,7 @@ const mailSchema = new mongoose.Schema({
   },
   attachments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'AttachmentModel',
+      type: String,
     },
   ],
   starred: {
