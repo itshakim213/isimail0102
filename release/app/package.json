@@ -20,5 +20,9 @@
     "express-async-handler": "^1.2.0",
     "mongoose": "^8.0.3",
     "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

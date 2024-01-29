@@ -33,7 +33,7 @@ const accessChat = asyncHandler(async (req, res) => {
     const invitedUser = await User.findById(userId);
 
     // Construisez le chatName en utilisant le nom et le prénom de l'utilisateur invité
-    const chatNamee = `${invitedUser.firstname} ${invitedUser.lastname}`;
+    const chatNamee = 'sender';
     // Crée un nouveau chat privé avec l'utilisateur connecté et
     // Si la conversation n'existe pas, elle est créée
     const chatData = {

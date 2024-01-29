@@ -6,6 +6,8 @@ const {
   deleteUsers,
   forgotPassword,
   resetPassword,
+  changePassword,
+  changePic,
 } = require('../Controllers/userControllers');
 const userModel = require('../models/UserModel');
 const { protect } = require('../middlewares/authMiddleware');
@@ -21,11 +23,13 @@ router.get('/me', async (req, res) => {
   res.send(await userModel.findById(user._id));
 });
 
-router.route('/').post(registerUser)
+router.route('/').post(registerUser);
 router.get('/search', protect, searchUsers);
 router.post('/signin', authUser);
 router.delete('/delete/:id', protect, deleteUsers);
 router.post('/forgot', forgotPassword);
 router.post('/reset', resetPassword);
+router.put('/changepassword', protect, changePassword);
+router.put('/changepic', protect, changePic);
 
 module.exports = router;

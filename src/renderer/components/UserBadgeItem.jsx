@@ -9,16 +9,16 @@ function UserBadgeItem ({user, handleFunction, admin}) {
       py={1}
       borderRadius="8%"
       m={1}
-      mb={2}
-      fontSize={15}
+      
+      fontSize={1}
       backgroundColor="rgb(85, 124, 200)"
       color="white"
       cursor="pointer"
       onClick={handleFunction}
     >
-      <p style={{display: 'inline-block', fontSize: 22 }}>{user.firstname} {user.lastname}
+      <p style={{display: 'inline-block', fontSize: 15 }}>{user.firstname} {user.lastname}
       {admin === user._id && <span>(Admin)</span>}{' '}</p>
-      <CloseIcon style={{ fontSize: 18, margin: '.6rem 0 0 .5rem' }} cursor="pointer"></CloseIcon>
+      <CloseIcon style={{ fontSize: 10, margin: '.6rem 0 0 .5rem' }} cursor="pointer"></CloseIcon>
     </Box>
   );
 };

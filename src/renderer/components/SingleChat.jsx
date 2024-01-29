@@ -7,6 +7,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import ScrollableChat from './ScrollableChat';
 import '../styles/mailist.css';
+import { getSender } from '../context/ChatLogics';
 import '../styles/EmojiInput.css'
 import Newmessage from './Newmessage';
 
@@ -163,7 +164,8 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   console.log(newMessage)
 
   return (
-    <div className='convItem' 
+    <div
+      className="convItem"
       style={{
         marginBottom: '3rem',
         width: '45vw',
@@ -171,21 +173,29 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'space-around'
+        alignItems: 'space-around',
       }}
     >
       <Typography
         fontSize={{ base: '28px', md: '30px' }}
         pb={3}
         px={2}
-        style={{ backgroundColor: '#557bc8', padding: '1rem', borderRadius: '1rem 1rem 0 0 ' }}
+        style={{
+          backgroundColor: '#557bc8',
+          padding: '1rem',
+          borderRadius: '1rem 1rem 0 0 ',
+        }}
         w="100%"
         fontFamily="Work sans"
         display="flex"
-        justifyContent='space-between'
+        justifyContent="space-between"
         alignItems="center"
       >
-        <h5 style={{ float: 'left', fontFamily: 'system-ui' }}>{selectedChat.chatName}</h5>
+        <h5 style={{ float: 'left', fontFamily: 'system-ui' }}>
+          {!selectedChat.isGroupChat
+            ? getSender(user, selectedChat.users)
+            : selectedChat.chatName.toUpperCase()}
+        </h5>
         <Button
           display={{ base: 'flex', md: 'none' }}
           onClick={() => setSelectedChat('')}
