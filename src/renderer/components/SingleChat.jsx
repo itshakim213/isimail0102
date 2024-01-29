@@ -1,14 +1,44 @@
 import { Box, Button, FormControl, IconButton, Input, Paper, TextField, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
+import Picker from "emoji-picker-react"
 import { ChatState } from '../context/ChatContext';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import ScrollableChat from './ScrollableChat';
 import '../styles/mailist.css';
+import '../styles/EmojiInput.css'
+import Newmessage from './Newmessage';
 
 const ENDPOINT = 'http://localhost:4001';
 var socket, selectedChatCompare;
+
+
+const EmojiIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='28'
+      height='28'
+      viewBox='0 0 24 24'>
+      <path
+        fill='none'
+        d='M0 0h24v24H0V0z'
+      />
+      <circle
+        cx='15.5'
+        cy='9.5'
+        r='1.5'
+      />
+      <circle
+        cx='8.5'
+        cy='9.5'
+        r='1.5'
+      />
+      <path d='M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-5-6c.78 2.34 2.72 4 5 4s4.22-1.66 5-4H7z' />
+    </svg>
+  )
+}
 
 function SingleChat({ fetchAgain, setFetchAgain }) {
   const [messages, setMessages] = useState([]);
@@ -17,6 +47,12 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [showPicker, setShowPicker] = useState(false)
+
+  const onEmojiClick = (event) => {
+    setNewMessage((prevInput) => prevInput + event.emoji)
+    setShowPicker(false)
+  }
 
   const { user, selectedChat, setSelectedChat } = useContext(ChatState);
 
@@ -54,7 +90,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   });
 
   const sendMessage = async (event) => {
-    if (event.key === 'Enter' && newMessage) {
+    // if (event.key === 'Enter' && newMessage) {
       socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
@@ -76,10 +112,16 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       } catch (error) {
         console.log(error);
       }
-  }}
+  // }
+}
+  const sendByKeyBoard = (e) => {
+    if (e.key === 'Enter' && newMessage) {
+      sendMessage()
+    }
+  }
 
- const typingHandler = (e) => {
-    setNewMessage(e.target.value);
+  const typingHandler = (e) => {
+    // setNewMessage(e.target.value);
 
     if (!socketConnected) {
       return
@@ -100,7 +142,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
         setTyping(false);
       }
     }, timerLength);
-};
+  };
 
   useEffect(() => {
     fetchMessages();
@@ -117,6 +159,8 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       }
     });
   });
+
+  console.log(newMessage)
 
   return (
     <div className='convItem' 
@@ -171,10 +215,10 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
         </div>
       </Box>
       <FormControl
-        onKeyDown={sendMessage}
+        onKeyDown={sendByKeyBoard}
         style={{ width: '94.5%', height: '50px', alignSelf: 'center', padding: '.8rem 1rem', backgroundColor: '#557bc8', borderRadius: '0 0 1rem 1rem' }}
       >
-        <TextField
+        {/* <TextField
           style={{ width: '100%', marginTop: '.3rem' }}
           fullWidth
           size="md"
@@ -183,9 +227,38 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
           placeholder="Enter a message... "
           onChange={typingHandler}
           value={newMessage}
+        /> */}
+      <div className='input-container'>
+      <div className='input-emoji-wrapper'>
+        <input
+          className='input-field'
+          type='Text'
+          placeholder='Text'
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
         />
+        <button
+          className='emoji-icon'
+          onClick={() => setShowPicker((val) => !val)}>
+          <EmojiIcon />
+        </button>
+      </div>
+
+      <button
+        className='send-button'
+        onClick={sendMessage}
+      >
+        send
+      </button>
+      {showPicker && (
+        <div className='picker-container'>
+          <Picker onEmojiClick={onEmojiClick} />
+        </div>
+      )}
+    </div>
       </FormControl>
     </div>
-  );
+    
+  )
 }
 export default SingleChat;
