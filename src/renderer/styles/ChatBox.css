@@ -6,6 +6,7 @@
     background-color: #1a2e62;
     border-right: 2px solid #aeefeb;
     width: 20vw;
+color: white;
 }
 
 .contact-list {
@@ -17,6 +18,7 @@
     flex-direction: column;
     -ms-flex-pack: distribute;
     justify-content: space-around;
+    color: white;
 }
 
 ::-webkit-scrollbar {
