@@ -22,7 +22,11 @@ import Visio from './pages/Visio';
 const queryClient = new QueryClient();
 
 function App() {
-  const [isAuthen, setIsAuthen] = useState(false);
+
+  const userString = sessionStorage.getItem('user');
+  const user = userString ? JSON.parse(userString) : null;
+
+  const [isAuthen, setIsAuthen] = useState(user !== null);
 
   const handleLogout = () => {
     console.log('Logging out...'); // Ajout d'un message de test
@@ -35,6 +39,7 @@ function App() {
     setIsAuthen(true);
     // Peut-être rediriger l'utilisateur vers une page spécifique ici
   };
+
   useEffect(() => {
     if (isAuthen) {
       document.body.style.backgroundColor = '#fff';
