@@ -18,6 +18,7 @@ import Header from './components/Header';
 import SideBar from './components/SideBar';
 import { ChatContext } from './context/ChatContext';
 import Visio from './pages/Visio';
+import './styles/User.css'
 
 const queryClient = new QueryClient();
 
