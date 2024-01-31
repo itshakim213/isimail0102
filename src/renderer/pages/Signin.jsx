@@ -75,7 +75,7 @@ function Signin({ handleLogin }) {
       );
       return response.data;
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       setError(true);
       setemail('');
       setpassword('');
@@ -89,11 +89,10 @@ function Signin({ handleLogin }) {
 
     try {
       const userData = await LoadUser();
-      console.log(userData.user.twoFA);
-      console.log(userData);
+
       if (!userData.user.twoFA) {
         sessionStorage.setItem('user', JSON.stringify(userData.user));
-        console.log(userData);
+
         setIsSubmitted(true);
         Notify('Connexion réussie !', () => {
           handleLogin();
@@ -101,9 +100,7 @@ function Signin({ handleLogin }) {
         });
       } else {
         sessionStorage.setItem('user', JSON.stringify(userData.user));
-        console.log(userData);
-        console.log(userData.user);
-        console.log(userData.generatedOTP);
+
         setIsSubmitted(true);
         setCurrentOtp(userData.generatedOTP);
         handleOpenOtp();

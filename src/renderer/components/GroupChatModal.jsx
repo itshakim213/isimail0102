@@ -15,8 +15,7 @@ import { ChatState } from '../context/ChatContext';
 import UserListItem from './UserListItem';
 import UserBadgeItem from './UserBadgeItem';
 
-
-function GroupChatModal({children}) {
+function GroupChatModal({ children }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [groupChatName, setGroupChatName] = useState();
@@ -62,7 +61,6 @@ function GroupChatModal({children}) {
 
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUsers) {
-      console.log('Please fill all the feilds');
     }
 
     try {
@@ -72,12 +70,17 @@ function GroupChatModal({children}) {
         },
       };
 
-      const { data } = await axios.post('http://localhost:4001/api/chat/group', {name: groupChatName,
-    users: JSON.stringify(selectedUsers.map((u)=>u._id)),}, config);
+      const { data } = await axios.post(
+        'http://localhost:4001/api/chat/group',
+        {
+          name: groupChatName,
+          users: JSON.stringify(selectedUsers.map((u) => u._id)),
+        },
+        config,
+      );
 
-    setChats([data, ...chats]);
-    setOpen(false)
-    console.log('group chat created');
+      setChats([data, ...chats]);
+      setOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -93,76 +96,78 @@ function GroupChatModal({children}) {
 
   const handleDelete = (delUser) => {
     setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
-  }
-    
-      return (
-        <div>
-          <Button variant="filled" onClick={handleClickOpen}>
-            {children}
-          </Button>
-          <Dialog
+  };
+
+  return (
+    <div>
+      <Button variant="filled" onClick={handleClickOpen}>
+        {children}
+      </Button>
+      <Dialog
+        fullWidth
+        style={{ padding: '40px' }}
+        open={open}
+        onClose={handleClose}
+      >
+        <DialogTitle
+          id="alert-dialog-title"
+          fontSize="25px"
+          fontFamily="Work sans"
+          display="flex"
+          justifyContent="center"
+        >
+          <Typography>
+            {groupChatName !== '' ? groupChatName : 'Create Group Chat'}
+          </Typography>
+        </DialogTitle>
+        <DialogContent display="flex" flexDir="column" alignItems="center">
+          <TextField
+            placeholder="Chat Name"
+            mb={3}
             fullWidth
-            style={{ padding: '40px' }}
-            open={open}
-            onClose={handleClose}
-          >
-            <DialogTitle
-              id="alert-dialog-title"
-              fontSize="25px"
-              fontFamily="Work sans"
-              display="flex"
-              justifyContent="center"
-            >
-              <Typography>{ (groupChatName !== '') ? groupChatName : 'Create Group Chat' }</Typography>
-            </DialogTitle>
-            <DialogContent display="flex" flexDir="column" alignItems="center">
-              <TextField
-                placeholder="Chat Name"
-                mb={3}
-                fullWidth
-                variant="outlined"
-                onChange={(e) => setGroupChatName(e.target.value)}
-                style={{ marginBottom: '1rem' }}
-              />
-              <TextField
-                placeholder="Add Users to the group.."
-                mb={3}
-                fullWidth
-                variant="outlined"
-                onChange={(ee) => handleSearch(ee.target.value)}
-              />
-              <Box w="100%" display="flex" flexWrap="wrap">
-                {selectedUsers.map((u) => (
-                  <UserBadgeItem
-                    key={u._id}
-                    user={u}
-                    handleFunction={() => handleDelete(u)}
-                  ></UserBadgeItem>
-                ))}
-              </Box>
-              {loading ? (
-                <div>loading</div>
-              ) : (
-                searchResult
-                  ?.slice(0, 4)
-                  .map((userr) => (
-                    <UserListItem
-                      key={userr._id}
-                      user={userr}
-                      handleFunction={() => handleGroup(userr)}
-                    ></UserListItem>
-                  ))
-              )}
-            </DialogContent>
-            <DialogActions>
-              <Button color="primary" onClick={handleSubmit}>
-                Create
-              </Button>
-              <Button onClick={handleClose}>Close</Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-      );
+            variant="outlined"
+            onChange={(e) => setGroupChatName(e.target.value)}
+            style={{ marginBottom: '1rem' }}
+          />
+          <TextField
+            placeholder="Add Users to the group.."
+            mb={3}
+            fullWidth
+            variant="outlined"
+            onChange={(ee) => handleSearch(ee.target.value)}
+          />
+          <Box w="100%" display="flex" flexWrap="wrap">
+            {selectedUsers.map((u) => (
+              <UserBadgeItem
+                key={u._id}
+                user={u}
+                handleFunction={() => handleDelete(u)}
+              ></UserBadgeItem>
+            ))}
+          </Box>
+          {loading ? (
+            <div>loading</div>
+          ) : (
+            searchResult
+              ?.slice(0, 4)
+              .map((userr) => (
+                <UserListItem
+                  key={userr._id}
+                  user={userr}
+                  handleFunction={() => handleGroup(userr)}
+                ></UserListItem>
+              ))
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={handleSubmit}>
+            Create
+          </Button>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
 
 export default GroupChatModal;

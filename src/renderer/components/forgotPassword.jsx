@@ -27,13 +27,6 @@ function ForgotPassword({ handleClickOpen, handleClose }) {
   };
 
   const answerQst = async () => {
-    console.log(
-      'Submitting request with email:',
-      email,
-      'and security answer:',
-      securityAnswer,
-    );
-
     try {
       const resp = await axios.post(
         'http://localhost:4001/api/user/forgot',
@@ -47,7 +40,6 @@ function ForgotPassword({ handleClickOpen, handleClose }) {
           },
         },
       );
-      console.log('Response from server -- successsss:', resp.data);
 
       // If security answer is correct, proceed with password reset
       const resetResp = await axios.post(
@@ -63,7 +55,7 @@ function ForgotPassword({ handleClickOpen, handleClose }) {
         },
       );
       // return resp.data;
-      console.log('Password reset response from server:', resetResp.data);
+
       return resetResp.data;
     } catch (error) {
       console.error('Error from server:', error);
@@ -74,7 +66,7 @@ function ForgotPassword({ handleClickOpen, handleClose }) {
   const { mutate } = useMutation(answerQst, {
     onSuccess: (response) => {
       Notify('Mot de passe réinitialisé avec succes !');
-      console.log('Response from server -- success:', response);
+
       if (response && response.message) {
         console.log('Message from server:', response.message);
       } else {

@@ -65,10 +65,7 @@ function MailList({
 
   const handleToggleStar = async () => {
     try {
-      console.log('mailId:', mailId);
-
       const user = JSON.parse(sessionStorage.getItem('user'));
-      console.log('user token :', user.token);
 
       const response = await axios.put(
         `http://localhost:4001/api/mail/togglestar`,
@@ -88,10 +85,7 @@ function MailList({
 
   const handleBin = async () => {
     try {
-      console.log('mailId:', mailId);
-
       const user = JSON.parse(sessionStorage.getItem('user'));
-      console.log('user token :', user.token);
 
       const response = await axios.put(
         `http://localhost:4001/api/mail/movetobin`,
@@ -102,7 +96,7 @@ function MailList({
           },
         },
       );
-      console.log('Bin response:', response.data);
+
       await fetchMails();
     } catch (error) {
       console.error('Error moving to bin:', error);
@@ -111,10 +105,7 @@ function MailList({
 
   const handleImp = async () => {
     try {
-      console.log('mailId:', mailId);
-
       const user = JSON.parse(sessionStorage.getItem('user'));
-      console.log('user token :', user.token);
 
       const response = await axios.put(
         `http://localhost:4001/api/mail/important`,
@@ -125,7 +116,7 @@ function MailList({
           },
         },
       );
-      console.log('Imp response:', response.data);
+
       await fetchMails();
     } catch (error) {
       console.error('Error moving to imp:', error);
@@ -142,7 +133,6 @@ function MailList({
 
   return (
     <div className="mail-item">
-      {/* <p className="mail-send">Mails reçus:</p> */}
       <p className="mail-send">
         {currentMailBox === 'outbox'
           ? 'Mails envoyés:'

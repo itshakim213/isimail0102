@@ -35,10 +35,6 @@ function Mails() {
     setSelectedEmail(null);
   };
 
-  // const wannaReply = () => {
-  //   setShowNewMessage(true);
-  // }
-
   const user = JSON.parse(sessionStorage.getItem('user'));
 
   return (

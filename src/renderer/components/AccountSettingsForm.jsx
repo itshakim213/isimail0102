@@ -11,8 +11,6 @@ function AccountSettingsForm({ email, handleLogout }) {
   const [profilePic, setProfilePic] = useState(user.pic);
   const [loading, setLoading] = useState(false);
   const [tfa, setTfa] = useState(user.twoFA);
-  console.log(tfa);
-  console.log(user);
 
   const navigate = useNavigate();
 
@@ -35,7 +33,7 @@ function AccountSettingsForm({ email, handleLogout }) {
 
     if (pics === undefined) {
       setLoading(false);
-      console.log('No picture selected');
+
       return;
     }
 
@@ -60,11 +58,6 @@ function AccountSettingsForm({ email, handleLogout }) {
 
         const imageData = await response.json();
 
-        console.log('Image uploaded to Cloudinary:', imageData);
-
-        // Logg l url
-        console.log('Profile picture URL:', imageData.url);
-
         setProfilePic(imageData.url.toString());
         setLoading(false);
       } catch (err) {
@@ -73,7 +66,7 @@ function AccountSettingsForm({ email, handleLogout }) {
       }
     } else {
       setLoading(false);
-      console.log('Invalid file type. Please upload a JPEG or PNG image.');
+
       return;
     }
   };
@@ -90,7 +83,6 @@ function AccountSettingsForm({ email, handleLogout }) {
   };
 
   const updateProfilePicture = async (newProfilePicUrl) => {
-    console.log('Sending profile picture update with URL:', newProfilePicUrl);
     try {
       const response = await axios.put(
         'http://localhost:4001/api/user/changepic',
@@ -103,8 +95,6 @@ function AccountSettingsForm({ email, handleLogout }) {
         },
       );
       return response.data;
-
-      console.log('Profile picture updated in the backend:', response.data);
     } catch (error) {
       console.error('Error updating profile picture in the backend:', error);
     }
@@ -118,7 +108,6 @@ function AccountSettingsForm({ email, handleLogout }) {
 
     try {
       const response = await changePassword();
-      console.log('Password change successful:', response);
     } catch (error) {
       console.error('Password change failed:', error);
     }
@@ -132,7 +121,7 @@ function AccountSettingsForm({ email, handleLogout }) {
     if (confirmDelete) {
       try {
         const response = await deleteUser();
-        console.log('User deleted', response);
+
         handleLogout();
         navigate('/index.html');
       } catch (error) {
@@ -156,7 +145,7 @@ function AccountSettingsForm({ email, handleLogout }) {
           },
         },
       );
-      console.log('API Response:', response.data);
+
       setOldPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
@@ -184,7 +173,7 @@ function AccountSettingsForm({ email, handleLogout }) {
           },
         },
       );
-      console.log('API Response:', response.data);
+
       return response.data;
     } catch (error) {
       console.error('error deleting user', error);
@@ -198,7 +187,7 @@ function AccountSettingsForm({ email, handleLogout }) {
       const response = await axios.put(
         'http://localhost:4001/api/user/2FA',
         {
-          twoFAtfa,
+          twoFA: tfa,
         },
         {
           headers: {
@@ -206,9 +195,7 @@ function AccountSettingsForm({ email, handleLogout }) {
           },
         },
       );
-      console.log('API Response:', response.data);
 
-      console.log('le tfa :', tfa);
       setTfa(response.data.twoFA);
       return response.data;
     } catch (error) {

@@ -17,7 +17,6 @@ import Settings from './pages/Settings';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
 import { ChatContext } from './context/ChatContext';
-import Visio from './pages/Visio';
 
 const queryClient = new QueryClient();
 
@@ -25,7 +24,7 @@ function App() {
   const [isAuthen, setIsAuthen] = useState(false);
 
   const handleLogout = () => {
-    console.log('Logging out...'); // Ajout d'un message de test
+    // console.log('Logging out...'); // Ajout d'un message de test
     setIsAuthen(false);
   };
 
@@ -73,7 +72,7 @@ function App() {
                   element={<Settings handleLogout={handleLogout} />}
                 />
                 <Route path="/files/:category" element={<Files />} />
-                <Route path="/visio" element={<Visio />} />
+                {/* <Route path="/visio" element={<Visio />} /> */}
               </Routes>
             </ChatContext>
           </React.StrictMode>

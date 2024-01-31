@@ -28,8 +28,8 @@ function ContactInv({ userId, fullname, email, chats, setChats }) {
     // il m affiche les details de la vonc cree, la response obtenu de server
     // on succes aki theqared achu ylaqen ad yedhroun une fois la creatVonc aki th3eda du coup ad afficher les data n response nni
     onSuccess: (data) => {
-      setChats([...chats,data])
-      console.log('server response --> Conversation created:', data);
+      setChats([...chats, data]);
+
       // handleAddUser(userInvId);
       // return false;
     },

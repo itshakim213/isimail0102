@@ -9,7 +9,6 @@ const accessChat = asyncHandler(async (req, res) => {
 
   // Vérification de la présence de l'ID de l'utilisateur dans la requête
   if (!userId) {
-    console.log('UserId param not sent with request');
     return res.sendStatus(400);
   }
 
@@ -41,7 +40,6 @@ const accessChat = asyncHandler(async (req, res) => {
       isGroupChat: false,
       users: [req.user._id, userId],
     };
-    console.log('created chat : ', chatData);
 
     try {
       const createdChat = await Chat.create(chatData);
@@ -51,7 +49,7 @@ const accessChat = asyncHandler(async (req, res) => {
         'users',
         '-password',
       );
-      console.log('New conversation created:', FullChat);
+
       res.status(200).send(FullChat); // Retourne la nouvelle conversation
     } catch (error) {
       res.status(400);

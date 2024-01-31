@@ -82,7 +82,6 @@ function Newmessage({ reply, fwd }) {
       setTo(reply.from.email);
       setSubject(`Re : ${reply.subject}`);
       setMessage('');
-      console.log(to);
     }
   }, [reply]);
 
@@ -91,7 +90,6 @@ function Newmessage({ reply, fwd }) {
       setTo('');
       setSubject(`FWD : ${fwd.subject}`);
       setMessage(fwd.message);
-      console.log(to);
     }
   }, [fwd]);
 

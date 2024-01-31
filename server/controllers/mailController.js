@@ -7,26 +7,22 @@ const path = require('path');
 
 const sendEmail = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-  console.log(
-    `New mail was sent successfully! Sent by waki ---> ${currentuser.firstname} ${currentuser.lastname}`,
-  );
+
   try {
     const { to, subject, message } = req.body;
+    console.log('req.body:', req.body);
 
-    const dest = Array.isArray(to) ? to : [to];
-    // const userTo = await User.findOne({ email: to });
+    // Ensure that 'to' is an array
+    // const dest = Array.isArray(to) ? to : [to];
+    const dest = to.split(/\s+/).filter((email) => email.trim() !== '');
 
-    // Vérification de l'existence de l'utilisateur destinataire
-    // if (!userTo) {
-    //   return res.status(404).json({ error: 'Utilisateur introuvable.' });
-    // }
     console.log('to:', to);
     console.log('subject:', subject);
     console.log('message:', message);
+    console.log('dest', dest);
 
-    // // ça c pour cc ou cci
+    // Verify the existence of the destination users
     const usersTo = await User.find({ email: { $in: dest } });
-    console.log('to cc :', usersTo);
 
     if (usersTo.length !== dest.length) {
       return res.status(404).json({ error: 'Utilisateur introuvable' });
@@ -46,14 +42,12 @@ const sendEmail = asyncHandler(async (req, res) => {
     if (req.files && req.files.length > 0) {
       // Traitement des pièces jointes
       const attachments = req.files.map((file) => {
-        console.log('Filename:', file.filename);
-        console.log('Path:', file.path);
         return {
           filename: file.filename,
           path: file.path,
         };
       });
-      console.log('Attachments:', attachments);
+
       // Ajoutez les pièces jointes à la nouvelle instance de courrier
       newMail.attachments = attachments;
     }
@@ -82,9 +76,6 @@ const sendEmail = asyncHandler(async (req, res) => {
       );
     }
 
-    console.log('sent mail is : ', newMail);
-
-    console.log('popu mail is : ', populatedMail);
     // response msg
     res.status(200).json('mail sent successfully');
     // });
@@ -124,11 +115,11 @@ const receiveEmail = asyncHandler(async (req, res) => {
 // et quand tu le retire s put ad yekhdhem une MàJ
 const toggleStarredEmail = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-  console.log('Info sur current user', currentuser);
+
   try {
     const { mailId } = req.body;
     const mail = await MailModel.findById(mailId); // recuperer le mail en qst
-    console.log('Found Mail:', mail); // l'afficher
+
     if (!mail) {
       return res.status(404).json({ error: 'Mail not found' }); // non d lkhir kan ulach
     }
@@ -155,15 +146,8 @@ const toggleStarredEmail = asyncHandler(async (req, res) => {
     mail.starred = !star; // jinverse la valuer de starred par rapport au resultas precedent
     await mail.save(); // je MàJ le mail et je prend s en compte celle de starred (le parametre)
 
-    console.log('Saving starred mailbox...');
     await starredMailbox.save(); // saving it ;p
 
-    console.log(
-      'Here is the added/removed mail, look at its starred value : ',
-      mail,
-    );
-    console.log('Starred mailbox saved!');
-    console.log('Here it is the Starred Mailbox:', starredMailbox); // booooom ;)
     res.status(201).json('starred updated');
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -182,7 +166,6 @@ const moveToBin = asyncHandler(async (req, res) => {
     if (!mail) {
       return res.status(404).json({ error: 'Mail not found' }); //404 azka ughaled
     }
-    console.log('Found Mail:', mail); // l'afficher
 
     // comme d'hab :-/
     const binMailbox = await MailBoxModel.findOne({
@@ -207,8 +190,6 @@ const moveToBin = asyncHandler(async (req, res) => {
 
     await mail.save(); // sauvegarder les changements
     await binMailbox.save(); // Màj de dossier bin
-
-    console.log('Bin Mailbox:', binMailbox);
 
     res.status(201).json('bin updated');
   } catch (error) {
@@ -325,11 +306,10 @@ const replyToEmail = asyncHandler(async (req, res) => {
 
 const importantMails = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-  console.log('Info sur current user', currentuser);
   try {
     const { mailId } = req.body;
     const mail = await MailModel.findById(mailId); // recuperer le mail en qst
-    console.log('Found Mail:', mail); // l'afficher
+
     if (!mail) {
       return res.status(404).json({ error: 'Mail not found' }); // non d lkhir kan ulach
     }
@@ -356,11 +336,8 @@ const importantMails = asyncHandler(async (req, res) => {
     mail.important = !imp; // jinverse la valuer de imp par rapport au resultas precedent
     await mail.save(); // je MàJ le mail et je prend s en compte celle de important (le parametre)
 
-    console.log('Saving important mailbox...');
     await importantMailbox.save(); // saving it ;p
 
-    console.log('Important mailbox saved!');
-    console.log('Here it is the important Mailbox:', importantMailbox); // booooom ;)
     res.status(201).json('important updated');
   } catch (error) {
     res.status(500).json({ error: error.message });

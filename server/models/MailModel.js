@@ -8,11 +8,13 @@ const mailSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  to: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
+  to: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+  ],
 
   subject: {
     type: String,
