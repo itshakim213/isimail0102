@@ -59,8 +59,6 @@ function Newmessage() {
           },
         },
       );
-
-      console.log('Server response:', response.data);
       alert('Email sent successfully!');
 
       // Réinitialisation des champs après l'envoi

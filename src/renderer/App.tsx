@@ -28,7 +28,6 @@ function App() {
   const [isAuthen, setIsAuthen] = useState(user !== null);
 
   const handleLogout = () => {
-    console.log('Logging out...'); // Ajout d'un message de test
     setIsAuthen(false);
   };
 

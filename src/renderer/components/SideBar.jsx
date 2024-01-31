@@ -14,7 +14,6 @@ function SideBar() {
   const user = JSON.parse(sessionStorage.getItem('user'));
   const loc = useLocation();
 
-  console.log(user);
   return (
     <aside>
       <div className="profile">

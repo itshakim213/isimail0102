@@ -65,11 +65,8 @@ function MailList({
 
   const handleToggleStar = async () => {
     try {
-      console.log('mailId:', mailId);
 
       const user = JSON.parse(sessionStorage.getItem('user'));
-      console.log('user token :', user.token);
-
       const response = await axios.put(
         `http://localhost:4001/api/mail/togglestar`,
         { mailId },
@@ -79,7 +76,6 @@ function MailList({
           },
         },
       );
-      console.log('Toggle star response:', response.data);
       await fetchMails();
     } catch (error) {
       console.error('Error toggling star:', error);
@@ -91,7 +87,6 @@ function MailList({
       console.log('mailId:', mailId);
 
       const user = JSON.parse(sessionStorage.getItem('user'));
-      console.log('user token :', user.token);
 
       const response = await axios.put(
         `http://localhost:4001/api/mail/movetobin`,
@@ -111,10 +106,8 @@ function MailList({
 
   const handleImp = async () => {
     try {
-      console.log('mailId:', mailId);
 
       const user = JSON.parse(sessionStorage.getItem('user'));
-      console.log('user token :', user.token);
 
       const response = await axios.put(
         `http://localhost:4001/api/mail/important`,
@@ -125,7 +118,6 @@ function MailList({
           },
         },
       );
-      console.log('Imp response:', response.data);
       await fetchMails();
     } catch (error) {
       console.error('Error moving to imp:', error);

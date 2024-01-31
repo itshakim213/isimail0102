@@ -33,10 +33,8 @@ function AccountSettingsForm({ email, handleLogout }) {
       alert('Les mots de passe ne correspondent pas.');
       return;
     }
-
     try {
       const response = await changePassword();
-      console.log('Password change successful:', response);
     } catch (error) {
       console.error('Password change failed:', error);
     }
@@ -50,7 +48,6 @@ function AccountSettingsForm({ email, handleLogout }) {
     if (confirmDelete) {
       try {
         const response = await deleteUser();
-        console.log('User deleted', response);
         handleLogout();
         navigate('/index.html');
       } catch (error) {
@@ -74,14 +71,11 @@ function AccountSettingsForm({ email, handleLogout }) {
           },
         },
       );
-      console.log('API Response:', response.data);
       setOldPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
       return response.data;
     } catch (error) {
-      console.error('Password change failed:', error);
-
       if (error.response && error.response.status === 400) {
         alert('Ancien mot de passe incorrect. Veuillez réessayer.');
       } else {
@@ -102,7 +96,6 @@ function AccountSettingsForm({ email, handleLogout }) {
           },
         },
       );
-      console.log('API Response:', response.data);
       return response.data;
     } catch (error) {
       console.error('error deleting user', error);

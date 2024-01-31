@@ -12,6 +12,7 @@ function Header({ handleLogout }) {
       'Voulez vous vraimant vous déconnecter ?',
     );
     if (confirmLogout) {
+      sessionStorage.removeItem('user')
       handleLogout();
       navigate('/index.html');
     }

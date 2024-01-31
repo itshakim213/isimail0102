@@ -30,7 +30,6 @@ function ChatBox({ fetchAgain }) {
 
   const fetchChats = async () => {
     const userToken = JSON.parse(sessionStorage.getItem('user')).token;
-    console.log(userToken);
 
     try {
       const config = {
@@ -38,13 +37,11 @@ function ChatBox({ fetchAgain }) {
           Authorization: `Bearer ${userToken}`,
         },
       };
-      console.log(user.token);
       const { data } = await axios.get(
         'http://localhost:4001/api/chat',
         config,
       );
       setChats(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

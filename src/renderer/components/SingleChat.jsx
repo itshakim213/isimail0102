@@ -161,8 +161,6 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
     });
   });
 
-  console.log(newMessage)
-
   return (
     <div
       className="convItem"

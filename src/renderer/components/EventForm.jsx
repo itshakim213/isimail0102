@@ -35,7 +35,6 @@ function EventForm({ date, eventToUpdate, evenements, setEvenements }) {
   const { mutate:mutatePost } = useMutation(createEvent,{
     onSuccess: (data) => {
       setEvenements([data.event,...evenements])
-      console.log(data)
     },
     onError: (error) => {
       console.log(error)
@@ -68,7 +67,6 @@ function EventForm({ date, eventToUpdate, evenements, setEvenements }) {
         updatedEvents[upEvIndex] = data
         setEvenements(updatedEvents)
       }
-      console.log(data)
     },
     onError: (error) => {
       console.log(error)
@@ -88,25 +86,11 @@ function EventForm({ date, eventToUpdate, evenements, setEvenements }) {
 
   const modifieEvent = async (e) => {
     e.preventDefault()
-    console.log("Formulaire soumis avec les valeurs suivantes :");
-    console.log("Titre :", title);
-    console.log("Début :", startDate);
-    console.log("Fin :", endDate);
-    console.log("Journée entière :", isAllDay);
-    console.log("Localisation :", location);
-    console.log("Description :", description);
     mutateUpdate({title,startDate,endDate,isAllDay,description,location})
   }
 
   const addEvent = async (e) => {
     e.preventDefault();
-    console.log("Formulaire soumis avec les valeurs suivantes :");
-    console.log("Titre :", title);
-    console.log("Début :", startDate);
-    console.log("Fin :", endDate);
-    console.log("Journée entière :", isAllDay);
-    console.log("Localisation :", location);
-    console.log("Description :", description);
     mutatePost({title,startDate,endDate,isAllDay,description,location})
   };
 
