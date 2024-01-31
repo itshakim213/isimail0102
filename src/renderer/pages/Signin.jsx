@@ -8,7 +8,6 @@ import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
 import '../styles/signin.css';
 import FormDialog from '../components/forgotPassword';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 

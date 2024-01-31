@@ -72,13 +72,13 @@ function Signup({ handleLogin }) {
           dateofbirth,
           email,
           password,
-          // secureMail,
           securityQuestion,
           securityAnswer,
           pic,
         },
         config,
       );
+      console.log(response.data)
       return response.data;
     } catch (e) {
       console.log(e);
