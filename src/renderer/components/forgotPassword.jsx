@@ -14,14 +14,19 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function FormDialog({ handleClickOpen, handleClose }) {
+function ForgotPassword({ handleClickOpen, handleClose }) {
   const [email, setEmail] = useState('');
   const [securityAnswer, setSecurityAnswer] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
+  const Notify = (message) => {
+    toast.success(message);
+  };
+
   const answerQst = async () => {
-    
     try {
       const resp = await axios.post(
         'http://localhost:4001/api/user/forgot',
@@ -59,6 +64,7 @@ function FormDialog({ handleClickOpen, handleClose }) {
 
   const { mutate } = useMutation(answerQst, {
     onSuccess: (response) => {
+      Notify('Mot de passe réinitialisé avec succes !');
       if (response && response.message) {
         console.log('Message from server:', response.message);
       } else {
@@ -122,7 +128,7 @@ function FormDialog({ handleClickOpen, handleClose }) {
               Questions de sécurité
             </InputLabel>
             <Select
-              labelId="demo-simple-select-label"  
+              labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Age"
             >
@@ -170,4 +176,4 @@ function FormDialog({ handleClickOpen, handleClose }) {
   );
 }
 
-export default FormDialog;
+export default ForgotPassword;

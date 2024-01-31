@@ -19,11 +19,11 @@ function Settings({ handleLogout }) {
         flexDirection: 'row',
       }}
     >
-      <SideBarPage
+      {/* <SideBarPage
         elements={['']}
         path="settings"
         setCurrentSettings={setCurrentSettings}
-      />
+      /> */}
 
       <AccountSettingsForm
         handleLogout={handleLogout}

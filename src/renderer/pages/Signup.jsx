@@ -20,6 +20,7 @@ function Signup({ handleLogin }) {
   const [securityAnswer, setSecurityAnswer] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [secureMail, setSecureMail] = useState('');
 
   const [pic, setpic] = useState(
     'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
@@ -44,7 +45,6 @@ function Signup({ handleLogin }) {
           setpic(data.url.toString());
           setLoading(false);
           console.log(data.url.toString());
-          //pour l'afficher egalement dans signin
           localStorage.setItem('profilePicture', data.url.toString());
         })
         .catch((err) => {
@@ -65,13 +65,14 @@ function Signup({ handleLogin }) {
         },
       };
       const response = await axios.post(
-        'http://localhost:4001/api/user',
+        'https://talkmail-6g0p.onrender.com/api/user',
         {
           firstname,
           lastname,
           dateofbirth,
           email,
           password,
+          secureMail,
           securityQuestion,
           securityAnswer,
           pic,
@@ -87,7 +88,7 @@ function Signup({ handleLogin }) {
 
   async function submit(e) {
     e.preventDefault();
-    setError(false); // Reset error before submission
+    setError(false);
     setLoading(true);
 
     if (password !== confirmPassword) {
@@ -95,7 +96,6 @@ function Signup({ handleLogin }) {
       return;
     }
 
-    // Check if the entered email matches the required pattern
     const emailPattern = /^[^\s@]+@talkmail\.dz$/;
     if (!emailPattern.test(email)) {
       setError(true);
@@ -103,10 +103,18 @@ function Signup({ handleLogin }) {
       setLoading(false);
       return;
     }
+
+    const secureMailPattern = /^[^\s@]+@gmail\.com$/;
+    if (!secureMailPattern.test(secureMail)) {
+      setError(true);
+      toast.error('Veuillez entrer une adresse email Google (gmail.com)');
+      setLoading(false);
+      return;
+    }
+
     const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordPattern.test(password)) {
       setError(true);
-      // Display an error message or take appropriate action
       toast.error(
         'Le mot de passe doit comporter au moins 8 caractères, dont au moins une lettre majuscule et un chiffre.',
       );
@@ -132,7 +140,7 @@ function Signup({ handleLogin }) {
       })
       .catch((error) => {
         console.error(error);
-        setError(true); // Set error if API call fails
+        setError(true);
         toast.error('Veuillez remplir tous les champs.');
         setLoading(false);
       });
@@ -146,6 +154,7 @@ function Signup({ handleLogin }) {
       setemail('');
       setpassword('');
       setConfirmPassword('');
+      setSecureMail('');
       setSecurityQuestion('');
       setSecurityAnswer('');
       setpic('');
@@ -217,6 +226,13 @@ function Signup({ handleLogin }) {
               placeholder="Confirmez votre mot de passe"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+            ></input>
+            <input
+              className="input-style"
+              type="email"
+              placeholder="Entrez votre e-mail de secours (Gmail) "
+              value={secureMail}
+              onChange={(e) => setSecureMail(e.target.value)}
             ></input>
             <br></br>
             <select

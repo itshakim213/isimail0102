@@ -2,18 +2,12 @@ const asyncHandler = require('express-async-handler');
 const Message = require('../models/MessageModel');
 const User = require('../models/UserModel');
 const Chat = require('../models/chatModel');
-// const voiceMessage = require('../models/voiceMessageModel');
-// const multer = require('multer');
-// const upload = multer();
-
-// const uploadVoiceMessage = upload.single('voiceMessage');
 
 // controlleur pour envoyer un message
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId } = req.body;
   // s'il n'y a pas de message ni id de la discussion
   if (!content || !chatId) {
-    console.log('données introvable');
     return res.sendStatus(400);
   }
 

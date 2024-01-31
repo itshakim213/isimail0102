@@ -8,9 +8,7 @@ const asyncHandler = require('express-async-handler');
 // ihqa sync handler c pour controller et localiser anda thella l erreur
 const retrieveMails = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-  console.log(
-    `ces mailbox appartient ---> ${currentuser.firstname} ${currentuser.lastname}`,
-  );
+
   try {
     // recuper user id des param d req
     const { userId } = req.params;
@@ -47,6 +45,9 @@ const retrieveMails = asyncHandler(async (req, res) => {
           path: 'to',
           select: 'firstname lastname email pic',
         },
+        {
+          path: 'attachments',
+        },
       ],
     });
     // otherwise on la creer et lui donner son name
@@ -72,6 +73,9 @@ const retrieveMails = asyncHandler(async (req, res) => {
         {
           path: 'to',
           select: 'firstname lastname email pic',
+        },
+        {
+          path: 'attachments',
         },
       ],
     });
@@ -99,6 +103,9 @@ const retrieveMails = asyncHandler(async (req, res) => {
           path: 'to',
           select: 'firstname lastname email',
         },
+        {
+          path: 'attachments',
+        },
       ],
     });
 
@@ -125,6 +132,9 @@ const retrieveMails = asyncHandler(async (req, res) => {
           path: 'to',
           select: 'firstname lastname email',
         },
+        {
+          path: 'attachments',
+        },
       ],
     });
 
@@ -149,6 +159,9 @@ const retrieveMails = asyncHandler(async (req, res) => {
         {
           path: 'to',
           select: 'firstname lastname email',
+        },
+        {
+          path: 'attachments',
         },
       ],
     });
@@ -175,6 +188,9 @@ const retrieveMails = asyncHandler(async (req, res) => {
         {
           path: 'to',
           select: 'firstname lastname email',
+        },
+        {
+          path: 'attachments',
         },
       ],
     });

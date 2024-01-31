@@ -55,9 +55,6 @@ const updateEvent = asyncHandler(async (req, res) => {
     const eventId = req.params.id;
     const eventData = req.body;
 
-    console.log('User ID:', req.user._id);
-    console.log('Event ID:', eventId);
-
     // vérifie si on a l'événement de l'utilisateur
     const existEvent = await Event.findOne({
       _id: eventId,
@@ -65,7 +62,6 @@ const updateEvent = asyncHandler(async (req, res) => {
     });
 
     if (!existEvent) {
-      console.log('Event not found or user does not have permission');
       return res.status(404).json({
         error:
           'Event non trouvé ou vous navez pas l autorisation de le modifier',
@@ -76,8 +72,6 @@ const updateEvent = asyncHandler(async (req, res) => {
     const updatedEvent = await Event.findByIdAndUpdate(eventId, eventData, {
       new: true,
     });
-
-    console.log('Updated Event:', updatedEvent);
 
     res.status(200).json(updatedEvent);
   } catch (error) {
@@ -96,7 +90,6 @@ const deleteEvent = asyncHandler(async (req, res) => {
     }
 
     const eventId = req.params.id;
-    console.log('Event ID to delete:', eventId);
 
     // verfi si on a levent d user
     const existEvent = await Event.findOne({
@@ -113,7 +106,6 @@ const deleteEvent = asyncHandler(async (req, res) => {
 
     // supprim l'événement
     const deletedEvent = await Event.findByIdAndDelete(eventId);
-    console.log('Deleted Event:', deletedEvent);
 
     res.status(200).json({ message: 'Event supprimé avec succès' });
   } catch (error) {

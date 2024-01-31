@@ -17,13 +17,11 @@ import Settings from './pages/Settings';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
 import { ChatContext } from './context/ChatContext';
-import Visio from './pages/Visio';
-import './styles/User.css'
+import './styles/User.css';
 
 const queryClient = new QueryClient();
 
 function App() {
-
   const userString = sessionStorage.getItem('user');
   const user = userString ? JSON.parse(userString) : null;
 
@@ -72,13 +70,12 @@ function App() {
               <Routes>
                 <Route path="/mails/:category" element={<Mails />} />
                 <Route path="/chats" element={<Chats />} />
-                <Route path="/files/:category" element={<Files />} />
                 <Route path="/agenda" element={<Agenda />} />
                 <Route
                   path="/settings"
                   element={<Settings handleLogout={handleLogout} />}
                 />
-                <Route path="/visio" element={<Visio />} />
+                <Route path="/files/:category" element={<Files />} />
               </Routes>
             </ChatContext>
           </React.StrictMode>

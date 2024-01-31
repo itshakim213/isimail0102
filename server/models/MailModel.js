@@ -26,9 +26,11 @@ const mailSchema = new mongoose.Schema({
   },
   attachments: [
     {
-      type: String,
+      filename: String,
+      path: String,
     },
   ],
+
   starred: {
     type: Boolean,
     default: false,

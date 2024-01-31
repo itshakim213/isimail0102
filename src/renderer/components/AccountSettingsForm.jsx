@@ -5,12 +5,17 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 
 function AccountSettingsForm({ email, handleLogout }) {
+  const user = JSON.parse(sessionStorage.getItem('user'));
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic, setProfilePic] = useState(user.pic);
   const [loading, setLoading] = useState(false);
   const profilePicture = localStorage.getItem('profilePicture');
+  const [tfa, setTfa] = useState(user.twoFA);
+  console.log(tfa);
+  console.log(user);
+
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
@@ -52,8 +57,6 @@ function AccountSettingsForm({ email, handleLogout }) {
   };
 
   const changePassword = async () => {
-    const user = JSON.parse(sessionStorage.getItem('user'));
-
     try {
       const response = await axios.put(
         'http://localhost:4001/api/user/changepassword',
@@ -84,10 +87,7 @@ function AccountSettingsForm({ email, handleLogout }) {
   };
 
   const deleteUser = async () => {
-    const user = JSON.parse(sessionStorage.getItem('user'));
-
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'));
       const response = await axios.delete(
         `http://localhost:4001/api/user/delete/${user._id}`,
         {
@@ -118,6 +118,30 @@ function AccountSettingsForm({ email, handleLogout }) {
   const handleConfirmChange = () => {
     localStorage.setItem('profilePicture', profilePic);
     toast.success('Photo changée avec succès');
+  };
+
+  const twoFactors = async () => {
+    try {
+      const response = await axios.put(
+        'http://localhost:4001/api/user/2FA',
+        {
+          twoFAtfa,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
+      );
+      console.log('API Response:', response.data);
+
+      console.log('le tfa :', tfa);
+      setTfa(response.data.twoFA);
+      return response.data;
+    } catch (error) {
+      console.error('Error from server:', error);
+      throw error;
+    }
   };
 
   useEffect(() => {
@@ -190,6 +214,10 @@ function AccountSettingsForm({ email, handleLogout }) {
             <button className="logout-button">Logout</button>
           </Link>
         </div>
+        <label>
+          Activer l'authentification à deux facteurs
+          <input type="checkbox" checked={tfa} onChange={() => twoFactors()} />
+        </label>
       </div>
       <ToastContainer />
     </div>

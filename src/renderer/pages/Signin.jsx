@@ -7,9 +7,11 @@ import Button from '../components/Button';
 import main from '../assets/ab.png';
 import Logo from '../assets/Dark.png';
 import '../styles/signin.css';
-import FormDialog from '../components/forgotPassword';
+import ForgotPassword from '../components/forgotPassword';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import FormOTP from '../components/FormOTP';
 
 function Signin({ handleLogin }) {
   const [email, setemail] = useState('');
@@ -19,6 +21,17 @@ function Signin({ handleLogin }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openOtp, setOpenOtp] = useState(false);
+  const [currentOtp, setCurrentOtp] = useState(0);
+  const [openReset, setOpenReset] = useState(false);
+
+  const handleOpenReset = () => {
+    setOpenReset(true);
+  };
+
+  const handleCloseReset = () => {
+    setOpenReset(false);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,6 +39,14 @@ function Signin({ handleLogin }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenOtp = () => {
+    setOpenOtp(true);
+  };
+
+  const handleCloseOtp = () => {
+    setOpenOtp(false);
   };
 
   const profilePictureUrl =
@@ -45,15 +66,13 @@ function Signin({ handleLogin }) {
         },
       };
       const response = await axios.post(
-        'http://localhost:4001/api/user/signin',
+        'https://talkmail-6g0p.onrender.com/api/user/signin',
         {
           email,
           password,
         },
         config,
       );
-      // Set up the token
-      window.localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -70,12 +89,25 @@ function Signin({ handleLogin }) {
 
     try {
       const userData = await LoadUser();
-      sessionStorage.setItem('user', JSON.stringify(userData));
-      setIsSubmitted(true);
-      Notify('Connexion réussie !', () => {
-        handleLogin();
-        navigate('/mails/inbox');
-      });
+      console.log(userData.twoFA);
+      console.log(userData);
+      if (!userData.twoFA) {
+        sessionStorage.setItem('user', JSON.stringify(userData));
+        console.log(userData);
+        setIsSubmitted(true);
+        Notify('Connexion réussie !', () => {
+          handleLogin();
+          navigate('/mails/inbox');
+        });
+      } else {
+        sessionStorage.setItem('user', JSON.stringify(userData.user));
+        console.log(userData);
+        console.log(userData.user);
+        console.log(userData.generatedOTP);
+        setIsSubmitted(true);
+        setCurrentOtp(userData.generatedOTP);
+        handleOpenOtp();
+      }
     } catch (error) {
       console.log(error);
       setError(true);
@@ -105,9 +137,6 @@ function Signin({ handleLogin }) {
       <div className="right-section-signin">
         <h1 className="sign-title-signin"> Connexion</h1>
         <br></br>
-        {/* {validationError && (
-          <div className="validation-error">{validationError}</div>
-        )} */}
         <p className="sign-description-signin"> Bienvenue à TalkMail !</p>
         <form onSubmit={(e) => submit(e)}>
           <div className="auth-form-signin">
@@ -165,9 +194,24 @@ function Signin({ handleLogin }) {
         <ToastContainer />
       </div>
 
+      {openOtp && (
+        <div>
+          <FormOTP
+            handleCloseOtp={handleCloseOtp}
+            currentOtp={currentOtp}
+            handleLogin={handleLogin}
+            Notify={Notify}
+          />
+        </div>
+      )}
+
       {open && (
         <div>
-          <FormDialog handleClose={handleClose} />
+          <ForgotPassword
+            handleClose={handleClose}
+            handleOpenReset={handleOpenReset}
+            Notify={Notify}
+          />
         </div>
       )}
     </div>

@@ -37,7 +37,7 @@ function MailList({
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
       const response = await axios.get(
-        `http://localhost:4001/api/retrieve/retrievemails/${user._id}`,
+        `https://talkmail-6g0p.onrender.com/api/retrieve/retrievemails/${user._id}`,
         {
           params: {
             mailbox: mailboxFetch,
@@ -68,7 +68,7 @@ function MailList({
 
       const user = JSON.parse(sessionStorage.getItem('user'));
       const response = await axios.put(
-        `http://localhost:4001/api/mail/togglestar`,
+        `https://talkmail-6g0p.onrender.com/api/mail/togglestar`,
         { mailId },
         {
           headers: {
@@ -89,7 +89,7 @@ function MailList({
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
-        `http://localhost:4001/api/mail/movetobin`,
+        `https://talkmail-6g0p.onrender.com/api/mail/movetobin`,
         { mailId },
         {
           headers: {
@@ -110,7 +110,7 @@ function MailList({
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
-        `http://localhost:4001/api/mail/important`,
+        `https://talkmail-6g0p.onrender.com/api/mail/important`,
         { mailId },
         {
           headers: {
@@ -170,7 +170,7 @@ function MailList({
               mails.map((mail) => (
                 <TableRow key={mail._id} onClick={() => handleRowClick(mail)}>
                   <TableCell component="th" scope="row">
-                    {currentMailBox === 'outbox' && mail.to
+                    {currentMailBox === 'outbox' && mail.to && mail.to.firstname
                       ? `${mail.to.firstname || 'N/A'} ${
                           mail.to.lastname || ''
                         }`

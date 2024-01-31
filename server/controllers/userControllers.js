@@ -5,6 +5,81 @@ const generateToken = require('../config/generateToken');
 const MailModel = require('../models/MailModel');
 const MailBoxModel = require('../models/MailBoxModel');
 const bcrypt = require('bcryptjs');
+// const nodemailer = require('nodemailer');
+
+const genOTP = () => {
+  const generatedOTP = Math.floor(1000 + Math.random() * 9000);
+  const expirationTime = new Date();
+  expirationTime.setTime(expirationTime.getTime() + 30000);
+
+  return generatedOTP;
+};
+
+const OTP = async (user, generatedOTP) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'contact.isinnovate@gmail.com',
+      pass: 'cotm ufbq xlyq byro',
+    },
+  });
+
+  const mailOptions = {
+    from: 'contact.isinnovate@gmail.com',
+    to: user,
+    subject: '2FA verification',
+    html: `<!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>2FA verification</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f4f4f4;
+                  padding: 20px;
+              }
+              .container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  background-color: #ffffff;
+                  padding: 20px;
+                  border-radius: 5px;
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+              }
+              h1 {
+                  color: #333;
+              }
+              p {
+                  font-size: 16px;
+                  line-height: 1.5;
+                  color: #666;
+              }
+              .otp {
+                  font-size: 24px;
+                  font-weight: bold;
+                  color: #007bff;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <h1>Two Factors Authentication</h1>
+              <p>To complete your aythentication, please enter the OTP below:</p>
+              <p>Your OTP is: <span class="otp">${generatedOTP}</span></p>
+              <p>If you did not request this OTP, please ignore this email.</p>
+          </div>
+      </body>
+      </html> 
+      `,
+  };
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error('err de otp', error);
+  }
+};
 
 // Cette fonction est destinée à l'inscription d'un nouvel utilisateur.
 // Elle vérifie la présence des champs requis (firstname, lastname, email, password).
@@ -21,15 +96,20 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     securityAnswer,
     securityQuestion,
-    // secureMail,
+    secureMail,
     pic,
   } = req.body;
-  const notAll = !firstname || !lastname || !dateofbirth || !email || !password || !securityQuestion || !securityAnswer 
-  // Vérification de la présence de toutes les données nécessaires
-  console.log(notAll)
+
   if (
-    notAll
-  )
+    !firstname ||
+    !lastname ||
+    !dateofbirth ||
+    !email ||
+    !password ||
+    !securityQuestion ||
+    !securityAnswer ||
+    !secureMail
+  ) 
   {
     res.status(400);
     throw new Error('Please enter all the fields');
@@ -52,7 +132,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     securityAnswer,
     securityQuestion,
-    // secureMail,
+    secureMail,
     isResettingPassword: false,
     pic,
   });
@@ -118,10 +198,11 @@ const registerUser = asyncHandler(async (req, res) => {
       securityAnswer: user.securityAnswer,
       isResettingPassword: user.isResettingPassword,
       securityQuestion: user.securityQuestion,
-      // secureMail: user.secureMail,
-      // otp: generatedOTP, // j'ai rajouté otp ici pour le sauvegarder lors d'inscription
+      secureMail: user.secureMail,
+      otp: user.otp,
       token: generateToken(user._id),
       pic: user.pic,
+      twoFA: user.twoFA,
     });
   } else {
     res.status(400);
@@ -135,27 +216,66 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const authUser = asyncHandler(async (req, res) => {
   // Extraction des données du corps de la requête
-  const { email, password } = req.body; // Recherche de l'utilisateur dans la base de données
-  const user = await User.findOne({ email });
-  // Vérification du mot de passe
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      // Envoi d'une réponse avec les détails de l'utilisateur et un token d'authentification
-      // pareil c juste pour l'api
-      _id: user._id,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      dateofbirth: user.dateofbirth,
-      email: user.email,
-      securityAnswer: user.securityAnswer,
-      isResettingPassword: user.isResettingPassword,
-      token: generateToken(user._id),
-      pic: user.pic,
-    });
-  } else {
-    // Envoi d'une réponse d'erreur en cas d'authentification échouée
-    res.status(401);
-    throw new Error('Invalid email or password');
+  const { email, password } = req.body;
+
+  try {
+    // Recherche de l'utilisateur dans la base de données
+    const user = await User.findOne({ email }).select('+otp');
+
+    console.log('User:', user);
+
+    // Vérification du mot de passe
+    if (user) {
+      const isPasswordValid = await user.comparePassword(password);
+
+      if (isPasswordValid) {
+        if (user.twoFA) {
+          const generatedOTP = genOTP();
+          OTP(user.secureMail, generatedOTP);
+          res.json({
+            user: {
+              _id: user._id,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              dateofbirth: user.dateofbirth,
+              email: user.email,
+              securityAnswer: user.securityAnswer,
+              isResettingPassword: user.isResettingPassword,
+              token: generateToken(user._id),
+              pic: user.pic,
+              secureMail: user.secureMail,
+              twoFA: user.twoFA,
+            },
+            generatedOTP,
+          });
+        } else {
+          res.json({
+            user: {
+              _id: user._id,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              dateofbirth: user.dateofbirth,
+              email: user.email,
+              securityAnswer: user.securityAnswer,
+              isResettingPassword: user.isResettingPassword,
+              token: generateToken(user._id),
+              pic: user.pic,
+              secureMail: user.secureMail,
+              twoFA: user.twoFA,
+            },
+          });
+        }
+      } else {
+        // Mot de passe incorrect, envoi d'une réponse d'erreur
+        res.status(401).json({ error: 'Invalid password' });
+      }
+    } else {
+      // Email incorrect, envoi d'une réponse d'erreur
+      res.status(401).json({ error: 'Invalid email' });
+    }
+  } catch (error) {
+    console.error('Authentication error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -190,7 +310,7 @@ const deleteUsers = asyncHandler(async (req, res) => {
 
   // je récupere l id daki
   const userId = req.params.id;
-  console.log('Deleting user with id:', userId); // j affich l id
+
   // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella 😉
 
   try {
@@ -212,12 +332,6 @@ const deleteUsers = asyncHandler(async (req, res) => {
 const forgotPassword = asyncHandler(async (req, res) => {
   // on saisi email et la reponse a la qst de sécurité
   const { email, securityAnswer } = req.body;
-  console.log(
-    'Received request for password reset with email:',
-    email,
-    'and security answer:',
-    securityAnswer,
-  );
 
   const user = await User.findOne({ email }); // yella ?
 
@@ -228,19 +342,14 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // but does the answer match akked wayen dennidh deja ?
   if (user.securityAnswer !== securityAnswer) {
-    console.log('Incorrect security answer');
     return res.status(401).json({ error: 'Incorrect security answer' });
   }
 
   user.isResettingPassword = true; // daki thoura nezmer anvedel le mdp s reset akki qui suit
 
-  // await user.save(); // enregistrigh les changement aki
-
-  // res.json({ message: 'Security answer verified successfully' });
-
   try {
     await user.save();
-    console.log('Password reset initiated successfully');
+
     res.json({ message: 'Security answer verified successfully' });
   } catch (error) {
     console.error('Error saving user:', error);
@@ -251,13 +360,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
 const resetPassword = asyncHandler(async (req, res) => {
   // daki blama nenad
   const { email, newPassword } = req.body;
-  console.log('reset password pour :', email);
-  console.log('Received request for password reset with email:', email);
 
   const user = await User.findOne({ email }); //on verifi mayella user s lemail nni akked is resettttbfuvbe aki true
 
   if (!user) {
-    console.log('404 pour l email:', email);
     return res.status(401).json({ error: 'Invalid req or user not found' });
   }
 
@@ -266,7 +372,6 @@ const resetPassword = asyncHandler(async (req, res) => {
   user.isResettingPassword = false; // apres athner ar false aken yella zik par defaul
 
   await user.save(); // save les changement
-  console.log('Password reset successful for:', email);
 
   // res.json({ message: 'Password reset successful' });
   res.json({ success: true, message: 'Password reset successful' });
@@ -280,20 +385,16 @@ const changePassword = asyncHandler(async (req, res) => {
     const user = await User.findById(currentuser.id).select('+password');
 
     if (!user) {
-      console.log('User not found');
       return res.status(404).json({ error: 'User not found' });
     }
 
     const isCurrentPasswordValid = await user.comparePassword(currentPassword);
 
     if (!isCurrentPasswordValid) {
-      console.log('Old password is incorrect');
       return res.status(401).json({ error: 'Old password is incorrect' });
     }
     user.password = newPassword;
     await user.save();
-
-    console.log('Password changed successfully');
 
     res.json({ success: true, message: 'Password changed successfully' });
   } catch (error) {
@@ -304,34 +405,66 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const changePic = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-
   try {
-    const { file } = req;
-    console.log('Received file:', file);
+    const { newPic } = req.body;
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: currentuser.id },
+      { $set: { pic: newPic } },
+      { new: true },
+    );
 
-    if (!file) {
-      console.log('File not found');
-      return res.status(400).json({ error: 'File not found' });
-    }
-
-    const user = await User.findById(currentuser.id);
-
-    if (!user) {
-      console.log('User not found');
+    if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
-    user.pic = file.buffer;
-
-    await user.save();
-
-    console.log('Profile picture changed successfully');
 
     res.json({
-      success: true,
-      message: 'Profile picture changed successfully',
+      firstname: updatedUser.firstname,
+      lastname: updatedUser.lastname,
+      pic: updatedUser.pic,
     });
   } catch (error) {
-    console.error('Error changing profile picture:', error);
+    console.error('Error updating profile picture:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+const sendOtp = asyncHandler(async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email: email }).select('secureMail');
+
+    const moh = genOTP();
+    const generatedOTP = OTP(user.secureMail, moh);
+
+    res.status(200).json(moh);
+  } catch (error) {
+    console.error("Error lors de l'envoi de l'OTP", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+const toggleTwoFA = asyncHandler(async (req, res) => {
+  const currentUserId = req.user.id;
+
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: currentUserId },
+      { $set: { twoFA: req.user.twoFA ? false : true } },
+      { new: true },
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({
+      firstname: updatedUser.firstname,
+      lastname: updatedUser.lastname,
+      twoFA: updatedUser.twoFA,
+      email: updatedUser.email,
+    });
+  } catch (error) {
+    console.error("Error updating user's TwoFA status:", error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -345,4 +478,6 @@ module.exports = {
   resetPassword,
   changePassword,
   changePic,
+  sendOtp,
+  toggleTwoFA,
 };

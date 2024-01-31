@@ -38,22 +38,6 @@ function SideBar() {
           </li>
           <li>
             <NavLink
-              to="/files/boite_de_reception"
-              className={loc.pathname.startsWith('/files') ? 'active' : ''}
-            >
-              <img src={file} alt="file-icon" width={25} height={25} />
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/settings/"
-              className={loc.pathname.startsWith('/settings') ? 'active' : ''}
-            >
-              <img src={setting} alt="setting-icon" width={25} height={25} />
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/chats"
               className={loc.pathname.startsWith('/chats') ? 'active' : ''}
             >
@@ -67,11 +51,21 @@ function SideBar() {
             >
               <img src={calendar} alt="calendar-icon" width={25} height={25} />
             </NavLink>
+          </li>
+          <li>
             <NavLink
-              to="/visio"
-              className={loc.pathname.startsWith('/visio') ? 'active' : ''}
+              to="/settings/"
+              className={loc.pathname.startsWith('/settings') ? 'active' : ''}
             >
-              <img src={VisioIcon} alt="visio-icon" width={25} height={25} />
+              <img src={setting} alt="setting-icon" width={25} height={25} />
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/files/boite_de_reception"
+              className={loc.pathname.startsWith('/files') ? 'active' : ''}
+            >
+              <img src={file} alt="file-icon" width={25} height={25} />
             </NavLink>
           </li>
         </ul>

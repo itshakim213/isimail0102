@@ -2,21 +2,22 @@ const MailModel = require('../models/MailModel');
 const MailBoxModel = require('../models/MailBoxModel');
 const User = require('../models/UserModel');
 const asyncHandler = require('express-async-handler');
+const multer = require('multer');
+const path = require('path');
 
 const sendEmail = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-  console.log(
-    `New mail was sent successfully! Sent by waki ---> ${currentuser.firstname} ${currentuser.lastname}`,
-  );
 
   try {
-    // Extraction des données
     const { to, subject, message } = req.body;
-    const userTo = await User.findOne({ email: to });
 
-    // Vérification de l'existence de l'utilisateur destinataire
-    if (!userTo) {
-      return res.status(404).json({ error: 'Utilisateur introuvable.' });
+    const dest = Array.isArray(to) ? to : [to];
+
+    // // ça c pour cc ou cci
+    const usersTo = await User.find({ email: { $in: dest } });
+
+    if (usersTo.length !== dest.length) {
+      return res.status(404).json({ error: 'Utilisateur introuvable' });
     }
 
     // Gestion de la pièce jointe
@@ -25,19 +26,26 @@ const sendEmail = asyncHandler(async (req, res) => {
     // Création du nouvel email avec les données et la pièce jointe
     const newMailData = {
       from: currentuser._id,
-      to: userTo._id,
+      // to: userTo._id,
+      to: usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
       subject,
       message,
       starred: false,
       bin: false,
     };
 
-    // Si une pièce jointe est présente, l'ajouter aux données du nouvel email
+    if (req.files && req.files.length > 0) {
+      // Traitement des pièces jointes
+      const attachments = req.files.map((file) => {
+        return {
+          filename: file.filename,
+          path: file.path,
+        };
+      });
 
-    if (attachment) {
-      newMailData.attachments = [attachment.path];
+      // Ajoutez les pièces jointes à la nouvelle instance de courrier
+      newMail.attachments = attachments;
     }
-    console.log('Litissiaaaaaaaaa', newMailData);
 
     // Création de l'instance du nouvel email
     const newMail = new MailModel(newMailData);
@@ -45,21 +53,26 @@ const sendEmail = asyncHandler(async (req, res) => {
     // Enregistrement du nouvel email dans la base de données
     await newMail.save();
 
-    // Mise à jour de la boîte d'envoi de l'expéditeur
+    const populatedMail = await MailModel.findById(newMail._id).populate({
+      path: 'to',
+      select: 'firstname lastname email attachments',
+    });
+
+    // update la Outbox (Boîte d’envoi) de l'expéditeur
     await MailBoxModel.findOneAndUpdate(
       { userId: currentuser._id, name: 'Outbox' },
       { $addToSet: { mails: newMail._id } },
       { upsert: true },
     );
 
-    // Mise à jour de la boîte de réception du destinataire
-    await MailBoxModel.findOneAndUpdate(
-      { userId: userTo._id, name: 'Inbox' },
-      { $addToSet: { mails: newMail._id } },
-      { upsert: true },
-    );
-
-    console.log('Mail sent:', newMail);
+    // update la Inbox (Boîte de réception) du destinataire
+    for (const userTo of usersTo) {
+      await MailBoxModel.findOneAndUpdate(
+        { userId: userTo._id, name: 'Inbox' },
+        { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
+        { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
+      );
+    }
 
     // Réponse JSON indiquant que l'e-mail a été envoyé avec succès
     res.status(200).json('Email sent successfully');
@@ -98,11 +111,11 @@ const receiveEmail = asyncHandler(async (req, res) => {
 // et quand tu le retire s put ad yekhdhem une MàJ
 const toggleStarredEmail = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-  console.log('Info sur current user', currentuser);
+
   try {
     const { mailId } = req.body;
     const mail = await MailModel.findById(mailId); // recuperer le mail en qst
-    console.log('Found Mail:', mail); // l'afficher
+
     if (!mail) {
       return res.status(404).json({ error: 'Mail not found' }); // non d lkhir kan ulach
     }
@@ -129,15 +142,8 @@ const toggleStarredEmail = asyncHandler(async (req, res) => {
     mail.starred = !star; // jinverse la valuer de starred par rapport au resultas precedent
     await mail.save(); // je MàJ le mail et je prend s en compte celle de starred (le parametre)
 
-    console.log('Saving starred mailbox...');
     await starredMailbox.save(); // saving it ;p
 
-    console.log(
-      'Here is the added/removed mail, look at its starred value : ',
-      mail,
-    );
-    console.log('Starred mailbox saved!');
-    console.log('Here it is the Starred Mailbox:', starredMailbox); // booooom ;)
     res.status(201).json('starred updated');
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -156,7 +162,6 @@ const moveToBin = asyncHandler(async (req, res) => {
     if (!mail) {
       return res.status(404).json({ error: 'Mail not found' }); //404 azka ughaled
     }
-    console.log('Found Mail:', mail); // l'afficher
 
     // comme d'hab :-/
     const binMailbox = await MailBoxModel.findOne({
@@ -181,8 +186,6 @@ const moveToBin = asyncHandler(async (req, res) => {
 
     await mail.save(); // sauvegarder les changements
     await binMailbox.save(); // Màj de dossier bin
-
-    console.log('Bin Mailbox:', binMailbox);
 
     res.status(201).json('bin updated');
   } catch (error) {
@@ -299,7 +302,7 @@ const replyToEmail = asyncHandler(async (req, res) => {
 
 const importantMails = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-  console.log('Info sur current user', currentuser);
+
   try {
     const { mailId } = req.body;
     const mail = await MailModel.findById(mailId); // recuperer le mail en qst
@@ -330,11 +333,8 @@ const importantMails = asyncHandler(async (req, res) => {
     mail.important = !imp; // jinverse la valuer de imp par rapport au resultas precedent
     await mail.save(); // je MàJ le mail et je prend s en compte celle de important (le parametre)
 
-    console.log('Saving important mailbox...');
     await importantMailbox.save(); // saving it ;p
 
-    console.log('Important mailbox saved!');
-    console.log('Here it is the important Mailbox:', importantMailbox); // booooom ;)
     res.status(201).json('important updated');
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -366,6 +366,18 @@ const saveDraft = asyncHandler(async (req, res) => {
   res.status(200).json('draft saved successfully');
 });
 
+const download = asyncHandler(async (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(`server/controllers/uploads`, filename);
+
+  res.download(filePath, (err) => {
+    if (err) {
+      console.error('Error downloading file:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+});
+
 module.exports = {
   sendEmail,
   receiveEmail,
@@ -376,4 +388,5 @@ module.exports = {
   replyToEmail,
   importantMails,
   saveDraft,
+  download,
 };
