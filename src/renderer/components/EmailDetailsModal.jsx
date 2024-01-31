@@ -16,9 +16,6 @@ const EmailDetailsModal = ({
 }) => {
 
   const mailbox = useParams()
-  console.log(mailbox.category)
-  console.log(emailInfo)
-  console.log('Modal State:', isModalOpen);
 
   if (!isModalOpen || !emailInfo) {
     return null;
@@ -32,11 +29,9 @@ const EmailDetailsModal = ({
   const handleReply = () => {
     setReply(emailInfo);
     setShowNewMessage(true);
-    console.log(showNewMessage);
   };
 
   const handleForward = () => {
-    console.log('Forward button clicked');
     setFwd(emailInfo);
     setShowNewMessage(true);
   };

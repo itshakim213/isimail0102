@@ -29,8 +29,6 @@ function Newmessage() {
           },
         },
       );
-
-      console.log('Server response:', response.data);
       alert('Email sent successfully!');
       setTo('');
       setSubject('');

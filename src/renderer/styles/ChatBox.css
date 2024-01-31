@@ -1,12 +1,12 @@
 .contact-nav {
-    margin-top: 50px;
+    margin-top: 25%;
     height: 100vh;
     background: none;
     /* padding: 1rem 0 0rem 1rem; */
     background-color: #1a2e62;
     border-right: 2px solid #aeefeb;
     width: 20vw;
-color: white;
+    color: white;
 }
 
 .contact-list {

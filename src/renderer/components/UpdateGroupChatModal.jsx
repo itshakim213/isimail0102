@@ -107,7 +107,6 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
 
   const handleAddUser = async(user1) => {
     if (selectedChat.users.find((u) => u._id === user1._id)) {
-      console.log('User Already in group');
       return;
     }
 

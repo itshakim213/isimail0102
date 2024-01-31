@@ -20,7 +20,6 @@ function EventItem({ id, title, date, object, setSelectedEvent, setEventToUpdate
         onSuccess: (res) => {
             const filterEvents = evenements.filter((ev) => ev._id !== id)
             setEvenements(filterEvents)
-            console.log(res)
         },
         onError: (error) => {
             console.log(error)
