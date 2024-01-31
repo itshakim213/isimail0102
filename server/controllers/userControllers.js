@@ -336,10 +336,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   user.isResettingPassword = true; // daki thoura nezmer anvedel le mdp s reset akki qui suit
 
-  // await user.save(); // enregistrigh les changement aki
-
-  // res.json({ message: 'Security answer verified successfully' });
-
   try {
     await user.save();
 
@@ -357,7 +353,6 @@ const resetPassword = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email }); //on verifi mayella user s lemail nni akked is resettttbfuvbe aki true
 
   if (!user) {
-    console.log('404 pour l email:', email);
     return res.status(401).json({ error: 'Invalid req or user not found' });
   }
 
@@ -379,14 +374,12 @@ const changePassword = asyncHandler(async (req, res) => {
     const user = await User.findById(currentuser.id).select('+password');
 
     if (!user) {
-      console.log('User not found');
       return res.status(404).json({ error: 'User not found' });
     }
 
     const isCurrentPasswordValid = await user.comparePassword(currentPassword);
 
     if (!isCurrentPasswordValid) {
-      console.log('Old password is incorrect');
       return res.status(401).json({ error: 'Old password is incorrect' });
     }
     user.password = newPassword;
@@ -476,5 +469,4 @@ module.exports = {
   changePic,
   sendOtp,
   toggleTwoFA,
-  // verifyOTP,
 };

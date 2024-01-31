@@ -27,6 +27,8 @@
 
 .button-link2 {
   font-family: 'Montserrat', sans-serif;
+  height: 25px;
+  font-size: large;
 }
 
 .button-link1:hover {

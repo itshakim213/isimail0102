@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/AccountSettingsForm.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 function AccountSettingsForm({ email, handleLogout }) {
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -10,6 +11,7 @@ function AccountSettingsForm({ email, handleLogout }) {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [profilePic, setProfilePic] = useState(user.pic);
   const [loading, setLoading] = useState(false);
+  const profilePicture = localStorage.getItem('profilePicture');
   const [tfa, setTfa] = useState(user.twoFA);
 
   const navigate = useNavigate();
@@ -24,88 +26,95 @@ function AccountSettingsForm({ email, handleLogout }) {
     }
   };
 
-  const handleProfilePicChange = (e) => {
-    postDetails(e.target.files[0]);
-  };
+  // const handleProfilePicChange = (e) => {
+  //   postDetails(e.target.files[0]);
+  // };
 
-  const postDetails = async (pics) => {
-    setLoading(true);
+  // const postDetails = async (pics) => {
+  //   setLoading(true);
 
-    if (pics === undefined) {
-      setLoading(false);
+  //   if (pics === undefined) {
+  //     setLoading(false);
+  //     console.log('No picture selected');
+  //     return;
+  //   }
 
-      return;
-    }
+  //   if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
+  //     const data = new FormData();
+  //     data.append('file', pics);
+  //     data.append('upload_preset', 'TalkMail');
+  //     data.append('cloud_name', 'dwgulyxkt');
 
-    if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
-      const data = new FormData();
-      data.append('file', pics);
-      data.append('upload_preset', 'TalkMail');
-      data.append('cloud_name', 'dwgulyxkt');
+  //     try {
+  //       const response = await fetch(
+  //         'https://api.cloudinary.com/v1_1/dwgulyxkt/image/upload',
+  //         {
+  //           method: 'post',
+  //           body: data,
+  //         },
+  //       );
 
-      try {
-        const response = await fetch(
-          'https://api.cloudinary.com/v1_1/dwgulyxkt/image/upload',
-          {
-            method: 'post',
-            body: data,
-          },
-        );
+  //       if (!response.ok) {
+  //         throw new Error('Error uploading image to Cloudinary');
+  //       }
 
-        if (!response.ok) {
-          throw new Error('Error uploading image to Cloudinary');
-        }
+  //       const imageData = await response.json();
 
-        const imageData = await response.json();
+  //       console.log('Image uploaded to Cloudinary:', imageData);
 
-        setProfilePic(imageData.url.toString());
-        setLoading(false);
-      } catch (err) {
-        console.error('Error uploading image to Cloudinary:', err);
-        setLoading(false);
-      }
-    } else {
-      setLoading(false);
+  //       // Logg l url
+  //       console.log('Profile picture URL:', imageData.url);
 
-      return;
-    }
-  };
+  //       setProfilePic(imageData.url.toString());
+  //       setLoading(false);
+  //     } catch (err) {
+  //       console.error('Error uploading image to Cloudinary:', err);
+  //       setLoading(false);
+  //     }
+  //   } else {
+  //     setLoading(false);
+  //     console.log('Invalid file type. Please upload a JPEG or PNG image.');
+  //     return;
+  //   }
+  // };
 
-  const handleConfirmProfilePicChange = () => {
-    const confirmation = window.confirm(
-      'Do you want to update your profile picture?',
-    );
-    if (confirmation) {
-      updateProfilePicture(profilePic);
-    } else {
-      console.log('Profile picture update cancelled by the user');
-    }
-  };
+  // const handleConfirmProfilePicChange = () => {
+  //   const confirmation = window.confirm(
+  //     'Do you want to update your profile picture?',
+  //   );
+  //   if (confirmation) {
+  //     updateProfilePicture(profilePic);
+  //   } else {
+  //     console.log('Profile picture update cancelled by the user');
+  //   }
+  // };
 
-  const updateProfilePicture = async (newProfilePicUrl) => {
-    try {
-      const response = await axios.put(
-        'http://localhost:4001/api/user/changepic',
-        { newPic: newProfilePicUrl },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      return response.data;
-    } catch (error) {
-      console.error('Error updating profile picture in the backend:', error);
-    }
-  };
+  // const updateProfilePicture = async (newProfilePicUrl) => {
+  //   console.log('Sending profile picture update with URL:', newProfilePicUrl);
+  //   try {
+  //     const response = await axios.put(
+  //       'http://localhost:4001/api/user/changepic',
+  //       { newPic: newProfilePicUrl },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //           'Content-Type': 'application/json',
+  //         },
+  //       },
+  //     );
+  //     return response.data;
+
+  //     console.log('Profile picture updated in the backend:', response.data);
+  //   } catch (error) {
+  //     console.error('Error updating profile picture in the backend:', error);
+  //   }
+  // };
 
   const handleSubmit = async () => {
     if (newPassword !== confirmNewPassword) {
       alert('Les mots de passe ne correspondent pas.');
       return;
     }
-
     try {
       const response = await changePassword();
     } catch (error) {
@@ -145,14 +154,11 @@ function AccountSettingsForm({ email, handleLogout }) {
           },
         },
       );
-
       setOldPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
       return response.data;
     } catch (error) {
-      console.error('Password change failed:', error);
-
       if (error.response && error.response.status === 400) {
         alert('Ancien mot de passe incorrect. Veuillez réessayer.');
       } else {
@@ -173,13 +179,28 @@ function AccountSettingsForm({ email, handleLogout }) {
           },
         },
       );
-
       return response.data;
     } catch (error) {
       console.error('error deleting user', error);
 
       throw error;
     }
+  };
+
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePic(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleConfirmChange = () => {
+    localStorage.setItem('profilePicture', profilePic);
+    toast.success('Photo changée avec succès');
   };
 
   const twoFactors = async () => {
@@ -213,10 +234,12 @@ function AccountSettingsForm({ email, handleLogout }) {
   return (
     <div className="account-settings-form">
       <div className="setting-box">
+        <div className="btn-pic-change"></div>
         <label className="option">Changer la photo de profil</label>
         <img
           src={
             profilePic ||
+            profilePicture ||
             'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
           }
           alt="Profile Pic"
@@ -227,12 +250,15 @@ function AccountSettingsForm({ email, handleLogout }) {
           placeholder="Charger votre photo de profil"
           type="file"
           accept="image/*"
-          onChange={(e) => handleProfilePicChange(e)}
+          onChange={handleProfilePicChange}
         />
+        <button className="btn-pic-annuler" onClick={() => setProfilePic('')}>
+          Annuler
+        </button>
         <button
-          onClick={() => {
-            handleConfirmProfilePicChange();
-          }}
+          className="btn-pic-confirmer"
+          disabled={!profilePic}
+          onClick={handleConfirmChange}
         >
           Confirmer le changement
         </button>
@@ -274,6 +300,7 @@ function AccountSettingsForm({ email, handleLogout }) {
           <input type="checkbox" checked={tfa} onChange={() => twoFactors()} />
         </label>
       </div>
+      <ToastContainer />
     </div>
   );
 }

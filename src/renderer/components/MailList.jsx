@@ -76,7 +76,6 @@ function MailList({
           },
         },
       );
-      console.log('Toggle star response:', response.data);
       await fetchMails();
     } catch (error) {
       console.error('Error toggling star:', error);

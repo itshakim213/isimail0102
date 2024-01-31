@@ -106,7 +106,6 @@ function EventForm({ date, eventToUpdate, evenements, setEvenements }) {
 
   const modifieEvent = async (e) => {
     e.preventDefault();
-
     mutateUpdate({
       title,
       startDate,
@@ -119,7 +118,6 @@ function EventForm({ date, eventToUpdate, evenements, setEvenements }) {
 
   const addEvent = async (e) => {
     e.preventDefault();
-
     mutatePost({ title, startDate, endDate, isAllDay, description, location });
   };
 

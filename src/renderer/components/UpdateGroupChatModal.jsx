@@ -107,7 +107,6 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
 
   const handleAddUser = async(user1) => {
     if (selectedChat.users.find((u) => u._id === user1._id)) {
-      console.log('User Already in group');
       return;
     }
 
@@ -147,34 +146,29 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
         fontSize="35px"
         fontFamily="system-ui"
         display="flex"
-        color='#374957'
+        color="#374957"
         justifyContent="center"
       >
         {selectedChat.chatName}
       </Typography>
-      <Box w="100%" display="flex" flexWrap="wrap" >
+      <Box w="100%" display="flex" flexWrap="wrap">
         {selectedChat.users.map((u) => (
-          // <UserBadgeItem
-          //   key={u._id}
-          //   user={u}
-          //   admin={selectedChat.groupAdmin}
-          //   handleFunction={() => handleRemove(u)}
-          // />
-        <Box
-          cursor="pointer"
-          px={3}
-          py={2}
-          borderRadius="lg"
-        >
-          <div style={{ overflowY: scroll}}>
-          <ul style={{ overflowY: scroll }}>
+          <Box cursor="pointer" px={3} py={2} borderRadius="lg">
+            <div style={{ overflowY: scroll }}>
+              <UserBadgeItem
+                key={u._id}
+                user={u}
+                admin={selectedChat.groupAdmin}
+                handleFunction={() => handleRemove(u)}
+              />
+              {/* <ul style={{ overflowY: scroll }}>
             <li style={{
               listStyle: 'none',
               padding: '.2rem',
             }}>{`${u.firstname } ${u.lastname}`} </li>
-          </ul> 
-          </div> 
-        </Box>
+          </ul> */}
+            </div>
+          </Box>
         ))}
       </Box>
       <Box
@@ -216,7 +210,14 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
             />
           ))
       )}
-      <Button onClick={() => handleRemove(user)} style={{ color: 'black', margin: '1.5rem 0 0 6rem', backgroundColor: '#557cc8' }}>
+      <Button
+        onClick={() => handleRemove(user)}
+        style={{
+          color: 'black',
+          margin: '1.5rem 0 0 6rem',
+          backgroundColor: '#557cc8',
+        }}
+      >
         Leave Group
       </Button>
     </div>

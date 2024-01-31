@@ -29,9 +29,6 @@ function ContactInv({ userId, fullname, email, chats, setChats }) {
     // on succes aki theqared achu ylaqen ad yedhroun une fois la creatVonc aki th3eda du coup ad afficher les data n response nni
     onSuccess: (data) => {
       setChats([...chats, data]);
-
-      // handleAddUser(userInvId);
-      // return false;
     },
     // sinon err
     onError: (error) => {

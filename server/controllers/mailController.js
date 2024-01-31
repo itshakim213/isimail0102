@@ -10,16 +10,8 @@ const sendEmail = asyncHandler(async (req, res) => {
 
   try {
     const { to, subject, message } = req.body;
-    console.log('req.body:', req.body);
 
-    // Ensure that 'to' is an array
-    // const dest = Array.isArray(to) ? to : [to];
-    const dest = to.split(/\s+/).filter((email) => email.trim() !== '');
-
-    console.log('to:', to);
-    console.log('subject:', subject);
-    console.log('message:', message);
-    console.log('dest', dest);
+    const dest = Array.isArray(to) ? to : [to];
 
     // Verify the existence of the destination users
     const usersTo = await User.find({ email: { $in: dest } });
@@ -28,8 +20,8 @@ const sendEmail = asyncHandler(async (req, res) => {
       return res.status(404).json({ error: 'Utilisateur introuvable' });
     }
 
-    // la variable qui va contenir le mail aki et avec elle en va entregistrer di mail db
-    const newMail = new MailModel({
+    // Création du nouvel email avec les données et la pièce jointe
+    const newMailData = {
       from: currentuser._id,
       // to: userTo._id,
       to: usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
@@ -37,7 +29,7 @@ const sendEmail = asyncHandler(async (req, res) => {
       message,
       starred: false,
       bin: false,
-    });
+    };
 
     if (req.files && req.files.length > 0) {
       // Traitement des pièces jointes
@@ -52,7 +44,10 @@ const sendEmail = asyncHandler(async (req, res) => {
       newMail.attachments = attachments;
     }
 
-    // enregistrmt de mail
+    // Création de l'instance du nouvel email
+    const newMail = new MailModel(newMailData);
+
+    // Enregistrement du nouvel email dans la base de données
     await newMail.save();
 
     const populatedMail = await MailModel.findById(newMail._id).populate({
@@ -63,8 +58,8 @@ const sendEmail = asyncHandler(async (req, res) => {
     // update la Outbox (Boîte d’envoi) de l'expéditeur
     await MailBoxModel.findOneAndUpdate(
       { userId: currentuser._id, name: 'Outbox' },
-      { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Outbox
-      { upsert: true }, // Si la Outbox n'existe pas, on va la créer grace à upsert aki
+      { $addToSet: { mails: newMail._id } },
+      { upsert: true },
     );
 
     // update la Inbox (Boîte de réception) du destinataire
@@ -83,7 +78,6 @@ const sendEmail = asyncHandler(async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
 // Rec mail
 const receiveEmail = asyncHandler(async (req, res) => {
   try {

@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Button from '../components/Button';
 import '../styles/Newmessage.css';
-import axios from 'axios';
 
-function Newmessage({ reply, fwd }) {
+function Newmessage() {
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -25,7 +24,7 @@ function Newmessage({ reply, fwd }) {
     setToCc(to.split(/\s+/).filter((email) => email.trim() !== ''));
   }, [to]);
 
-  async function submitForm(e) {
+  const submitForm = async (e) => {
     e.preventDefault();
 
     console.log('Before setToCc:', to);
@@ -52,6 +51,7 @@ function Newmessage({ reply, fwd }) {
       const response = await axios.post(
         'http://localhost:4001/api/mail/sendemail',
         formData,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -59,8 +59,6 @@ function Newmessage({ reply, fwd }) {
           },
         },
       );
-
-      console.log('Server response:', response.data);
       alert('Email sent successfully!');
 
       // Réinitialisation des champs après l'envoi
@@ -75,7 +73,7 @@ function Newmessage({ reply, fwd }) {
         console.error('Server respons Data:', error.response.data);
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (reply !== null) {
