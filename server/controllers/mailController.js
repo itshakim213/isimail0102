@@ -2,6 +2,8 @@ const MailModel = require('../models/MailModel');
 const MailBoxModel = require('../models/MailBoxModel');
 const User = require('../models/UserModel');
 const asyncHandler = require('express-async-handler');
+const multer = require('multer');
+const path = require('path');
 
 const sendEmail = asyncHandler(async (req, res) => {
   const currentuser = req.user;
@@ -12,6 +14,15 @@ const sendEmail = asyncHandler(async (req, res) => {
     const { to, subject, message } = req.body;
 
     const dest = Array.isArray(to) ? to : [to];
+    // const userTo = await User.findOne({ email: to });
+
+    // Vérification de l'existence de l'utilisateur destinataire
+    // if (!userTo) {
+    //   return res.status(404).json({ error: 'Utilisateur introuvable.' });
+    // }
+    console.log('to:', to);
+    console.log('subject:', subject);
+    console.log('message:', message);
 
     // // ça c pour cc ou cci
     const usersTo = await User.find({ email: { $in: dest } });
@@ -20,6 +31,7 @@ const sendEmail = asyncHandler(async (req, res) => {
     if (usersTo.length !== dest.length) {
       return res.status(404).json({ error: 'Utilisateur introuvable' });
     }
+
     // la variable qui va contenir le mail aki et avec elle en va entregistrer di mail db
     const newMail = new MailModel({
       from: currentuser._id,
@@ -31,12 +43,27 @@ const sendEmail = asyncHandler(async (req, res) => {
       bin: false,
     });
 
+    if (req.files && req.files.length > 0) {
+      // Traitement des pièces jointes
+      const attachments = req.files.map((file) => {
+        console.log('Filename:', file.filename);
+        console.log('Path:', file.path);
+        return {
+          filename: file.filename,
+          path: file.path,
+        };
+      });
+      console.log('Attachments:', attachments);
+      // Ajoutez les pièces jointes à la nouvelle instance de courrier
+      newMail.attachments = attachments;
+    }
+
     // enregistrmt de mail
     await newMail.save();
 
     const populatedMail = await MailModel.findById(newMail._id).populate({
       path: 'to',
-      select: 'firstname lastname email',
+      select: 'firstname lastname email attachments',
     });
 
     // update la Outbox (Boîte d’envoi) de l'expéditeur
@@ -365,6 +392,18 @@ const saveDraft = asyncHandler(async (req, res) => {
   res.status(200).json('draft saved successfully');
 });
 
+const download = asyncHandler(async (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(`server/controllers/uploads`, filename);
+
+  res.download(filePath, (err) => {
+    if (err) {
+      console.error('Error downloading file:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+});
+
 module.exports = {
   sendEmail,
   receiveEmail,
@@ -375,4 +414,5 @@ module.exports = {
   replyToEmail,
   importantMails,
   saveDraft,
+  download,
 };

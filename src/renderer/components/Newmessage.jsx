@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Button from '../components/Button';
 import '../styles/Newmessage.css';
 import axios from 'axios';
@@ -8,47 +8,67 @@ function Newmessage({ reply, fwd }) {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [toCc, setToCc] = useState([]);
+  const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleFile = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   useEffect(() => {
     console.log('toCc updated:', toCc);
   }, [toCc]);
+
+  useEffect(() => {
+    // Mise à jour de toCc lorsque to change
+    console.log('to: ', to);
+    setToCc(to.split(/\s+/).filter((email) => email.trim() !== ''));
+  }, [to]);
 
   async function submitForm(e) {
     e.preventDefault();
 
     console.log('Before setToCc:', to);
     setToCc(to.split(/\s+/).filter((email) => email.trim() !== ''));
-    // No need to log toCc here anymore
-
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
 
-      // Log user token
-      console.log('User Token:', user.token);
+      const formData = new FormData();
+      formData.append('to', toCc);
+      formData.append('subject', subject);
+      formData.append('message', message);
+      if (file) {
+        formData.append('attachments', file);
+      }
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+
+      console.log('to:', toCc);
+      console.log('subject:', subject);
+      console.log('message:', message);
+      console.log('file:', file);
 
       const response = await axios.post(
         'http://localhost:4001/api/mail/sendemail',
-        {
-          to: toCc,
-          subject,
-          message,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
-            'Content-type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
         },
       );
 
       console.log('Server response:', response.data);
-      console.log(subject);
-      console.log(message);
       alert('Email sent successfully!');
+
       // Réinitialisation des champs après l'envoi
       setTo('');
       setSubject('');
       setMessage('');
+      setFile(null);
+      fileInputRef.current.value = null;
     } catch (error) {
       console.error("Erreur lors de l'envoi du message :", error);
       if (error.response) {
@@ -89,6 +109,7 @@ function Newmessage({ reply, fwd }) {
           placeholder="e.g., email1@talkmail.dz email2@talkmail.dz"
           required
           value={to}
+          name="to"
           onChange={(e) => {
             setTo(e.target.value);
           }}
@@ -99,6 +120,7 @@ function Newmessage({ reply, fwd }) {
           placeholder="subject"
           required
           value={subject}
+          name="subject"
           onChange={(e) => setSubject(e.target.value)}
         />
         <textarea
@@ -106,14 +128,14 @@ function Newmessage({ reply, fwd }) {
           placeholder="Message"
           required
           value={message}
+          name="message"
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
-        {/* <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setPic(e.target.files[0])}
-        /> */}
-        <Button btnText="Submit" />
+        <div>
+          <input type="file" onChange={handleFile} ref={fileInputRef} />
+        </div>
+
+        <Button btnText="Envoyer" />
       </form>
     </body>
   );

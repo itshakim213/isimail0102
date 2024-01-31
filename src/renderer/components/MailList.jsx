@@ -178,11 +178,9 @@ function MailList({
               mails.map((mail) => (
                 <TableRow key={mail._id} onClick={() => handleRowClick(mail)}>
                   <TableCell component="th" scope="row">
-                    {currentMailBox === 'outbox' &&
-                    mail.to &&
-                    mail.to.length > 0
-                      ? `${mail.to[0].firstname || 'N/A'} ${
-                          mail.to[0].lastname || ''
+                    {currentMailBox === 'outbox' && mail.to && mail.to.firstname
+                      ? `${mail.to.firstname || 'N/A'} ${
+                          mail.to.lastname || ''
                         }`
                       : currentMailBox === 'inbox' && mail.from
                         ? `${mail.from.firstname || 'N/A'} ${
@@ -203,10 +201,8 @@ function MailList({
                               : 'N/A'}
                   </TableCell>
                   <TableCell align="right">
-                    {currentMailBox === 'outbox' &&
-                    mail.to &&
-                    mail.to.length > 0
-                      ? mail.to[0].email || 'N/A'
+                    {currentMailBox === 'outbox' && mail.to
+                      ? mail.to.email || 'N/A'
                       : currentMailBox === 'inbox' && mail.from
                         ? mail.from.email || 'N/A'
                         : currentMailBox === 'starred' && mail.from

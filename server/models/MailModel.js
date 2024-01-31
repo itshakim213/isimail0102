@@ -8,13 +8,12 @@ const mailSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  to: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-  ],
+  to: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+
   subject: {
     type: String,
   },
@@ -27,10 +26,11 @@ const mailSchema = new mongoose.Schema({
   },
   attachments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'AttachmentModel',
+      filename: String,
+      path: String,
     },
   ],
+
   starred: {
     type: Boolean,
     default: false,

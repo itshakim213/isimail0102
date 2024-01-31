@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import '../styles/EmailDetailsModal.css';
 import { format } from 'date-fns';
+import axios from 'axios';
 
 const EmailDetailsModal = ({
   emailInfo,
@@ -36,6 +37,46 @@ const EmailDetailsModal = ({
     setShowNewMessage(true);
   };
 
+  const handleDownload = async () => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    console.log(user);
+    console.log(emailInfo.attachments);
+    console.log(user.token);
+    console.log(emailInfo.attachments[0].filename);
+    try {
+      const response = await axios.get(
+        `http://localhost:4001/api/mail/downloadFile/${emailInfo.attachments[0].filename}`,
+        {
+          responseType: 'blob',
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
+      );
+      console.log('res :', response.data);
+      const blob = new Blob([response.data], {
+        type: response.headers['content-type'],
+      });
+      console.log('blob :', blob);
+      // return blob;
+      // Create a download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', emailInfo.attachments[0].filename);
+
+      // Trigger the download
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+  };
+
   return (
     <div className="email-details-modal-container">
       <div className="email-details-modal">
@@ -57,6 +98,30 @@ const EmailDetailsModal = ({
           <Typography className="Typography-details">
             Message: {emailInfo.message || 'N/A'}
           </Typography>
+          {emailInfo.attachments && emailInfo.attachments.length > 0 && (
+            <div className="attachments-section">
+              <Typography className="Typography-details">
+                Attachments:
+              </Typography>
+              <ul>
+                {emailInfo.attachments.map((attachment) => (
+                  <li key={attachment._id}>
+                    <a
+                      href={attachment.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download={attachment.path}
+                    >
+                      {attachment.filename}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <button onClick={handleDownload}>
+                Télécharger la piéce jointe
+              </button>
+            </div>
+          )}
         </div>
         <div className="button-container">
           <Button onClick={handleReply} className="Button-modal">
