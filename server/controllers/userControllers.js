@@ -19,13 +19,13 @@ const OTP = async (user, generatedOTP) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'hikhlef4@gmail.com',
-      pass: 'lpxh fned ihii lfeq',
+      user: 'contact.isinnovate@gmail.com',
+      pass: 'cotm ufbq xlyq byro',
     },
   });
 
   const mailOptions = {
-    from: 'hikhlef4@gmail.com',
+    from: 'contact.isinnovate@gmail.com',
     to: user,
     subject: '2FA verification',
     html: `<!DOCTYPE html>
@@ -137,8 +137,6 @@ const registerUser = asyncHandler(async (req, res) => {
     pic,
   });
 
-  console.log('User created:', user);
-
   const adminUser = await User.findOne({ email: 'contact@talkmail.dz' });
   if (!adminUser) {
     return res.status(404).json({ error: 'admin introuvable.' });
@@ -224,8 +222,6 @@ const authUser = asyncHandler(async (req, res) => {
     if (user) {
       const isPasswordValid = await user.comparePassword(password);
 
-      console.log('Is Password Valid:', isPasswordValid);
-
       if (isPasswordValid) {
         if (user.twoFA) {
           const generatedOTP = genOTP();
@@ -308,7 +304,7 @@ const deleteUsers = asyncHandler(async (req, res) => {
 
   // je récupere l id daki
   const userId = req.params.id;
-  console.log('Deleting user with id:', userId); // j affich l id
+
   // notez bien que ces console log grv grv tt3awanent pour localiser l erreur ma thella 😉
 
   try {
@@ -330,12 +326,6 @@ const deleteUsers = asyncHandler(async (req, res) => {
 const forgotPassword = asyncHandler(async (req, res) => {
   // on saisi email et la reponse a la qst de sécurité
   const { email, securityAnswer } = req.body;
-  console.log(
-    'Received request for password reset with email:',
-    email,
-    'and security answer:',
-    securityAnswer,
-  );
 
   const user = await User.findOne({ email }); // yella ?
 
@@ -346,19 +336,14 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // but does the answer match akked wayen dennidh deja ?
   if (user.securityAnswer !== securityAnswer) {
-    console.log('Incorrect security answer');
     return res.status(401).json({ error: 'Incorrect security answer' });
   }
 
   user.isResettingPassword = true; // daki thoura nezmer anvedel le mdp s reset akki qui suit
 
-  // await user.save(); // enregistrigh les changement aki
-
-  // res.json({ message: 'Security answer verified successfully' });
-
   try {
     await user.save();
-    console.log('Password reset initiated successfully');
+
     res.json({ message: 'Security answer verified successfully' });
   } catch (error) {
     console.error('Error saving user:', error);
@@ -369,13 +354,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
 const resetPassword = asyncHandler(async (req, res) => {
   // daki blama nenad
   const { email, newPassword } = req.body;
-  console.log('reset password pour :', email);
-  console.log('Received request for password reset with email:', email);
 
   const user = await User.findOne({ email }); //on verifi mayella user s lemail nni akked is resettttbfuvbe aki true
 
   if (!user) {
-    console.log('404 pour l email:', email);
     return res.status(401).json({ error: 'Invalid req or user not found' });
   }
 
@@ -384,7 +366,6 @@ const resetPassword = asyncHandler(async (req, res) => {
   user.isResettingPassword = false; // apres athner ar false aken yella zik par defaul
 
   await user.save(); // save les changement
-  console.log('Password reset successful for:', email);
 
   // res.json({ message: 'Password reset successful' });
   res.json({ success: true, message: 'Password reset successful' });
@@ -398,20 +379,16 @@ const changePassword = asyncHandler(async (req, res) => {
     const user = await User.findById(currentuser.id).select('+password');
 
     if (!user) {
-      console.log('User not found');
       return res.status(404).json({ error: 'User not found' });
     }
 
     const isCurrentPasswordValid = await user.comparePassword(currentPassword);
 
     if (!isCurrentPasswordValid) {
-      console.log('Old password is incorrect');
       return res.status(401).json({ error: 'Old password is incorrect' });
     }
     user.password = newPassword;
     await user.save();
-
-    console.log('Password changed successfully');
 
     res.json({ success: true, message: 'Password changed successfully' });
   } catch (error) {
@@ -431,11 +408,8 @@ const changePic = asyncHandler(async (req, res) => {
     );
 
     if (!updatedUser) {
-      console.log('User not found');
       return res.status(404).json({ error: 'User not found' });
     }
-
-    console.log('Profile picture updated successfully');
 
     res.json({
       firstname: updatedUser.firstname,
@@ -453,10 +427,9 @@ const sendOtp = asyncHandler(async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email: email }).select('secureMail');
 
-    console.log(user.secureMail);
     const moh = genOTP();
     const generatedOTP = OTP(user.secureMail, moh);
-    console.log(moh);
+
     res.status(200).json(moh);
   } catch (error) {
     console.error("Error lors de l'envoi de l'OTP", error);
@@ -475,11 +448,8 @@ const toggleTwoFA = asyncHandler(async (req, res) => {
     );
 
     if (!updatedUser) {
-      console.log('User not found');
       return res.status(404).json({ error: 'User not found' });
     }
-
-    console.log('TwoFA status updated successfully');
 
     res.json({
       firstname: updatedUser.firstname,
@@ -504,5 +474,4 @@ module.exports = {
   changePic,
   sendOtp,
   toggleTwoFA,
-  // verifyOTP,
 };

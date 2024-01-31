@@ -22,14 +22,6 @@ function Signup({ handleLogin }) {
   const [loading, setLoading] = useState(false);
   const [secureMail, setSecureMail] = useState('');
 
-  // if (password.length < 8 || !/[A-Z]/.test(password)) {
-  //   toast.error(
-  //     'Le mot de passe doit contenir au moins 8 caractères avec au moins une majuscule.',
-  //   );
-  //   setLoading(false);
-  //   return;
-  // }
-
   const [pic, setpic] = useState(
     'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
   );

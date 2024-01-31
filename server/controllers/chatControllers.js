@@ -9,7 +9,6 @@ const accessChat = asyncHandler(async (req, res) => {
 
   // Vérification de la présence de l'ID de l'utilisateur dans la requête
   if (!userId) {
-    console.log('UserId param not sent with request');
     return res.sendStatus(400);
   }
 
@@ -33,7 +32,7 @@ const accessChat = asyncHandler(async (req, res) => {
     const invitedUser = await User.findById(userId);
 
     // Construisez le chatName en utilisant le nom et le prénom de l'utilisateur invité
-    const chatNamee = `${invitedUser.firstname} ${invitedUser.lastname}`;
+    const chatNamee = 'sender';
     // Crée un nouveau chat privé avec l'utilisateur connecté et
     // Si la conversation n'existe pas, elle est créée
     const chatData = {
@@ -51,7 +50,7 @@ const accessChat = asyncHandler(async (req, res) => {
         'users',
         '-password',
       );
-      console.log('New conversation created:', FullChat);
+
       res.status(200).send(FullChat); // Retourne la nouvelle conversation
     } catch (error) {
       res.status(400);

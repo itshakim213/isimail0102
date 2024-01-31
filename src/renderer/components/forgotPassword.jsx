@@ -138,7 +138,7 @@ function ForgotPassword({ handleClickOpen, handleClose }) {
               Questions de sécurité
             </InputLabel>
             <Select
-              labelId="demo-simple-select-label"
+              labelId="demo-simple-select-label"  
               id="demo-simple-select"
               label="Age"
             >
