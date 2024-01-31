@@ -7,9 +7,18 @@ function Newmessage({ reply, fwd }) {
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [toCc, setToCc] = useState([]);
+
+  useEffect(() => {
+    console.log('toCc updated:', toCc);
+  }, [toCc]);
 
   async function submitForm(e) {
     e.preventDefault();
+
+    console.log('Before setToCc:', to);
+    setToCc(to.split(/\s+/).filter((email) => email.trim() !== ''));
+    // No need to log toCc here anymore
 
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
@@ -20,7 +29,7 @@ function Newmessage({ reply, fwd }) {
       const response = await axios.post(
         'http://localhost:4001/api/mail/sendemail',
         {
-          to,
+          to: toCc,
           subject,
           message,
         },
@@ -33,7 +42,6 @@ function Newmessage({ reply, fwd }) {
       );
 
       console.log('Server response:', response.data);
-      console.log(to);
       console.log(subject);
       console.log(message);
       alert('Email sent successfully!');
@@ -77,11 +85,13 @@ function Newmessage({ reply, fwd }) {
         <br></br>
         <input
           className="input-sendMsg"
-          type="email"
-          placeholder="to"
+          type="text"
+          placeholder="e.g., email1@talkmail.dz email2@talkmail.dz"
           required
           value={to}
-          onChange={(e) => setTo(e.target.value)}
+          onChange={(e) => {
+            setTo(e.target.value);
+          }}
         />
         <input
           className="input-sendMsg"
@@ -91,7 +101,6 @@ function Newmessage({ reply, fwd }) {
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
         />
-        {/* (selectedMail !== null) ? selectedMail.subject : subject */}
         <textarea
           className="textarea-sendMsg"
           placeholder="Message"
@@ -99,6 +108,11 @@ function Newmessage({ reply, fwd }) {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
+        {/* <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setPic(e.target.files[0])}
+        /> */}
         <Button btnText="Submit" />
       </form>
     </body>

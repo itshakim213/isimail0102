@@ -9,30 +9,22 @@ const sendEmail = asyncHandler(async (req, res) => {
     `New mail was sent successfully! Sent by waki ---> ${currentuser.firstname} ${currentuser.lastname}`,
   );
   try {
-    // comme d hab extraction des donnée
     const { to, subject, message } = req.body;
-    // verifikaychon de user dans user db
-    // const { attachments } = req.body;
 
-    // const dest = Array.isArray(to) ? to : [to];
+    const dest = Array.isArray(to) ? to : [to];
 
     // // ça c pour cc ou cci
-    // const usersTo = await User.find({ _id: { $in: dest } });
+    const usersTo = await User.find({ email: { $in: dest } });
+    console.log('to cc :', usersTo);
 
-    // if (usersTo.length !== dest.length) {
-    //   return res.status(404).json({ error: 'Utilisateur introuvable' });
-    // }
-    const userTo = await User.findOne({ email: to });
-
-    if (!userTo) {
-      return res.status(404).json({ error: 'Utilisateur introuvable.' });
+    if (usersTo.length !== dest.length) {
+      return res.status(404).json({ error: 'Utilisateur introuvable' });
     }
-
     // la variable qui va contenir le mail aki et avec elle en va entregistrer di mail db
     const newMail = new MailModel({
       from: currentuser._id,
-      to: userTo._id,
-      // usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
+      // to: userTo._id,
+      to: usersTo.map((user) => user._id), // pr dire quil va contenir des objectIds n les users yellan dakhel n la bdd user , c quune verifikaychon
       subject,
       message,
       starred: false,
@@ -49,20 +41,19 @@ const sendEmail = asyncHandler(async (req, res) => {
 
     // update la Outbox (Boîte d’envoi) de l'expéditeur
     await MailBoxModel.findOneAndUpdate(
-      // { userId: userFrom._id, name: 'Outbox' },
       { userId: currentuser._id, name: 'Outbox' },
       { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Outbox
       { upsert: true }, // Si la Outbox n'existe pas, on va la créer grace à upsert aki
     );
 
     // update la Inbox (Boîte de réception) du destinataire
-    // for (const userTo of usersTo) {
-    await MailBoxModel.findOneAndUpdate(
-      { userId: userTo._id, name: 'Inbox' },
-      { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
-      { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
-    );
-    // }
+    for (const userTo of usersTo) {
+      await MailBoxModel.findOneAndUpdate(
+        { userId: userTo._id, name: 'Inbox' },
+        { $addToSet: { mails: populatedMail } }, // Ajouter l'ID du nouveau message à la liste des mails [ ] dans la Inbox
+        { upsert: true }, // Si la Inbox n'existe pas, on va la créer grace à upsert aki
+      );
+    }
 
     console.log('sent mail is : ', newMail);
 

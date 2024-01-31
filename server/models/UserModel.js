@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
     validate: {
       validator: function (value) {
         // cette fonction est utilisée comme validateur
@@ -55,6 +56,7 @@ const userSchema = new mongoose.Schema({
   secureMail: {
     type: String,
     // required: true,
+    select: true,
     validate: {
       validator: function (value) {
         // cette fonction est utilisée comme validateur
@@ -64,11 +66,17 @@ const userSchema = new mongoose.Schema({
       message: 'Veuillez entrer une adresse email valide.',
     },
   },
-  // twoFactorsAuthentication: { type: Boolean, default: false },
-  // otp: {
-  //   type: String,
-  //   default: null,
-  // },
+  twoFA: { type: Boolean, default: false },
+  otp: {
+    code: {
+      type: String,
+      select: true, // Ne pas sélectionner par défaut pour des raisons de sécurité
+    },
+    expiresAt: {
+      type: Date,
+      select: true,
+    },
+  },
   pic: {
     type: String,
     required: true,
@@ -77,15 +85,16 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// userSchema.methods.generateOTP = async function () {
-//   // generer un code aleatoire de 6 chiffres
-//   const otp = Math.floor(100000 + Math.random() * 900000).toString();
-//   this.otp = await bcrypt.hash(otp, 10);
-//   return otp;
-// };
-
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+const expirationTime = new Date();
+expirationTime.setSeconds(expirationTime.getSeconds() + 30000);
+
+// Mise à jour de l'OTP et de sa date d'expiration dans la base de données
+this.otp = {
+  expiresAt: expirationTime,
 };
 
 userSchema.methods.comparePassword = async function (candidatePassword) {

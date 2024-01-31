@@ -67,12 +67,12 @@ function App() {
               <Routes>
                 <Route path="/mails/:category" element={<Mails />} />
                 <Route path="/chats" element={<Chats />} />
-                <Route path="/files/:category" element={<Files />} />
                 <Route path="/agenda" element={<Agenda />} />
                 <Route
                   path="/settings"
                   element={<Settings handleLogout={handleLogout} />}
                 />
+                <Route path="/files/:category" element={<Files />} />
                 <Route path="/visio" element={<Visio />} />
               </Routes>
             </ChatContext>

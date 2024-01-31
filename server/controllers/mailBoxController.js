@@ -39,10 +39,10 @@ const retrieveMails = asyncHandler(async (req, res) => {
       path: 'mails',
       match: { bin: { $ne: true } },
       populate: [
-        {
-          path: 'from',
-          select: 'firstname lastname email',
-        },
+        // {
+        //   path: 'from',
+        //   select: 'firstname lastname email',
+        // },
         {
           path: 'to',
           select: 'firstname lastname email',

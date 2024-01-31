@@ -8,6 +8,9 @@ const {
   resetPassword,
   changePassword,
   changePic,
+  sendOtp,
+  toggleTwoFA,
+  // verifyOTP,
 } = require('../Controllers/userControllers');
 const userModel = require('../models/UserModel');
 const { protect } = require('../middlewares/authMiddleware');
@@ -31,5 +34,8 @@ router.post('/forgot', forgotPassword);
 router.post('/reset', resetPassword);
 router.put('/changepassword', protect, changePassword);
 router.put('/changepic', protect, changePic);
+router.post('/sendotp', sendOtp);
+router.put('/2FA', protect, toggleTwoFA);
+// router.post('/verify', protect, verifyOTP);
 
 module.exports = router;
