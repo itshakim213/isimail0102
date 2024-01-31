@@ -1,11 +1,27 @@
-const express = require ('express');
-const { forwardEmail, sendEmail, receiveEmail, moveToBin, deleteMail, toggleStarredEmail, replyToEmail, importantMails } = require ('../controllers/mailController');
+const express = require('express');
+const {
+  forwardEmail,
+  sendEmail,
+  receiveEmail,
+  moveToBin,
+  deleteMail,
+  toggleStarredEmail,
+  replyToEmail,
+  importantMails,
+} = require('../controllers/mailController');
 const { protect } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
+const multer = require('multer');
+
+// Configure multer for handling file uploads
+
+const upload = multer({ dest: 'uploads/' });
 
 // Env mail
-router.route('/sendemail').post(protect, sendEmail);
+router
+  .route('/sendemail')
+  .post(protect, upload.single('attachment'), sendEmail);
 
 // rep mail
 router.route('/reply').post(protect, replyToEmail);
@@ -13,19 +29,18 @@ router.route('/reply').post(protect, replyToEmail);
 // Rec mail
 router.route('/receiveemail/:to').get(protect, receiveEmail);
 
-
 // ajout et retrait des favoris
-router.route('/togglestar').put( protect, toggleStarredEmail);
+router.route('/togglestar').put(protect, toggleStarredEmail);
 
-router.route('/important').put( protect, importantMails);
+router.route('/important').put(protect, importantMails);
 
 // deplace vers corbelle
-router.route('/movetobin').put( protect, moveToBin);
+router.route('/movetobin').put(protect, moveToBin);
 
 // Delete mail
-router.route('/deletemail').delete( protect, deleteMail);
+router.route('/deletemail').delete(protect, deleteMail);
 
 // Forward mail
-router.route('/forwardemail').post( protect, forwardEmail);
+router.route('/forwardemail').post(protect, forwardEmail);
 
 module.exports = router;
