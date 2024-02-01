@@ -65,7 +65,7 @@ function Signup({ handleLogin }) {
         },
       };
       const response = await axios.post(
-        'https://talkmail-server.onrender.com/api/user',
+        'http://localhost:4001/api/user',
         {
           firstname,
           lastname,
@@ -79,7 +79,7 @@ function Signup({ handleLogin }) {
         },
         config,
       );
-      console.log(response.data)
+      console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);

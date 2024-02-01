@@ -37,7 +37,7 @@ function MailList({
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
       const response = await axios.get(
-        `https://talkmail-server.onrender.com/api/retrieve/retrievemails/${user._id}`,
+        `http://localhost:4001/api/retrieve/retrievemails/${user._id}`,
         {
           params: {
             mailbox: mailboxFetch,
@@ -68,7 +68,7 @@ function MailList({
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
-        `https://talkmail-server.onrender.com/api/mail/togglestar`,
+        `http://localhost:4001/api/mail/togglestar`,
         { mailId },
         {
           headers: {
@@ -87,7 +87,7 @@ function MailList({
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
-        `https://talkmail-server.onrender.com/api/mail/movetobin`,
+        `http://localhost:4001/api/mail/movetobin`,
         { mailId },
         {
           headers: {
@@ -107,7 +107,7 @@ function MailList({
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
-        `https://talkmail-server.onrender.com/api/mail/important`,
+        `http://localhost:4001/api/mail/important`,
         { mailId },
         {
           headers: {

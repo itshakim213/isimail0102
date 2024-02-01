@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import CloseIcon from '@material-ui/icons/Close'
+import CloseIcon from '@material-ui/icons/Close';
 import React, { useContext, useState } from 'react';
 import { ChatState } from '../context/ChatContext';
 import UserBadgeItem from './UserBadgeItem';
@@ -29,7 +29,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
       };
 
       const { data } = await axios.put(
-        `https://talkmail-server.onrender.com/api/chat/groupremove`,
+        `http://localhost:4001/api/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -50,10 +50,10 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
     setGroupChatName('');
   };
 
-  const handleRename = async() => {
+  const handleRename = async () => {
     if (!groupChatName) {
       return;
-    };
+    }
 
     try {
       setRenameLoading(true);
@@ -64,7 +64,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
       };
 
       const { data } = await axios.put(
-        'https://talkmail-server.onrender.com/api/chat/rename',
+        'http://localhost:4001/api/chat/rename',
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
@@ -86,7 +86,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
     setSearch(query);
     if (!query) {
       return;
-    };
+    }
 
     try {
       setLoading(true);
@@ -96,7 +96,10 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
         },
       };
 
-      const { data } = await axios.get(`https://talkmail-server.onrender.com/api/user/search?search=${search}`, config);
+      const { data } = await axios.get(
+        `http://localhost:4001/api/user/search?search=${search}`,
+        config,
+      );
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -105,7 +108,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
     }
   };
 
-  const handleAddUser = async(user1) => {
+  const handleAddUser = async (user1) => {
     if (selectedChat.users.find((u) => u._id === user1._id)) {
       return;
     }
@@ -123,12 +126,12 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
       };
 
       const { data } = await axios.put(
-        `https://talkmail-server.onrender.com/api/chat/groupadd`,
+        `http://localhost:4001/api/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
         },
-        config
+        config,
       );
 
       setSelectedChat(data);
@@ -139,7 +142,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
       setLoading(false);
     }
     setGroupChatName('');
-  }
+  };
   return (
     <div>
       <Typography
@@ -222,6 +225,6 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
       </Button>
     </div>
   );
-};
+}
 
 export default UpdateGroupChatModal;

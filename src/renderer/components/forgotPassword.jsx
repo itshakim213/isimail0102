@@ -29,7 +29,7 @@ function ForgotPassword({ handleClickOpen, handleClose }) {
   const answerQst = async () => {
     try {
       const resp = await axios.post(
-        'https://talkmail-server.onrender.com/api/user/forgot',
+        'http://localhost:4001/api/user/forgot',
         {
           email: email,
           securityAnswer: securityAnswer,
@@ -43,7 +43,7 @@ function ForgotPassword({ handleClickOpen, handleClose }) {
 
       // If security answer is correct, proceed with password reset
       const resetResp = await axios.post(
-        'https://talkmail-server.onrender.com/api/user/reset',
+        'http://localhost:4001/api/user/reset',
         {
           email: email,
           newPassword: newPassword,

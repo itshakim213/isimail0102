@@ -41,7 +41,7 @@ const EmailDetailsModal = ({
 
     try {
       const response = await axios.get(
-        `https://talkmail-server.onrender.com/api/mail/downloadFile/${emailInfo.attachments[0].filename}`,
+        `http://localhost:4001/api/mail/downloadFile/${emailInfo.attachments[0].filename}`,
         {
           responseType: 'blob',
           headers: {

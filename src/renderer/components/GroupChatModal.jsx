@@ -49,7 +49,7 @@ function GroupChatModal({ children }) {
       };
 
       const { data } = await axios.get(
-        `https://talkmail-server.onrender.com/api/user/search?search=${search}`,
+        `http://localhost:4001/api/user/search?search=${search}`,
         config,
       );
       setLoading(false);
@@ -71,7 +71,7 @@ function GroupChatModal({ children }) {
       };
 
       const { data } = await axios.post(
-        'https://talkmail-server.onrender.com/api/chat/group',
+        'http://localhost:4001/api/chat/group',
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),

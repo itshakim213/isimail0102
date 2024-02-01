@@ -56,7 +56,7 @@ function ChatBox({ fetchAgain }) {
         },
       };
       const { data } = await axios.get(
-        'https://talkmail-server.onrender.com/api/chat',
+        'http://localhost:4001/api/chat',
         config,
       );
       setChats(data);
@@ -81,7 +81,7 @@ function ChatBox({ fetchAgain }) {
       };
 
       const { data } = await axios.get(
-        `https://talkmail-server.onrender.com/api/user/search?search=${search}`,
+        `http://localhost:4001/api/user/search?search=${search}`,
         config,
       );
       setLoading(false);
@@ -102,7 +102,7 @@ function ChatBox({ fetchAgain }) {
       };
 
       const { data } = await axios.post(
-        'https://talkmail-server.onrender.com/api/chat',
+        'http://localhost:4001/api/chat',
         { userId },
         config,
       );
