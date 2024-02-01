@@ -31,7 +31,7 @@ function Agenda() {
     isError,
   } = useQuery('events', async () => {
     const response = await axios.get(
-      'http://localhost:4001/api/agenda/events',
+      'https://talkmail-server.onrender.com/api/agenda/events',
       {
         headers: {
           Authorization: `Bearer ${user.token}`,

@@ -65,7 +65,7 @@ function Signup({ handleLogin }) {
         },
       };
       const response = await axios.post(
-        'https://talkmail-6g0p.onrender.com/api/user',
+        'https://talkmail-server.onrender.com/api/user',
         {
           firstname,
           lastname,

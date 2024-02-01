@@ -37,7 +37,7 @@ function MailList({
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
       const response = await axios.get(
-        `https://talkmail-6g0p.onrender.com/api/retrieve/retrievemails/${user._id}`,
+        `https://talkmail-server.onrender.com/api/retrieve/retrievemails/${user._id}`,
         {
           params: {
             mailbox: mailboxFetch,

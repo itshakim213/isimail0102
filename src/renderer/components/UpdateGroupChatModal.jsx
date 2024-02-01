@@ -29,7 +29,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
       };
 
       const { data } = await axios.put(
-        `https://talkmail-6g0p.onrender.com/api/chat/groupremove`,
+        `https://talkmail-server.onrender.com/api/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -64,7 +64,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
       };
 
       const { data } = await axios.put(
-        'https://talkmail-6g0p.onrender.com/api/chat/rename',
+        'https://talkmail-server.onrender.com/api/chat/rename',
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
@@ -96,7 +96,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
         },
       };
 
-      const { data } = await axios.get(`https://talkmail-6g0p.onrender.com/api/user/search?search=${search}`, config);
+      const { data } = await axios.get(`https://talkmail-server.onrender.com/api/user/search?search=${search}`, config);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -123,7 +123,7 @@ function UpdateGroupChatModal({ fetchAgain, setFetchAgain, fetchMessages }) {
       };
 
       const { data } = await axios.put(
-        `https://talkmail-6g0p.onrender.com/api/chat/groupadd`,
+        `https://talkmail-server.onrender.com/api/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,

@@ -9,7 +9,7 @@ function ContactInv({ userId, fullname, email, chats, setChats }) {
 
   const createConv = async (userInvId) => {
     const response = await axios.post(
-      'https://talkmail-6g0p.onrender.com/api/chat',
+      'https://talkmail-server.onrender.com/api/chat',
       { userId: userInvId },
       {
         headers: {

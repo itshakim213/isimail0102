@@ -50,7 +50,7 @@ function Newmessage({ reply, fwd }) {
       console.log('file:', file);
 
       const response = await axios.post(
-        'https://talkmail-6g0p.onrender.com/api/mail/sendemail',
+        'https://talkmail-server.onrender.com/api/mail/sendemail',
         formData,
         {
           headers: {
