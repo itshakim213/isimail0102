@@ -39,6 +39,8 @@ const sendEmail = asyncHandler(async (req, res) => {
           path: file.path,
         };
       });
+
+      // Ajoutez les pièces jointes à la nouvelle instance de courrier
       newMailData.attachments = attachments;
     }
 

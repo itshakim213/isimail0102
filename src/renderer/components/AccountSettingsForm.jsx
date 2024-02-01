@@ -142,7 +142,7 @@ function AccountSettingsForm({ email, handleLogout }) {
   const changePassword = async () => {
     try {
       const response = await axios.put(
-        'http://localhost:4001/api/user/changepassword',
+        'https://talkmail-server.onrender.com/api/user/changepassword',
         {
           currentPassword: oldPassword,
           newPassword: newPassword,
@@ -172,7 +172,7 @@ function AccountSettingsForm({ email, handleLogout }) {
   const deleteUser = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:4001/api/user/delete/${user._id}`,
+        `https://talkmail-server.onrender.com/api/user/delete/${user._id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -206,7 +206,7 @@ function AccountSettingsForm({ email, handleLogout }) {
   const twoFactors = async () => {
     try {
       const response = await axios.put(
-        'http://localhost:4001/api/user/2FA',
+        'https://talkmail-server.onrender.com/api/user/2FA',
         {
           twoFA: tfa,
         },

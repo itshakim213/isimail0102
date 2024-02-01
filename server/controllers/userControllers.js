@@ -5,7 +5,7 @@ const generateToken = require('../config/generateToken');
 const MailModel = require('../models/MailModel');
 const MailBoxModel = require('../models/MailBoxModel');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
 const genOTP = () => {
   const generatedOTP = Math.floor(1000 + Math.random() * 9000);
@@ -100,7 +100,6 @@ const registerUser = asyncHandler(async (req, res) => {
     pic,
   } = req.body;
 
-  // Vérification de la présence de toutes les données nécessaires
   if (
     !firstname ||
     !lastname ||
@@ -110,7 +109,8 @@ const registerUser = asyncHandler(async (req, res) => {
     !securityQuestion ||
     !securityAnswer ||
     !secureMail
-  ) {
+  ) 
+  {
     res.status(400);
     throw new Error('Please enter all the fields');
   }
@@ -137,35 +137,41 @@ const registerUser = asyncHandler(async (req, res) => {
     pic,
   });
 
-  const adminUser = await User.findOne({ email: 'contact@talkmail.dz' });
-  if (!adminUser) {
-    return res.status(404).json({ error: 'admin introuvable.' });
-  }
+  console.log('User created:', user);
 
-  const adminId = adminUser._id;
+  // // Génération et sauvegarde de l'OTP
+  // const generatedOTP = await user.generateOTP();
+  // console.log(Generated OTP: ${generatedOTP});
 
-  const welcomeMail = new MailModel({
-    from: adminUser._id,
-    to: user._id,
-    subject: 'Bienvenue sur TalkMail',
-    message: `
-        Bonjour et bienvenue sur notre plateforme !
+  // const adminUser = await User.findOne({ email: 'contact@talkmail.dz' });
+  // if (!adminUser) {
+  //   return res.status(404).json({ error: 'admin introuvable.' });
+  // }
 
-        Nous sommes ravis de vous avoir parmi nous. C'est un plaisir de vous accueillir dans notre communauté.
+  // const adminId = adminUser._id;
 
-        Rejoignez-nous sur :
-        - LinkedIn: [https://www.linkedin.com/company/isinnovate]
-        - Twitter: [https://x.com/isinnovateteam]
-        - Instagram: [https://www.instagram.com/isinnovate]
+  // const welcomeMail = new MailModel({
+  //   from: adminUser._id,
+  //   to: user._id,
+  //   subject: 'Bienvenue sur TalkMail',
+  //   message: `
+  //       Bonjour et bienvenue sur notre plateforme !
 
-        Si vous avez des questions, n'hésitez pas à nous contacter à l'adresse suivante : [contact@talkmail.dz].
+  //       Nous sommes ravis de vous avoir parmi nous. C'est un plaisir de vous accueillir dans notre communauté.
 
-        Merci encore de faire partie de notre communauté. Nous sommes impatients de vous offrir une expérience exceptionnelle !
+  //       Rejoignez-nous sur :
+  //       - LinkedIn: [https://www.linkedin.com/company/isinnovate]
+  //       - Twitter: [https://x.com/isinnovateteam]
+  //       - Instagram: [https://www.instagram.com/isinnovate]
 
-        Bien cordialement,
-        L'équipe ISInnovate.
-    `,
-  });
+  //       Si vous avez des questions, n'hésitez pas à nous contacter à l'adresse suivante : [contact@talkmail.dz].
+
+  //       Merci encore de faire partie de notre communauté. Nous sommes impatients de vous offrir une expérience exceptionnelle !
+
+  //       Bien cordialement,
+  //       L'équipe ISInnovate.
+  //   `,
+  // });
 
   await welcomeMail.save();
   const populatedMail = await MailModel.findById(welcomeMail._id).populate({
@@ -173,11 +179,11 @@ const registerUser = asyncHandler(async (req, res) => {
     select: 'firstname lastname email',
   });
 
-  await MailBoxModel.findOneAndUpdate(
-    { userId: user._id, name: 'Inbox' },
-    { $addToSet: { mails: populatedMail } },
-    { upsert: true },
-  );
+  // await MailBoxModel.findOneAndUpdate(
+  //   { userId: user._id, name: 'Inbox' },
+  //   { $addToSet: { mails: populatedMail } },
+  //   { upsert: true },
+  // );
   // Envoi d'une réponse avec les détails de l'utilisateur et un token d'authentification
   // la c juste pour l'api dans postman sinon on peut renvoyer un message du type inscription reussie
   if (user) {

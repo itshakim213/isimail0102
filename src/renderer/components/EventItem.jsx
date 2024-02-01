@@ -18,7 +18,7 @@ function EventItem({
 
   const deleteEvent = async (id) => {
     const response = axios.delete(
-      `http://localhost:4001/api/agenda/events/${id}`,
+      `https://talkmail-server.onrender.com/api/agenda/events/${id}`,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,

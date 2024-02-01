@@ -23,7 +23,7 @@ function EventForm({ date, eventToUpdate, evenements, setEvenements }) {
     location,
   }) => {
     const response = await axios.post(
-      'http://localhost:4001/api/agenda/events',
+      'https://talkmail-server.onrender.com/api/agenda/events',
       {
         title: title,
         startDate: startDate,
@@ -58,7 +58,7 @@ function EventForm({ date, eventToUpdate, evenements, setEvenements }) {
     location,
   }) => {
     const response = await axios.put(
-      `http://localhost:4001/api/agenda/events/${eventToUpdate._id}`,
+      `https://talkmail-server.onrender.com/api/agenda/events/${eventToUpdate._id}`,
       {
         title: title,
         startDate: startDate,

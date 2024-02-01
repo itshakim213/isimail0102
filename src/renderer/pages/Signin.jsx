@@ -66,7 +66,7 @@ function Signin({ handleLogin }) {
         },
       };
       const response = await axios.post(
-        'http://localhost:4001/api/user/signin',
+        'https://talkmail-server.onrender.com/api/user/signin',
         {
           email,
           password,
@@ -90,8 +90,8 @@ function Signin({ handleLogin }) {
     try {
       const userData = await LoadUser();
 
-      if (!userData.user.twoFA) {
-        sessionStorage.setItem('user', JSON.stringify(userData.user));
+      if (!userData.twoFA) {
+        sessionStorage.setItem('user', JSON.stringify(userData));
 
         setIsSubmitted(true);
         Notify('Connexion réussie !', () => {
@@ -99,7 +99,7 @@ function Signin({ handleLogin }) {
           navigate('/mails/inbox');
         });
       } else {
-        sessionStorage.setItem('user', JSON.stringify(userData.user));
+        sessionStorage.setItem('user', JSON.stringify(userData));
 
         setIsSubmitted(true);
         setCurrentOtp(userData.generatedOTP);
