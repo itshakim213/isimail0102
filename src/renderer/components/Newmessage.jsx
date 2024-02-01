@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Button from '../components/Button';
 import '../styles/Newmessage.css';
+import axios from 'axios';
 
-function Newmessage() {
+function Newmessage({ reply, fwd }) {
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -27,12 +28,18 @@ function Newmessage() {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    console.log('Before setToCc:', to);
+    // console.log('Before setToCc:', to);
     setToCc(to.split(/\s+/).filter((email) => email.trim() !== ''));
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const formData = new FormData();
+
+      // const toEmails = to.split(/\s+/).filter((email) => email.trim() !== '');
+
+      // toEmails.forEach((email) => {
+      //   formData.append('to', email);
+      // });
       formData.append('to', toCc);
       formData.append('subject', subject);
       formData.append('message', message);
@@ -50,8 +57,9 @@ function Newmessage() {
 
       const response = await axios.post(
         'http://localhost:4001/api/mail/sendemail',
+
         formData,
-        formData,
+
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

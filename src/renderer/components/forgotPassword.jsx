@@ -89,7 +89,6 @@ function ForgotPassword({ handleClickOpen, handleClose }) {
             event.preventDefault();
             try {
               const response = await mutate();
-              console.log('Mutation completed successfully');
             } catch (error) {
               console.error('Error during mutation:', error);
             }
