@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Button from '../components/Button';
 import '../styles/Newmessage.css';
-import axios from 'axios';
 
 function Newmessage({ reply, fwd }) {
   const [to, setTo] = useState('');
@@ -57,15 +56,10 @@ function Newmessage({ reply, fwd }) {
       console.log('file:', file);
 
       const response = await axios.post(
-<<<<<<< HEAD
         'http://localhost:4001/api/mail/sendemail',
 
         formData,
 
-=======
-        'https://talkmail-server.onrender.com/api/mail/sendemail',
-        formData,
->>>>>>> 6de25dfeca2d0a5aa8da87314dc0105a60ee5f0a
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
