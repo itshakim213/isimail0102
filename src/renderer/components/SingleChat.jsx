@@ -11,7 +11,7 @@ import { getSender } from '../context/ChatLogics';
 import '../styles/EmojiInput.css'
 import Newmessage from './Newmessage';
 
-const ENDPOINT = 'http://localhost:4001';
+const ENDPOINT = 'https://talkmail-server.onrender.com';
 var socket, selectedChatCompare;
 
 

@@ -68,7 +68,7 @@ function MailList({
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
-        `https://talkmail-6g0p.onrender.com/api/mail/togglestar`,
+        `https://talkmail-server.onrender.com/api/mail/togglestar`,
         { mailId },
         {
           headers: {
@@ -87,7 +87,7 @@ function MailList({
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
-        `https://talkmail-6g0p.onrender.com/api/mail/movetobin`,
+        `https://talkmail-server.onrender.com/api/mail/movetobin`,
         { mailId },
         {
           headers: {
@@ -107,7 +107,7 @@ function MailList({
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
-        `https://talkmail-6g0p.onrender.com/api/mail/important`,
+        `https://talkmail-server.onrender.com/api/mail/important`,
         { mailId },
         {
           headers: {
