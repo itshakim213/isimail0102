@@ -38,10 +38,7 @@ const EmailDetailsModal = ({
 
   const handleDownload = async () => {
     const user = JSON.parse(sessionStorage.getItem('user'));
-    console.log(user);
-    console.log(emailInfo.attachments);
-    console.log(user.token);
-    console.log(emailInfo.attachments[0].filename);
+
     try {
       const response = await axios.get(
         `http://localhost:4001/api/mail/downloadFile/${emailInfo.attachments[0].filename}`,
@@ -52,11 +49,11 @@ const EmailDetailsModal = ({
           },
         },
       );
-      console.log('res :', response.data);
+
       const blob = new Blob([response.data], {
         type: response.headers['content-type'],
       });
-      console.log('blob :', blob);
+
       // return blob;
       // Create a download link
       const url = window.URL.createObjectURL(blob);

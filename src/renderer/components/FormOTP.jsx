@@ -30,10 +30,6 @@ function FormOTP({ handleCloseOtp, currentOtp, handleLogin, Notify }) {
     }
   };
 
-  console.log('current otp :', currentOtp);
-
-  console.log('otp :', otp);
-
   return (
     <Dialog open={open} onClose={handleCloseOtp}>
       <DialogTitle>Two Factors Authentication</DialogTitle>

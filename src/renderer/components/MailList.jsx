@@ -65,8 +65,8 @@ function MailList({
 
   const handleToggleStar = async () => {
     try {
-
       const user = JSON.parse(sessionStorage.getItem('user'));
+
       const response = await axios.put(
         `https://talkmail-6g0p.onrender.com/api/mail/togglestar`,
         { mailId },
@@ -84,8 +84,6 @@ function MailList({
 
   const handleBin = async () => {
     try {
-      console.log('mailId:', mailId);
-
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
@@ -97,7 +95,7 @@ function MailList({
           },
         },
       );
-      console.log('Bin response:', response.data);
+
       await fetchMails();
     } catch (error) {
       console.error('Error moving to bin:', error);
@@ -106,7 +104,6 @@ function MailList({
 
   const handleImp = async () => {
     try {
-
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const response = await axios.put(
@@ -118,6 +115,7 @@ function MailList({
           },
         },
       );
+
       await fetchMails();
     } catch (error) {
       console.error('Error moving to imp:', error);
@@ -134,7 +132,6 @@ function MailList({
 
   return (
     <div className="mail-item">
-      {/* <p className="mail-send">Mails reçus:</p> */}
       <p className="mail-send">
         {currentMailBox === 'outbox'
           ? 'Mails envoyés:'

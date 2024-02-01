@@ -8,7 +8,6 @@ const asyncHandler = require('express-async-handler');
 // ihqa sync handler c pour controller et localiser anda thella l erreur
 const retrieveMails = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-
   try {
     // recuper user id des param d req
     const { userId } = req.params;

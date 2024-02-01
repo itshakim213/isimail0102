@@ -173,13 +173,11 @@ const registerUser = asyncHandler(async (req, res) => {
   //   `,
   // });
 
-  // await welcomeMail.save();
-  // const populatedMail = await MailModel.findById(welcomeMail._id).populate({
-  //   path: 'to',
-  //   select: 'firstname lastname email',
-  // });
-
-  // console.log('Welcome mail created:', welcomeMail);
+  await welcomeMail.save();
+  const populatedMail = await MailModel.findById(welcomeMail._id).populate({
+    path: 'to',
+    select: 'firstname lastname email',
+  });
 
   // await MailBoxModel.findOneAndUpdate(
   //   { userId: user._id, name: 'Inbox' },
@@ -221,8 +219,6 @@ const authUser = asyncHandler(async (req, res) => {
   try {
     // Recherche de l'utilisateur dans la base de données
     const user = await User.findOne({ email }).select('+otp');
-
-    console.log('User:', user);
 
     // Vérification du mot de passe
     if (user) {
@@ -336,7 +332,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email }); // yella ?
 
   if (!user) {
-    console.log('User not found');
     return res.status(404).json({ error: 'User not found' }); // nn ulachith ughaled azka ;))
   }
 

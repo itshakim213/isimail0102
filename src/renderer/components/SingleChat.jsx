@@ -71,7 +71,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
 
       setLoading(true);
 
-      const { data } = await axios.get(`http://localhost:4001/api/message/${selectedChat._id}`, config);
+      const { data } = await axios.get(`https://talkmail-6g0p.onrender.com/api/message/${selectedChat._id}`, config);
 
       setMessages(data);
       setLoading(false);
@@ -101,7 +101,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
           },
         };
 
-        const { data } = await axios.post('http://localhost:4001/api/message', {
+        const { data } = await axios.post('https://talkmail-6g0p.onrender.com/api/message', {
           content: newMessage,
           chatId: selectedChat._id,
         } , config);

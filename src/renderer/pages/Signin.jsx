@@ -75,7 +75,7 @@ function Signin({ handleLogin }) {
       );
       return response.data;
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       setError(true);
       setemail('');
       setpassword('');
@@ -89,21 +89,18 @@ function Signin({ handleLogin }) {
 
     try {
       const userData = await LoadUser();
-      console.log(userData.twoFA);
-      console.log(userData);
+
       if (!userData.twoFA) {
         sessionStorage.setItem('user', JSON.stringify(userData));
-        console.log(userData);
+
         setIsSubmitted(true);
         Notify('Connexion réussie !', () => {
           handleLogin();
           navigate('/mails/inbox');
         });
       } else {
-        sessionStorage.setItem('user', JSON.stringify(userData.user));
-        console.log(userData);
-        console.log(userData.user);
-        console.log(userData.generatedOTP);
+        sessionStorage.setItem('user', JSON.stringify(userData));
+
         setIsSubmitted(true);
         setCurrentOtp(userData.generatedOTP);
         handleOpenOtp();

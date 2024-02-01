@@ -10,7 +10,6 @@ function ChatContext({ children }) {
   useEffect(() => {
     const userInfo = JSON.parse(sessionStorage.getItem('user'));
     setUser(userInfo);
-    console.log(userInfo);
   }, []);
   return (
     <ChatState.Provider

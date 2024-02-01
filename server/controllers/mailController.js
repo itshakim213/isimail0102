@@ -13,15 +13,12 @@ const sendEmail = asyncHandler(async (req, res) => {
 
     const dest = Array.isArray(to) ? to : [to];
 
-    // // ça c pour cc ou cci
+    // Verify the existence of the destination users
     const usersTo = await User.find({ email: { $in: dest } });
 
     if (usersTo.length !== dest.length) {
       return res.status(404).json({ error: 'Utilisateur introuvable' });
     }
-
-    // Gestion de la pièce jointe
-    const attachment = req.file;
 
     // Création du nouvel email avec les données et la pièce jointe
     const newMailData = {
@@ -44,7 +41,7 @@ const sendEmail = asyncHandler(async (req, res) => {
       });
 
       // Ajoutez les pièces jointes à la nouvelle instance de courrier
-      newMail.attachments = attachments;
+      newMailData.attachments = attachments;
     }
 
     // Création de l'instance du nouvel email
@@ -74,8 +71,9 @@ const sendEmail = asyncHandler(async (req, res) => {
       );
     }
 
-    // Réponse JSON indiquant que l'e-mail a été envoyé avec succès
-    res.status(200).json('Email sent successfully');
+    // response msg
+    res.status(200).json('mail sent successfully');
+    // });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -302,11 +300,10 @@ const replyToEmail = asyncHandler(async (req, res) => {
 
 const importantMails = asyncHandler(async (req, res) => {
   const currentuser = req.user;
-
   try {
     const { mailId } = req.body;
     const mail = await MailModel.findById(mailId); // recuperer le mail en qst
-    console.log('Found Mail:', mail); // l'afficher
+
     if (!mail) {
       return res.status(404).json({ error: 'Mail not found' }); // non d lkhir kan ulach
     }

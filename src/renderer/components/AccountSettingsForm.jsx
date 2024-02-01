@@ -13,8 +13,6 @@ function AccountSettingsForm({ email, handleLogout }) {
   const [loading, setLoading] = useState(false);
   const profilePicture = localStorage.getItem('profilePicture');
   const [tfa, setTfa] = useState(user.twoFA);
-  console.log(tfa);
-  console.log(user);
 
   const navigate = useNavigate();
 
@@ -27,6 +25,90 @@ function AccountSettingsForm({ email, handleLogout }) {
       navigate('/index.html');
     }
   };
+
+  // const handleProfilePicChange = (e) => {
+  //   postDetails(e.target.files[0]);
+  // };
+
+  // const postDetails = async (pics) => {
+  //   setLoading(true);
+
+  //   if (pics === undefined) {
+  //     setLoading(false);
+  //     console.log('No picture selected');
+  //     return;
+  //   }
+
+  //   if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
+  //     const data = new FormData();
+  //     data.append('file', pics);
+  //     data.append('upload_preset', 'TalkMail');
+  //     data.append('cloud_name', 'dwgulyxkt');
+
+  //     try {
+  //       const response = await fetch(
+  //         'https://api.cloudinary.com/v1_1/dwgulyxkt/image/upload',
+  //         {
+  //           method: 'post',
+  //           body: data,
+  //         },
+  //       );
+
+  //       if (!response.ok) {
+  //         throw new Error('Error uploading image to Cloudinary');
+  //       }
+
+  //       const imageData = await response.json();
+
+  //       console.log('Image uploaded to Cloudinary:', imageData);
+
+  //       // Logg l url
+  //       console.log('Profile picture URL:', imageData.url);
+
+  //       setProfilePic(imageData.url.toString());
+  //       setLoading(false);
+  //     } catch (err) {
+  //       console.error('Error uploading image to Cloudinary:', err);
+  //       setLoading(false);
+  //     }
+  //   } else {
+  //     setLoading(false);
+  //     console.log('Invalid file type. Please upload a JPEG or PNG image.');
+  //     return;
+  //   }
+  // };
+
+  // const handleConfirmProfilePicChange = () => {
+  //   const confirmation = window.confirm(
+  //     'Do you want to update your profile picture?',
+  //   );
+  //   if (confirmation) {
+  //     updateProfilePicture(profilePic);
+  //   } else {
+  //     console.log('Profile picture update cancelled by the user');
+  //   }
+  // };
+
+  // const updateProfilePicture = async (newProfilePicUrl) => {
+  //   console.log('Sending profile picture update with URL:', newProfilePicUrl);
+  //   try {
+  //     const response = await axios.put(
+  //       'http://localhost:4001/api/user/changepic',
+  //       { newPic: newProfilePicUrl },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //           'Content-Type': 'application/json',
+  //         },
+  //       },
+  //     );
+  //     return response.data;
+
+  //     console.log('Profile picture updated in the backend:', response.data);
+  //   } catch (error) {
+  //     console.error('Error updating profile picture in the backend:', error);
+  //   }
+  // };
 
   const handleSubmit = async () => {
     if (newPassword !== confirmNewPassword) {
@@ -48,6 +130,7 @@ function AccountSettingsForm({ email, handleLogout }) {
     if (confirmDelete) {
       try {
         const response = await deleteUser();
+
         handleLogout();
         navigate('/index.html');
       } catch (error) {
@@ -123,9 +206,9 @@ function AccountSettingsForm({ email, handleLogout }) {
   const twoFactors = async () => {
     try {
       const response = await axios.put(
-        'http://localhost:4001/api/user/2FA',
+        'https://talkmail-6g0p.onrender.com/api/user/2FA',
         {
-          twoFAtfa,
+          twoFA: tfa,
         },
         {
           headers: {
@@ -133,9 +216,7 @@ function AccountSettingsForm({ email, handleLogout }) {
           },
         },
       );
-      console.log('API Response:', response.data);
 
-      console.log('le tfa :', tfa);
       setTfa(response.data.twoFA);
       return response.data;
     } catch (error) {

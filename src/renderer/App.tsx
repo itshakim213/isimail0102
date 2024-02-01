@@ -9,15 +9,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
-import Chats from './pages/Chats';
-import Files from './pages/Files';
+import Chats from './pages/Chats';  
 import Agenda from './pages/Agenda';
 import Mails from './pages/Mails';
 import Settings from './pages/Settings';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
 import { ChatContext } from './context/ChatContext';
-import './styles/User.css';
 
 const queryClient = new QueryClient();
 
@@ -75,7 +73,6 @@ function App() {
                   path="/settings"
                   element={<Settings handleLogout={handleLogout} />}
                 />
-                <Route path="/files/:category" element={<Files />} />
               </Routes>
             </ChatContext>
           </React.StrictMode>

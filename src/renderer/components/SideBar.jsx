@@ -1,13 +1,10 @@
 import mail from '../assets/mail.png';
-import file from '../assets/file.png';
 import setting from '../assets/setting.png';
 import calendar from '../assets/calendar.png';
 import messages from '../assets/messages.png';
 import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import { NavLink, matchPath, useLocation } from 'react-router-dom';
 import '../styles/Sidebar.css';
-import VideoCallIcon from '@mui/icons-material/VideoCall';
-import VisioIcon from '../assets/visio-icon.png';
 
 function SideBar() {
   const profilePicture = localStorage.getItem('profilePicture');
@@ -60,14 +57,7 @@ function SideBar() {
               <img src={setting} alt="setting-icon" width={25} height={25} />
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/files/boite_de_reception"
-              className={loc.pathname.startsWith('/files') ? 'active' : ''}
-            >
-              <img src={file} alt="file-icon" width={25} height={25} />
-            </NavLink>
-          </li>
+          
         </ul>
       </div>
     </aside>

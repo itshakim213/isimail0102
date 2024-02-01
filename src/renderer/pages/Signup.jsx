@@ -44,7 +44,7 @@ function Signup({ handleLogin }) {
         .then((data) => {
           setpic(data.url.toString());
           setLoading(false);
-          console.log(data.url.toString());
+          // console.log(data.url.toString());
           localStorage.setItem('profilePicture', data.url.toString());
         })
         .catch((err) => {
@@ -132,14 +132,14 @@ function Signup({ handleLogin }) {
 
         toast.success('Inscription réussie ! Bienvenue a Talkmail', {
           onClose: () => {
-            console.log(userItem);
+            // console.log(userItem);
             handleLogin();
             navigate('/mails/inbox');
           },
         });
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
         setError(true);
         toast.error('Veuillez remplir tous les champs.');
         setLoading(false);

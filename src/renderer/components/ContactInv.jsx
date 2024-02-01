@@ -9,7 +9,7 @@ function ContactInv({ userId, fullname, email, chats, setChats }) {
 
   const createConv = async (userInvId) => {
     const response = await axios.post(
-      'http://localhost:4001/api/chat',
+      'https://talkmail-6g0p.onrender.com/api/chat',
       { userId: userInvId },
       {
         headers: {
@@ -28,7 +28,7 @@ function ContactInv({ userId, fullname, email, chats, setChats }) {
     // il m affiche les details de la vonc cree, la response obtenu de server
     // on succes aki theqared achu ylaqen ad yedhroun une fois la creatVonc aki th3eda du coup ad afficher les data n response nni
     onSuccess: (data) => {
-      setChats([...chats,data])
+      setChats([...chats, data]);
     },
     // sinon err
     onError: (error) => {

@@ -1,13 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ChatState } from '../context/ChatContext';
 import axios from 'axios';
-import { Box, Button, Dialog, DialogActions, DialogContentText, Input, Modal, TextField, Typography } from '@mui/material';
-import { DialogContent, DialogTitle, FormControl, FormLabel, ModalClose, ModalDialog, Stack } from '@mui/joy';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContentText,
+  Input,
+  Modal,
+  TextField,
+  Typography,
+} from '@mui/material';
+import {
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  FormLabel,
+  ModalClose,
+  ModalDialog,
+  Stack,
+} from '@mui/joy';
 import { Add } from '@mui/icons-material';
 import UserListItem from './UserListItem';
 import GroupChatModal from './GroupChatModal';
-import '../styles/ChatBox.css'
-import '../styles/SearchChat.css'
+import '../styles/ChatBox.css';
+import '../styles/SearchChat.css';
 import { getSender } from '../context/ChatLogics';
 
 function ChatBox({ fetchAgain }) {
@@ -38,7 +56,7 @@ function ChatBox({ fetchAgain }) {
         },
       };
       const { data } = await axios.get(
-        'http://localhost:4001/api/chat',
+        'https://talkmail-6g0p.onrender.com/api/chat',
         config,
       );
       setChats(data);
@@ -63,7 +81,7 @@ function ChatBox({ fetchAgain }) {
       };
 
       const { data } = await axios.get(
-        `http://localhost:4001/api/user/search?search=${search}`,
+        `https://talkmail-6g0p.onrender.com/api/user/search?search=${search}`,
         config,
       );
       setLoading(false);
@@ -84,7 +102,7 @@ function ChatBox({ fetchAgain }) {
       };
 
       const { data } = await axios.post(
-        'http://localhost:4001/api/chat',
+        'https://talkmail-6g0p.onrender.com/api/chat',
         { userId },
         config,
       );
@@ -105,9 +123,6 @@ function ChatBox({ fetchAgain }) {
     <div className="contact-nav">
       <Input
         placeholder="Search"
-        // color="primary"
-        // size="lg"
-        // variant="outlined
         className="search-cht"
         onChange={(e) => handleSearch(e.target.value)}
       />

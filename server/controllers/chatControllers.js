@@ -40,7 +40,6 @@ const accessChat = asyncHandler(async (req, res) => {
       isGroupChat: false,
       users: [req.user._id, userId],
     };
-    console.log('created chat : ', chatData);
 
     try {
       const createdChat = await Chat.create(chatData);

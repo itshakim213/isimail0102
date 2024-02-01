@@ -15,7 +15,6 @@ function Chats() {
         flexDirection: 'row',
       }}
     >
-      {/* <SideBarPage elements={elems} path="chats" /> */}
       <SideBarContact />
       <PageList />
       <PageSelectCont message="select contact" />

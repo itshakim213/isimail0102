@@ -3,7 +3,7 @@ import axios from 'axios';
 import Button from '../components/Button';
 import '../styles/Newmessage.css';
 
-function Newmessage() {
+function Newmessage({ reply, fwd }) {
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -68,9 +68,28 @@ function Newmessage() {
       setFile(null);
       fileInputRef.current.value = null;
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error("Erreur lors de l'envoi du message :", error);
+      if (error.response) {
+        console.error('Server respons Data:', error.response.data);
+      }
     }
   };
+
+  useEffect(() => {
+    if (reply !== null) {
+      setTo(reply.from.email);
+      setSubject(`Re : ${reply.subject}`);
+      setMessage('');
+    }
+  }, [reply]);
+
+  useEffect(() => {
+    if (fwd !== null) {
+      setTo('');
+      setSubject(`FWD : ${fwd.subject}`);
+      setMessage(fwd.message);
+    }
+  }, [fwd]);
 
   return (
     <body>
