@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Button from '../components/Button';
 import '../styles/Newmessage.css';
+import axios from 'axios';
 
 function Newmessage({ reply, fwd }) {
   const [to, setTo] = useState('');
@@ -28,12 +29,18 @@ function Newmessage({ reply, fwd }) {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    console.log('Before setToCc:', to);
+    // console.log('Before setToCc:', to);
     setToCc(to.split(/\s+/).filter((email) => email.trim() !== ''));
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
 
       const formData = new FormData();
+
+      // const toEmails = to.split(/\s+/).filter((email) => email.trim() !== '');
+
+      // toEmails.forEach((email) => {
+      //   formData.append('to', email);
+      // });
       formData.append('to', toCc);
       formData.append('subject', subject);
       formData.append('message', message);
@@ -50,8 +57,15 @@ function Newmessage({ reply, fwd }) {
       console.log('file:', file);
 
       const response = await axios.post(
+<<<<<<< HEAD
+        'http://localhost:4001/api/mail/sendemail',
+
+        formData,
+
+=======
         'https://talkmail-server.onrender.com/api/mail/sendemail',
         formData,
+>>>>>>> 6de25dfeca2d0a5aa8da87314dc0105a60ee5f0a
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
