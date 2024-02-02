@@ -11,7 +11,6 @@ function AccountSettingsForm({ email, handleLogout }) {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [profilePic, setProfilePic] = useState(user.pic);
   const [loading, setLoading] = useState(false);
-  const profilePicture = localStorage.getItem('profilePicture');
   const [tfa, setTfa] = useState(user.twoFA);
 
   const navigate = useNavigate();

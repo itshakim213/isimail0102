@@ -71,7 +71,7 @@ const OTP = async (user, generatedOTP) => {
               <p>If you did not request this OTP, please ignore this email.</p>
           </div>
       </body>
-      </html> 
+      </html>
       `,
   };
   try {

@@ -155,7 +155,9 @@ function ChatBox({ fetchAgain }) {
             borderRadius="lg"
             key={chat._id}
           >
-            <Typography className="chat-box-text">
+            <Typography
+              className="chat-box-text"
+            >
               {!chat.isGroupChat
                 ? chat.users && chat.users.length > 0
                   ? getSender(user, chat.users)

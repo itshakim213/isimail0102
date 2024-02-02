@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Button from '../components/Button';
 import '../styles/Newmessage.css';
+import backgroundImg from '../assets/img.png';
 
 function Newmessage({ reply, fwd }) {
   const [to, setTo] = useState('');
@@ -104,7 +105,7 @@ function Newmessage({ reply, fwd }) {
       <form className="form-sendMsg" onSubmit={submitForm}>
         <br></br>
         <p className="mail-send">
-          {subject === '' ? 'new mail' : `${subject}`}
+          {subject === '' ? 'New mail' : `${subject}`}
         </p>
         <br></br>
         <input

@@ -49,9 +49,6 @@ function Signin({ handleLogin }) {
     setOpenOtp(false);
   };
 
-  const profilePictureUrl =
-    localStorage.getItem('profilePicture') || 'default-url';
-
   const Notify = (message, callback) => {
     toast.success(message, {
       onClose: callback,
@@ -90,8 +87,8 @@ function Signin({ handleLogin }) {
     try {
       const userData = await LoadUser();
 
-      if (!userData.user.twoFA) {
-        sessionStorage.setItem('user', JSON.stringify(userData.user));
+      if (!userData.twoFA) {
+        sessionStorage.setItem('user', JSON.stringify(userData));
 
         setIsSubmitted(true);
         Notify('Connexion réussie !', () => {

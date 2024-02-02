@@ -3,3 +3,7 @@
   border-right: 2px solid #aeefeb;
   overflow-y: scroll;
 }
+
+body {
+  background-size: cover !important;
+}

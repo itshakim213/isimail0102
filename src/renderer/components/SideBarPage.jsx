@@ -35,35 +35,15 @@ function SideBarPage({
   const mailboxIcons = {
     inbox: (
       // <InboxIcon fontSize="small" color="primary" style={{ color: 'white' }} />
-      <InboxIcon fontSize="small" style={{ color: 'white' }} />
+      <InboxIcon fontSize="small" className="icon" />
     ),
-    outbox: (
-      <OutboxIcon fontSize="small" color="primary" style={{ color: 'white' }} />
-    ),
+    outbox: <OutboxIcon fontSize="small" className="icon-outbox" />,
     important: (
-      <CollectionsBookmarkIcon
-        fontSize="small"
-        color="primary"
-        style={{ color: 'white' }}
-      />
+      <CollectionsBookmarkIcon fontSize="small" className="icon-important" />
     ),
-    starred: (
-      <StarRateIcon
-        fontSize="small"
-        color="primary"
-        style={{ color: 'white' }}
-      />
-    ),
-    drafts: (
-      <DrawIcon fontSize="small" color="primary" style={{ color: 'white' }} />
-    ),
-    bin: (
-      <DeleteSweepIcon
-        fontSize="small"
-        color="primary"
-        style={{ color: 'white' }}
-      />
-    ),
+    starred: <StarRateIcon fontSize="small" className="icon-starred" />,
+    drafts: <DrawIcon fontSize="small" className="icon-drafts" />,
+    bin: <DeleteSweepIcon fontSize="small" className="icon-bin" />,
   };
 
   return (
@@ -87,10 +67,14 @@ function SideBarPage({
               key={`${index}-${item}`}
               className="nav-item"
               onClick={() => setCurrentMailBox(item)}
-              style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              }}
             >
               {mailboxIcons[item]}
-              {item}
+              <span style={{ paddingLeft: '8px' }}>{item.toUpperCase()}</span>
             </NavLink>
           ))}
         </nav>

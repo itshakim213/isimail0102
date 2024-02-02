@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
-import Chats from './pages/Chats';  
+import Chats from './pages/Chats';
 import Agenda from './pages/Agenda';
 import Mails from './pages/Mails';
 import Settings from './pages/Settings';
@@ -22,6 +22,7 @@ const queryClient = new QueryClient();
 function App() {
   const userString = sessionStorage.getItem('user');
   const user = userString ? JSON.parse(userString) : null;
+  const profilePicture = localStorage.getItem('profilePicture');
 
   const [isAuthen, setIsAuthen] = useState(user !== null);
 
@@ -64,7 +65,7 @@ function App() {
           <React.StrictMode>
             <ChatContext>
               <Header handleLogout={handleLogout} />
-              <SideBar />
+              <SideBar profilePic={profilePicture} />
               <Routes>
                 <Route path="/mails/:category" element={<Mails />} />
                 <Route path="/chats" element={<Chats />} />
