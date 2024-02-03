@@ -16,6 +16,7 @@ function SideBar() {
       <div className="profile">
         {' '}
         <img
+          src={user.pic}
           src={profilePicture}
           alt="User Picture"
           width="60"

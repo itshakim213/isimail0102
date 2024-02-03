@@ -6,8 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function AccountSettingsForm({ email, handleLogout }) {
   const user = JSON.parse(sessionStorage.getItem('user'));
-  const profilePicture = localStorage.getItem('profilePicture');
-
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -196,9 +194,7 @@ function AccountSettingsForm({ email, handleLogout }) {
         setProfilePic(reader.result);
       };
       reader.readAsDataURL(file);
-      document.querySelector('.profile-pic').src = { file };
     }
-    console.log('dhjfd', file);
   };
 
   const handleConfirmChange = () => {
@@ -241,7 +237,8 @@ function AccountSettingsForm({ email, handleLogout }) {
         <label className="option">Changer la photo de profil</label>
         <img
           src={
-            user.pic ||
+            profilePic ||
+            profilePicture ||
             'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
           }
           alt="Profile Pic"
