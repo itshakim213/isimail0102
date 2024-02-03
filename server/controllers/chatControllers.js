@@ -81,6 +81,19 @@ const fetchChats = asyncHandler(async (req, res) => {
   }
 });
 
+const startVoiceCall = async (req, res) => {
+  try {
+    // Logique pour démarrer l'appel vocal
+    // Vous pouvez utiliser l'ID de la conversation (chatId) pour identifier la conversation à appeler
+    const { chatId } = req.params;
+    // Faites ce que vous devez faire pour démarrer l'appel vocal avec chatId
+    res.status(200).json({ message: 'Voice call started' });
+  } catch (error) {
+    console.error('Error starting voice call:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 // Cette fonction crée une nouvelle conversation de groupe
 const createGroupChat = asyncHandler(async (req, res) => {
   // Verifie si les champs obligatoires sont presents dans le corps de la requete
@@ -208,4 +221,5 @@ module.exports = {
   renameGroup,
   addToGroup,
   removeFromGroup,
+  startVoiceCall,
 };

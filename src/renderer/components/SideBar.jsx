@@ -6,7 +6,9 @@ import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import { NavLink, matchPath, useLocation } from 'react-router-dom';
 import '../styles/Sidebar.css';
 
-function SideBar({ profilePic }) {
+function SideBar() {
+  const profilePicture = localStorage.getItem('profilePicture');
+  const user = JSON.parse(sessionStorage.getItem('user'));
   const loc = useLocation();
 
   return (
@@ -14,10 +16,7 @@ function SideBar({ profilePic }) {
       <div className="profile">
         {' '}
         <img
-          src={
-            profilePic ||
-            'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
-          }
+          src={profilePicture}
           alt="User Picture"
           width="60"
           height="60"

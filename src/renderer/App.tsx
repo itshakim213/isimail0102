@@ -22,8 +22,6 @@ const queryClient = new QueryClient();
 function App() {
   const userString = sessionStorage.getItem('user');
   const user = userString ? JSON.parse(userString) : null;
-  const profilePicture = localStorage.getItem('profilePicture');
-
   const [isAuthen, setIsAuthen] = useState(user !== null);
 
   const handleLogout = () => {
@@ -65,7 +63,7 @@ function App() {
           <React.StrictMode>
             <ChatContext>
               <Header handleLogout={handleLogout} />
-              <SideBar profilePic={profilePicture} />
+              <SideBar />
               <Routes>
                 <Route path="/mails/:category" element={<Mails />} />
                 <Route path="/chats" element={<Chats />} />

@@ -105,7 +105,7 @@ function Newmessage({ reply, fwd }) {
       <form className="form-sendMsg" onSubmit={submitForm}>
         <br></br>
         <p className="mail-send">
-          {subject === '' ? 'New mail' : `${subject}`}
+          {subject === '' ? 'Nouveau Mail' : `${subject}`}
         </p>
         <br></br>
         <input

@@ -172,13 +172,14 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
     <div
       className="convItem"
       style={{
-        marginBottom: '3rem',
+        marginBottom: '4.5rem',
         width: '45vw',
         height: '75vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'space-around',
+        border: '1px solid #557bc8',
       }}
     >
       <Typography
@@ -217,7 +218,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
         w="100%"
         h="100%"
         borderRadius="lg"
-        style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)' }}
+        style={{ flex: 1, backgroundColor: 'rgba(240, 240, 240, 0.5)' }}
       >
         <div style={{ flex: 1 }}>
           {loading ? (

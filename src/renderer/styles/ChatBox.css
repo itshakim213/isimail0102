@@ -13,6 +13,13 @@
   color: white !important;
 }
 
+.profile-pic {
+  width: 100px; /* Ajustez la largeur de l'image selon vos préférences */
+  height: 100px; /* Ajustez la hauteur de l'image selon vos préférences */
+  border-radius: 50%; /* Assurez-vous que l'image est ronde en définissant un rayon de bordure égal à la moitié de la largeur/hauteur */
+  object-fit: cover; /* Assurez-vous que l'image couvre complètement le cadre sans se déformer */
+}
+
 .contact-list {
   overflow-y: scroll;
   height: calc(100vh - 16rem);

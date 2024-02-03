@@ -14,6 +14,10 @@ const chatModel = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Message',
     },
+    voiceCall: {
+      isActive: { type: Boolean, default: false }, // Indique si un appel vocal est en cours dans cette conversation
+      participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Liste des participants à l'appel vocal
+    },
     groupAdmin: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

@@ -49,7 +49,7 @@ function SideBarPage({
   return (
     <div className="side-bar-page">
       {path === 'mails' && (
-        <SideBarButton text="Nouveau Message" onClick={showNewMessageForm} />
+        <SideBarButton text="Nouveau Mail" onClick={showNewMessageForm} />
       )}
       {path === 'chats' && <SearchChat />}
       {(path === 'chats' || elements.length === 0) && !showNewMessage ? (

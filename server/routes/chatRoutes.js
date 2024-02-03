@@ -1,5 +1,7 @@
 const express = require('express');
 const { protect } = require('../middlewares/authMiddleware');
+const { startVoiceCall } = require('../Controllers/chatControllers');
+
 const {
   accessChat,
   fetchChats,
@@ -17,5 +19,6 @@ router.route('/group').post(protect, createGroupChat);
 router.route('/rename').put(protect, renameGroup);
 router.route('/groupremove').put(protect, removeFromGroup);
 router.route('/groupadd').put(protect, addToGroup);
+router.route('/:chatId/voice-call').post(protect, startVoiceCall);
 
 module.exports = router;
